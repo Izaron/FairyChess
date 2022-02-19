@@ -20,7 +20,7 @@ template<TPieceType Type>
 struct TPieceRegistrator {
     TPieceRegistrator() {
         TPieceInfo pieceInfo{.Cost = Type::Cost};
-        TPieceRegistry::AddPieceInfo(Type::UniqueId, std::move(pieceInfo));
+        TPieceRegistry::AddPieceInfo(Type::PieceId, std::move(pieceInfo));
     }
 };
 

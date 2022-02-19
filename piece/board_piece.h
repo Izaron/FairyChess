@@ -18,13 +18,13 @@ class TBoardPiece : public TBitStorage<TStorageType> {
 public:
     template<TPieceType Type>
     static TBoardPiece CreateFromExisting(EPieceColor color, Type piece) {
-        return TBoardPiece(color, /* pieceId = */ Type::UniqueId,
+        return TBoardPiece(color, /* pieceId = */ Type::PieceId,
                            /* pieceStorage = */ piece.GetView().GetValue());
     }
 
     template<TPieceType Type>
     static TBoardPiece Create(EPieceColor color) {
-        return TBoardPiece(color, /* pieceId = */ Type::UniqueId, /* pieceStorage = */ 0);
+        return TBoardPiece(color, /* pieceId = */ Type::PieceId, /* pieceStorage = */ 0);
     }
 
 public:
@@ -40,7 +40,7 @@ public:
 
     template<TPieceType T>
     TPieceOrEmpty<T> GetPiece() {
-        if (GetPieceId() == T::UniqueId) {
+        if (GetPieceId() == T::PieceId) {
             return TPieceOrEmpty<T>{GetView<11>().GetValue()};
         }
         return {};
