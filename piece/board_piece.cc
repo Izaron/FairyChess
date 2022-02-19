@@ -4,10 +4,10 @@ namespace NFairyChess {
 
 namespace {
 
-TStorageType CreateBoardPieceStorage(EPieceColor color, std::size_t type, TStorageType pieceStorage) {
+TStorageType CreateBoardPieceStorage(EPieceColor color, std::size_t pieceId, TStorageType pieceStorage) {
     TBitStorage<TStorageType> result;
     result.GetView<0, 1>().SetValue(color);
-    result.GetView<1, 11>().SetValue(type);
+    result.GetView<1, 11>().SetValue(pieceId);
     result.GetView<11>().SetValue(pieceStorage);
     return result.GetView().GetValue();
 }
@@ -19,8 +19,8 @@ TBoardPiece::TBoardPiece()
 {
 }
 
-TBoardPiece::TBoardPiece(EPieceColor color, std::size_t type, TStorageType pieceStorage)
-    : TBitStorage<TStorageType>{CreateBoardPieceStorage(color, type, pieceStorage)}
+TBoardPiece::TBoardPiece(EPieceColor color, std::size_t pieceId, TStorageType pieceStorage)
+    : TBitStorage<TStorageType>{CreateBoardPieceStorage(color, pieceId, pieceStorage)}
 {
 }
 

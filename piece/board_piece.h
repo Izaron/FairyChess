@@ -27,7 +27,7 @@ public:
         return GetView<0, 1>().GetValue<EPieceColor>();
     }
 
-    std::size_t GetType() {
+    std::size_t GetPieceId() {
         return GetView<1, 11>().GetValue<std::size_t>();
     }
 
@@ -37,7 +37,7 @@ public:
     }
 
 private:
-    TBoardPiece(EPieceColor color, std::size_t type, TStorageType pieceStorage = 0);
+    TBoardPiece(EPieceColor color, std::size_t pieceId, TStorageType pieceStorage = 0);
 };
 
 } // namespace NFairyChess
