@@ -39,7 +39,7 @@ public:
     }
 
     template<TPieceType T>
-    TPieceOrEmpty<T> GetPiece() {
+    TPieceOrEmpty<T> GetPieceOrEmpty() {
         if (GetPieceId() == T::PieceId) {
             return TPieceOrEmpty<T>{GetView<11>().GetValue()};
         }

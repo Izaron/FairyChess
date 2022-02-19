@@ -21,7 +21,7 @@ public:
         return GetView<0, 2>();
     }
 
-    void FillMoves() {
+    void FillMoves(TMoveContext moveContext) {
     }
 };
 

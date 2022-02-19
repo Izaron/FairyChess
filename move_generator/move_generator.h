@@ -25,8 +25,8 @@ struct TMoveContext {
 
     // info about current piece
     EPieceColor Color;
-    int Column;
-    int Row;
+    std::size_t Column;
+    std::size_t Row;
 };
 
 TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor);

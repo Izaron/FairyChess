@@ -28,7 +28,7 @@ TEST(BoardPieceTest, PiecePackAndUnpack) {
     EXPECT_EQ(bp.GetColor(), EPieceColor::Black);
     EXPECT_EQ(bp.GetPieceId(), 999);
 
-    TPieceOrEmpty<TTestPiece> pieceOrEmpty = bp.GetPiece<TTestPiece>();
+    TPieceOrEmpty<TTestPiece> pieceOrEmpty = bp.GetPieceOrEmpty<TTestPiece>();
     EXPECT_EQ(pieceOrEmpty.IsEmpty(), false);
     TTestPiece unpackedPiece = pieceOrEmpty.GetPiece();
     EXPECT_EQ(unpackedPiece.GetTestValue().GetValue(), 63);

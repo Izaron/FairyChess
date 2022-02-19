@@ -11,7 +11,14 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
             continue;
         }
         const TPieceInfo* pieceInfo = TPieceRegistry::GetPieceInfo(boardPiece.GetPieceId());
-        // TODO: generate moves...
+        TMoveContext ctx{
+            .MoveContainer = moveContainer,
+            .Board = board,
+            .Color = piecesColor,
+            .Column = iter.Column,
+            .Row = iter.Row,
+        };
+        pieceInfo->FillMovesFn(boardPiece, std::move(ctx));
     }
     return moveContainer;
 }

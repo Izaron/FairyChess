@@ -5,7 +5,7 @@ namespace NFairyChess {
 namespace {
 
 constinit std::array<bool, 1024> HavePieceInfo;
-constinit std::array<TPieceInfo, 1024> PieceInfo;
+std::array<TPieceInfo, 1024> PieceInfo;
 
 } // namespace
 
