@@ -13,6 +13,10 @@ using TStorageType = uint32_t;
 class TPiece : public TBitStorage<TStorageType> {};
 
 template<typename T>
-concept TPieceType = std::is_base_of_v<TPiece, T>;
+concept TPieceType = requires {
+    std::is_base_of_v<TPiece, T>;
+    std::is_same_v<std::size_t, decltype(T::UniqueId)>;
+    std::is_same_v<std::size_t, decltype(T::Cost)>;
+};
 
 } // namespace NFairyChess

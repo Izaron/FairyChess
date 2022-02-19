@@ -6,6 +6,7 @@ using namespace NFairyChess;
 class TTestPiece : public TPiece {
 public:
     static constexpr std::size_t UniqueId = 999;
+    static constexpr std::size_t Cost = 999;
 
 public:
     auto GetTestValue() {
