@@ -8,6 +8,7 @@ class TPawnPiece : public TPiece {
 public:
     static constexpr std::size_t PieceId = 1;
     static constexpr std::size_t Cost = 100;
+    static constexpr char DumpSymbol = 'P';
 
 public:
     enum class EMoveStatus {

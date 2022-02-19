@@ -13,7 +13,7 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
 
         // inverse position for black pieces
         TBoardPosition position = iter.Position;
-        if (boardPiece.GetColor() == EPieceColor::Black) {
+        if (piecesColor == EPieceColor::Black) {
             position = board.InversePosition(position);
         }
 
@@ -26,6 +26,16 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
         };
         pieceInfo->FillMovesFn(boardPiece, std::move(ctx));
     }
+
+    // inverse back position for black pieces
+    if (piecesColor == EPieceColor::Black) {
+        for (auto& move : moveContainer) {
+            for (auto& upd : move.Updates) {
+                upd.Position = board.InversePosition(upd.Position);
+            }
+        }
+    }
+
     return moveContainer;
 }
 

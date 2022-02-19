@@ -87,6 +87,8 @@ public:
     }
 
     // methods for working with coordinates
+    std::size_t GetColumns() const;
+    std::size_t GetRows() const;
     std::optional<TBoardPosition> ShiftPosition(TBoardPosition position,
         TBoardPosition deltaPosition) const;
     TBoardPosition InversePosition(TBoardPosition position) const;

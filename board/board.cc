@@ -18,6 +18,14 @@ TBoardPiece TBoard::GetBoardPiece(TBoardPosition position) const {
     return BoardPieces_[GetArrayIndex(position)];
 }
 
+std::size_t TBoard::GetColumns() const {
+    return Columns_;
+}
+
+std::size_t TBoard::GetRows() const {
+    return Rows_;
+}
+
 std::optional<TBoardPosition> TBoard::ShiftPosition(TBoardPosition position,
     TBoardPosition deltaPosition) const
 {
