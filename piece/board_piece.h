@@ -46,6 +46,10 @@ public:
         return {};
     }
 
+    bool IsEmpty() {
+        return GetPieceId() == 0;
+    }
+
 private:
     TBoardPiece(EPieceColor color, std::size_t pieceId, TStorageType pieceStorage = 0);
 };

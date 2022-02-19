@@ -7,5 +7,5 @@ int main() {
     TBoardPiece whitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
 
     TBoard board;
-    board.AddBoardPiece(0, 0, whitePawn);
+    board.SetBoardPiece(0, 0, whitePawn);
 }

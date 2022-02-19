@@ -8,7 +8,7 @@ class TPawnPiece : public TPiece {
 public:
     static constexpr std::size_t UniqueId = 1;
     static constexpr std::size_t Cost = 100;
-    static constexpr std::string_view Name = "Pawn";
+    //static constexpr std::string_view Name = "Pawn";
 
 public:
     enum class EMoveStatus {

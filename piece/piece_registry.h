@@ -1,21 +1,26 @@
 #pragma once
 
+#include <unordered_set>
+
 #include "piece.h"
 
 namespace NFairyChess {
 
+struct TPieceInfo {
+    std::size_t Cost;
+};
+
 class TPieceRegistry {
 public:
-    static TPieceRegistry& Get();
-
-public:
-    void AddPieceInfo(std::size_t cost);
+    static void AddPieceInfo(std::size_t pieceId, TPieceInfo pieceInfo);
+    static const TPieceInfo* GetPieceInfo(std::size_t pieceId);
 };
 
 template<TPieceType Type>
 struct TPieceRegistrator {
     TPieceRegistrator() {
-        TPieceRegistry::Get().AddPieceInfo(Type::Cost);
+        TPieceInfo pieceInfo{.Cost = Type::Cost};
+        TPieceRegistry::AddPieceInfo(Type::UniqueId, std::move(pieceInfo));
     }
 };
 

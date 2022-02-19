@@ -4,15 +4,21 @@ namespace NFairyChess {
 
 namespace {
 
-constinit TPieceRegistry PieceRegistry;
+constinit std::array<bool, 1024> HavePieceInfo;
+constinit std::array<TPieceInfo, 1024> PieceInfo;
 
 } // namespace
 
-TPieceRegistry& TPieceRegistry::Get() {
-    return PieceRegistry;
+void TPieceRegistry::AddPieceInfo(std::size_t pieceId, TPieceInfo pieceInfo) {
+    HavePieceInfo[pieceId] = true;
+    PieceInfo[pieceId] = std::move(pieceInfo);
 }
 
-void TPieceRegistry::AddPieceInfo(std::size_t cost) {
+const TPieceInfo* TPieceRegistry::GetPieceInfo(std::size_t pieceId) {
+    if (!HavePieceInfo[pieceId]) {
+        return nullptr;
+    }
+    return &PieceInfo[pieceId];
 }
 
 } // namespace NFairyChess

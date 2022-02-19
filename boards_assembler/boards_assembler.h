@@ -5,7 +5,7 @@
 namespace NFairyChess {
 
 struct TBoardAssembler {
-    static TBoard8x8 AssembleVanillaBoard();
+    static TBoard AssembleVanillaBoard();
 };
 
 } // namespace NFairyChess
