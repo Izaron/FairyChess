@@ -11,14 +11,14 @@ struct TBoardUpdate {
 };
 
 struct TMove {
-    std::vector<TBoardUpdate> Changes;
+    std::vector<TBoardUpdate> Updates;
 };
 
 using TMoveContainer = std::vector<TMove>;
 
 struct TMoveContext {
-    // where new moves should be written
-    TMoveContainer& MoveContainer;
+    // new moves should be written here
+    TMoveContainer& Moves;
 
     // used to "look around" to see other pieces
     const TBoard& Board;

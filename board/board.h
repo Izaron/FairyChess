@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <vector>
 
 #include "board_piece.h"
@@ -86,9 +87,8 @@ public:
     }
 
     // methods for working with coordinates
-    //std::optional<std::pair<std::size_t, std::size_t>>
-    //AddRelativePosition(EPieceColor color, std::size_t currentCol, std::size_t currentRow,
-                        //std::size_t deltaCol, std::size_t deltaRow) const;
+    std::optional<TBoardPosition> ShiftPosition(TBoardPosition position,
+        TBoardPosition deltaPosition) const;
 
 private:
     std::size_t GetArrayIndex(TBoardPosition position) const;

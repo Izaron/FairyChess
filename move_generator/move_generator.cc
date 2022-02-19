@@ -12,7 +12,7 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
         }
         const TPieceInfo* pieceInfo = TPieceRegistry::GetPieceInfo(boardPiece.GetPieceId());
         TMoveContext ctx{
-            .MoveContainer = moveContainer,
+            .Moves = moveContainer,
             .Board = board,
             .Color = piecesColor,
             .Position = iter.Position,

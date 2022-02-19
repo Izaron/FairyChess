@@ -28,7 +28,7 @@ public:
     }
 
 public:
-    TBoardPiece(); // creates an empty piece
+    TBoardPiece();
 
     EPieceColor GetColor() {
         return GetView<0, 1>().GetValue<EPieceColor>();
@@ -53,5 +53,10 @@ public:
 private:
     TBoardPiece(EPieceColor color, std::size_t pieceId, TStorageType pieceStorage = 0);
 };
+
+// more understandable than just `TBoardPiece()`
+inline TBoardPiece EmptyBoardPiece() {
+    return TBoardPiece();
+}
 
 } // namespace NFairyChess
