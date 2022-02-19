@@ -17,14 +17,16 @@ TEST(Pawn, SingleWhitePiece) {
 
     // check initial position
     std::string_view dump1 =
-        "        "
-        "        "
-        "        "
-        "        "
-        "        "
-        "        "
-        " ♙      "
-        "        ";
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║        ║"
+        "╚════════╝";
     CheckDump(dump1, board1);
 
     // find moves
@@ -34,14 +36,16 @@ TEST(Pawn, SingleWhitePiece) {
     // apply move and check position
     auto board2 = ApplyMove(board1, moves[0]);
     std::string_view dump2 =
-        "        "
-        "        "
-        "        "
-        "        "
-        "        "
-        " ♙      "
-        "        "
-        "        ";
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
     CheckDump(dump2, board2);
 }
 
@@ -51,14 +55,16 @@ TEST(Pawn, SingleBlackPiece) {
 
     // check initial position
     std::string_view dump1 =
-        "        "
-        "      ♟︎ "
-        "        "
-        "        "
-        "        "
-        "        "
-        "        "
-        "        ";
+        "╔════════╗"
+        "║        ║"
+        "║      ♟︎ ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
     CheckDump(dump1, board1);
 
     // find moves
@@ -68,13 +74,15 @@ TEST(Pawn, SingleBlackPiece) {
     // apply move and check position
     auto board2 = ApplyMove(board1, moves[0]);
     std::string_view dump2 =
-        "        "
-        "        "
-        "      ♟︎ "
-        "        "
-        "        "
-        "        "
-        "        "
-        "        ";
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║      ♟︎ ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
     CheckDump(dump2, board2);
 }

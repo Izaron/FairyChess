@@ -6,7 +6,19 @@
 namespace NFairyChess {
 
 void DumpBoard(const TBoard& board, std::ostream& os, bool useNewline) {
+    // Draw upper border
+    os << "╔";
+    for (int c = 0; c < board.GetColumns(); ++c) {
+        os << "═";
+    }
+    os << "╗";
+    if (useNewline) {
+        os << "\n";
+    }
+
+    // Draw main part
     for (int r = board.GetRows() - 1; r >= 0; --r) {
+        os << "║";
         for (int c = 0; c < board.GetColumns(); ++c) {
             TBoardPiece boardPiece = board.GetBoardPiece({.Column = c, .Row = r});
 
@@ -21,10 +33,20 @@ void DumpBoard(const TBoard& board, std::ostream& os, bool useNewline) {
                 os << ' ';
             }
         }
-
+        os << "║";
         if (useNewline) {
             os << '\n';
         }
+    }
+
+    // Draw lower border
+    os << "╚";
+    for (int c = 0; c < board.GetColumns(); ++c) {
+        os << "═";
+    }
+    os << "╝";
+    if (useNewline) {
+        os << "\n";
     }
 }
 
