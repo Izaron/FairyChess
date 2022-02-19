@@ -35,6 +35,11 @@ std::optional<TBoardPosition> TBoard::ShiftPosition(TBoardPosition position,
                           .Row = static_cast<std::size_t>(signedRow)};
 }
 
+TBoardPosition TBoard::InversePosition(TBoardPosition position) const {
+    return TBoardPosition{.Column = Columns_ - 1 - position.Column,
+                          .Row = Rows_ - 1 - position.Row};
+}
+
 std::size_t TBoard::GetArrayIndex(TBoardPosition position) const {
     return position.Column * Rows_ + position.Row;
 }
