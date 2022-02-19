@@ -9,17 +9,24 @@ TBoard::TBoard(std::size_t columns, std::size_t rows)
 {
 }
 
-TBoard& TBoard::SetBoardPiece(std::size_t col, std::size_t row, TBoardPiece boardPiece) {
-    BoardPieces_[GetArrayIndex(col, row)] = boardPiece;
+TBoard& TBoard::SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece) {
+    BoardPieces_[GetArrayIndex(position)] = boardPiece;
     return *this;
 }
 
-TBoardPiece TBoard::GetBoardPiece(std::size_t col, std::size_t row) const {
-    return BoardPieces_[GetArrayIndex(col, row)];
+TBoardPiece TBoard::GetBoardPiece(TBoardPosition position) const {
+    return BoardPieces_[GetArrayIndex(position)];
 }
 
-std::size_t TBoard::GetArrayIndex(std::size_t col, std::size_t row) const {
-    return col * Rows_ + row;
+//std::optional<std::pair<std::size_t, std::size_t>>
+//TBoard::AddRelativePosition(EPieceColor color, std::size_t currentCol, std::size_t currentRow,
+                            //std::size_t deltaCol, std::size_t deltaRow) const
+//{
+    //int 
+//}
+
+std::size_t TBoard::GetArrayIndex(TBoardPosition position) const {
+    return position.Column * Rows_ + position.Row;
 }
 
 } // namespace NFairyChess

@@ -15,8 +15,7 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
             .MoveContainer = moveContainer,
             .Board = board,
             .Color = piecesColor,
-            .Column = iter.Column,
-            .Row = iter.Row,
+            .Position = iter.Position,
         };
         pieceInfo->FillMovesFn(boardPiece, std::move(ctx));
     }

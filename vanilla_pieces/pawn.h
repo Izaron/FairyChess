@@ -21,8 +21,7 @@ public:
         return GetView<0, 2>();
     }
 
-    void FillMoves(TMoveContext moveContext) {
-    }
+    void FillMoves(TMoveContext moveContext);
 };
 
 REGISTER_FIGURE(TPawnPiece);

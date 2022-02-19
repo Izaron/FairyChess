@@ -6,11 +6,15 @@
 
 namespace NFairyChess {
 
+struct TBoardPosition {
+    std::size_t Column;
+    std::size_t Row;
+};
+
 class TBoard {
 public:
-    struct TBoardPieceWithPos {
-        std::size_t Column;
-        std::size_t Row;
+    struct TBoardPieceWithPosition {
+        TBoardPosition Position;
         TBoardPiece BoardPiece;
     };
 
@@ -18,7 +22,7 @@ public:
     class TBoardPiecesIterator {
     public:
         using value_type = TBoardPiece;
-        using reference = TBoardPieceWithPos;
+        using reference = TBoardPieceWithPosition;
         using iterator_category = std::forward_iterator_tag;
 
     public:
@@ -45,8 +49,8 @@ public:
 
         reference operator*() const {
             const std::size_t dist = std::distance(BeginIter_, Iter_);
-            return TBoardPieceWithPos{/* col = */ dist / Rows_, /* row = */ dist % Rows_,
-                                      /* boardPiece = */ *Iter_};
+            TBoardPosition pos{/* col = */ dist / Rows_, /* row = */ dist % Rows_};
+            return TBoardPieceWithPosition{/* pos = */ pos, /* boardPiece = */ *Iter_};
         }
 
     private:
@@ -68,8 +72,10 @@ public:
 
 public:
     TBoard(std::size_t columns = 8, std::size_t rows = 8);
-    TBoard& SetBoardPiece(std::size_t col, std::size_t row, TBoardPiece boardPiece);
-    TBoardPiece GetBoardPiece(std::size_t col, std::size_t row) const;
+
+    // board pieces setters and getters
+    TBoard& SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece);
+    TBoardPiece GetBoardPiece(TBoardPosition position) const;
 
     // iterator over non-empty board pieces
     TBoardPiecesIterator<TBoardPiecesContainer> begin() const {
@@ -79,8 +85,13 @@ public:
         return {BoardPieces_.end(), BoardPieces_.end(), Rows_};
     }
 
+    // methods for working with coordinates
+    //std::optional<std::pair<std::size_t, std::size_t>>
+    //AddRelativePosition(EPieceColor color, std::size_t currentCol, std::size_t currentRow,
+                        //std::size_t deltaCol, std::size_t deltaRow) const;
+
 private:
-    std::size_t GetArrayIndex(std::size_t col, std::size_t row) const;
+    std::size_t GetArrayIndex(TBoardPosition position) const;
 
 private:
     std::size_t Columns_;

@@ -23,10 +23,9 @@ struct TMoveContext {
     // used to "look around" to see other pieces
     const TBoard& Board;
 
-    // info about current piece
+    // additional info about current piece
     EPieceColor Color;
-    std::size_t Column;
-    std::size_t Row;
+    TBoardPosition Position;
 };
 
 TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor);
