@@ -33,6 +33,7 @@ public:
 
     template<TPieceType T>
     T GetPiece() {
+        // FIXME: should be 12
         return T{GetView<12>().GetValue()};
     }
 

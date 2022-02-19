@@ -18,6 +18,8 @@ private:
     std::array<TBoardPiece, Columns * Rows> BoardPieces_;
 };
 
-template class TBoard<>; // standard 8x8 board
+template class TBoard<>;
+
+using TBoard8x8 = TBoard<>; // standard 8x8 board
 
 } // namespace NFairyChess
