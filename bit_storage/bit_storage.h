@@ -51,7 +51,7 @@ private:
 template<TPossibleStorageType TType>
 class TBitStorage {
 public:
-    explicit constexpr TBitStorage(TType value = 0)
+    constexpr TBitStorage(TType value = 0)
         : Storage_{value}
     {}
 

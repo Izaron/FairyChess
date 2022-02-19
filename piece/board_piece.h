@@ -16,8 +16,14 @@ enum class EPieceColor {
 class TBoardPiece : public TBitStorage<TStorageType> {
 public:
     template<TPieceType Type>
+    static TBoardPiece CreateFromExisting(EPieceColor color, Type piece) {
+        return TBoardPiece(color, /* pieceId = */ Type::UniqueId,
+                           /* pieceStorage = */ piece.GetView().GetValue());
+    }
+
+    template<TPieceType Type>
     static TBoardPiece Create(EPieceColor color) {
-        return TBoardPiece(color, /* type = */ 0, /* pieceStorage = */ 0);
+        return TBoardPiece(color, /* pieceId = */ Type::UniqueId, /* pieceStorage = */ 0);
     }
 
 public:
@@ -33,8 +39,7 @@ public:
 
     template<TPieceType T>
     T GetPiece() {
-        // FIXME: should be 12
-        return T{GetView<12>().GetValue()};
+        return T{GetView<11>().GetValue()};
     }
 
 private:
