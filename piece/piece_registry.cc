@@ -2,23 +2,16 @@
 
 namespace NFairyChess {
 
-namespace {
-
-constinit std::array<bool, 1024> HavePieceInfo;
-std::array<TPieceInfo, 1024> PieceInfo;
-
-} // namespace
-
 void TPieceRegistry::AddPieceInfo(std::size_t pieceId, TPieceInfo pieceInfo) {
-    HavePieceInfo[pieceId] = true;
-    PieceInfo[pieceId] = std::move(pieceInfo);
+    NImpl::HavePieceInfo[pieceId] = true;
+    NImpl::PieceInfo[pieceId] = std::move(pieceInfo);
 }
 
 const TPieceInfo* TPieceRegistry::GetPieceInfo(std::size_t pieceId) {
-    if (!HavePieceInfo[pieceId]) {
+    if (!NImpl::HavePieceInfo[pieceId]) {
         return nullptr;
     }
-    return &PieceInfo[pieceId];
+    return &NImpl::PieceInfo[pieceId];
 }
 
 } // namespace NFairyChess

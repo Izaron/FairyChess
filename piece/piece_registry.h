@@ -14,6 +14,14 @@ struct TPieceInfo {
     std::function<void(TBoardPiece, TMoveContext)> FillMovesFn;
 };
 
+namespace NImpl {
+
+inline std::array<bool, 1024> HavePieceInfo;
+inline std::array<TPieceInfo, 1024> PieceInfo;
+
+} // namespace NImpl
+
+
 class TPieceRegistry {
 public:
     static void AddPieceInfo(std::size_t pieceId, TPieceInfo pieceInfo);
@@ -23,12 +31,12 @@ public:
 template<TPieceType Type>
 struct TPieceRegistrator {
     TPieceRegistrator() {
-        auto fillMovesFn = [](TBoardPiece boardPiece, TMoveContext moveContext) {
+        constexpr auto fillMovesFn = [](TBoardPiece boardPiece, TMoveContext moveContext) {
             Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
             piece.FillMoves(std::move(moveContext));
         };
-        TPieceInfo pieceInfo{.Cost = Type::Cost};
-        TPieceRegistry::AddPieceInfo(Type::PieceId, std::move(pieceInfo));
+        TPieceInfo pieceInfo{.Cost = Type::Cost, .FillMovesFn = fillMovesFn};
+        TPieceRegistry::AddPieceInfo(Type::PieceId, pieceInfo);
     }
 };
 
