@@ -9,8 +9,8 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
     auto newPosition = ctx.Board.ShiftPosition(ctx.Position, {0, 1});
     if (newPosition) {
         auto& updates = ctx.Moves.emplace_back().Updates;
-        updates.emplace_back(newPosition->Column, newPosition->Row, boardPiece);
-        updates.emplace_back(ctx.Position.Column, ctx.Position.Row, EmptyBoardPiece());
+        updates.emplace_back(*newPosition, boardPiece);
+        updates.emplace_back(ctx.Position, EmptyBoardPiece());
     }
 }
 

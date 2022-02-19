@@ -29,4 +29,12 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
     return moveContainer;
 }
 
+TBoard ApplyMove(const TBoard& board, const TMove& move) {
+    TBoard newBoard = board;
+    for (const TBoardUpdate& upd : move.Updates) {
+        newBoard.SetBoardPiece(upd.Position, upd.NewBoardPiece);
+    }
+    return newBoard;
+}
+
 } // namespace NFairyChess

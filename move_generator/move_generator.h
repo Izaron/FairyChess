@@ -5,8 +5,7 @@
 namespace NFairyChess {
 
 struct TBoardUpdate {
-    std::size_t Column;
-    std::size_t Row;
+    TBoardPosition Position;
     TBoardPiece NewBoardPiece;
 };
 
@@ -29,5 +28,7 @@ struct TMoveContext {
 };
 
 TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor);
+
+TBoard ApplyMove(const TBoard& board, const TMove& move);
 
 } // namespace NFairyChess
