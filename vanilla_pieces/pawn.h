@@ -26,6 +26,6 @@ public:
     void FillMoves(TMoveContext moveContext);
 };
 
-REGISTER_FIGURE(TPawnPiece);
+REGISTER_PIECE(TPawnPiece);
 
 } // namespace NFairyChess::NVanillaPieces

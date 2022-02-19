@@ -56,6 +56,6 @@ struct TPieceRegistrator {
 
 #define MACRO_CONCAT( x, y ) x##y
 
-#define REGISTER_FIGURE(Type) \
+#define REGISTER_PIECE(Type) \
 static ::NFairyChess::TPieceRegistrator<Type> \
 MACRO_CONCAT(ScenarioRegistrator, __COUNTER__);
