@@ -18,6 +18,13 @@ TBoardPiece TBoard::GetBoardPiece(TBoardPosition position) const {
     return BoardPieces_[GetArrayIndex(position)];
 }
 
+TBoardPiece TBoard::GetBoardPiece(TBoardPosition position, EPieceColor color) const {
+    if (color == EPieceColor::Black) {
+        position = InversePosition(position);
+    }
+    return GetBoardPiece(position);
+}
+
 std::size_t TBoard::GetColumns() const {
     return Columns_;
 }

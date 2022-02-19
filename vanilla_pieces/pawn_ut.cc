@@ -5,6 +5,9 @@
 using namespace NFairyChess;
 using namespace NFairyChess::NVanillaPieces;
 
+const auto WhitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
+const auto BlackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
+
 static void CheckDump(std::string_view dump, const TBoard& board) {
     std::stringstream ss;
     DumpBoard(board, ss);
@@ -12,8 +15,7 @@ static void CheckDump(std::string_view dump, const TBoard& board) {
 }
 
 TEST(Pawn, SingleWhitePiece) {
-    const auto whitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
-    auto board1 = TBoard{}.SetBoardPiece({.Column = 1, .Row = 1}, whitePawn);
+    auto board1 = TBoard{}.SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn);
 
     // check initial position
     std::string_view dump1 =
@@ -33,7 +35,7 @@ TEST(Pawn, SingleWhitePiece) {
     TMoveContainer moves = GenerateMoves(board1, EPieceColor::White);
     EXPECT_EQ(moves.size(), 1);
 
-    // apply move and check position
+    // apply move and check dump
     auto board2 = ApplyMove(board1, moves[0]);
     std::string_view dump2 =
         "╔════════╗"
@@ -49,9 +51,9 @@ TEST(Pawn, SingleWhitePiece) {
     CheckDump(dump2, board2);
 }
 
+// Checking that black pieces have mirroring behaviour
 TEST(Pawn, SingleBlackPiece) {
-    const auto blackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
-    auto board1 = TBoard{}.SetBoardPiece({.Column = 6, .Row = 6}, blackPawn);
+    auto board1 = TBoard{}.SetBoardPiece({.Column = 6, .Row = 6}, BlackPawn);
 
     // check initial position
     std::string_view dump1 =
@@ -71,7 +73,7 @@ TEST(Pawn, SingleBlackPiece) {
     TMoveContainer moves = GenerateMoves(board1, EPieceColor::Black);
     EXPECT_EQ(moves.size(), 1);
 
-    // apply move and check position
+    // apply move and check dump
     auto board2 = ApplyMove(board1, moves[0]);
     std::string_view dump2 =
         "╔════════╗"
@@ -82,6 +84,46 @@ TEST(Pawn, SingleBlackPiece) {
         "║        ║"
         "║        ║"
         "║        ║"
+        "║        ║"
+        "╚════════╝";
+    CheckDump(dump2, board2);
+}
+
+TEST(Pawn, BlockedPiece) {
+    // Check that piece can't go forward if there is another piece there
+    auto board1 = TBoard{}
+        .SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn)
+        .SetBoardPiece({.Column = 1, .Row = 2}, WhitePawn);
+
+    // check initial position
+    std::string_view dump1 =
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║ ♙      ║"
+        "║        ║"
+        "╚════════╝";
+    CheckDump(dump1, board1);
+
+    // check that there is only one move possible
+    TMoveContainer moves = GenerateMoves(board1, EPieceColor::White);
+    EXPECT_EQ(moves.size(), 1);
+
+    // apply move and check dump
+    auto board2 = ApplyMove(board1, moves[0]);
+    std::string_view dump2 =
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║        ║"
+        "║ ♙      ║"
         "║        ║"
         "╚════════╝";
     CheckDump(dump2, board2);

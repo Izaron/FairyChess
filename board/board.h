@@ -78,6 +78,9 @@ public:
     TBoard& SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece);
     TBoardPiece GetBoardPiece(TBoardPosition position) const;
 
+    // getter with check of inverted position
+    TBoardPiece GetBoardPiece(TBoardPosition position, EPieceColor color) const;
+
     // iterator over non-empty board pieces
     TBoardPiecesIterator<TBoardPiecesContainer> begin() const {
         return {BoardPieces_.begin(), BoardPieces_.end(), Rows_};
