@@ -11,11 +11,11 @@ void DumpBoard(const TBoard& board, std::ostream& os, bool useNewline) {
             TBoardPiece boardPiece = board.GetBoardPiece({.Column = c, .Row = r});
 
             if (const TPieceInfo* pieceInfo = TPieceRegistry::GetPieceInfo(boardPiece.GetPieceId())) {
-                char dumpSymbol = pieceInfo->DumpSymbol;
+                std::string_view dumpStr = pieceInfo->WhiteDumpStr;
                 if (boardPiece.GetColor() == EPieceColor::Black) {
-                    dumpSymbol = tolower(dumpSymbol);
+                    dumpStr = pieceInfo->BlackDumpStr;
                 }
-                os << dumpSymbol;
+                os << dumpStr;
             } else {
                 // empty square
                 os << ' ';

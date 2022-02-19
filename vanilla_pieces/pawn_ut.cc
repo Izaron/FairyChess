@@ -23,7 +23,7 @@ TEST(Pawn, SingleWhitePiece) {
         "        "
         "        "
         "        "
-        " P      "
+        " ♙      "
         "        ";
     CheckDump(dump1, board1);
 
@@ -39,7 +39,7 @@ TEST(Pawn, SingleWhitePiece) {
         "        "
         "        "
         "        "
-        " P      "
+        " ♙      "
         "        "
         "        ";
     CheckDump(dump2, board2);
@@ -52,7 +52,7 @@ TEST(Pawn, SingleBlackPiece) {
     // check initial position
     std::string_view dump1 =
         "        "
-        "      p "
+        "      ♟︎ "
         "        "
         "        "
         "        "
@@ -70,7 +70,7 @@ TEST(Pawn, SingleBlackPiece) {
     std::string_view dump2 =
         "        "
         "        "
-        "      p "
+        "      ♟︎ "
         "        "
         "        "
         "        "

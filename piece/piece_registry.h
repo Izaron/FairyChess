@@ -11,7 +11,8 @@ namespace NFairyChess {
 
 struct TPieceInfo {
     std::size_t Cost;
-    char DumpSymbol;
+    std::string_view WhiteDumpStr;
+    std::string_view BlackDumpStr;
     std::function<void(TBoardPiece, TMoveContext)> FillMovesFn;
 };
 
@@ -36,13 +37,16 @@ struct TPieceRegistrator {
             Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
             piece.FillMoves(std::move(moveContext));
         };
-        // Dump symbol is optional. If there is no dump symbol, use '?'
-        char dumpSymbol = '?';
-        if constexpr (requires { Type::DumpSymbol; }) {
-            dumpSymbol = Type::DumpSymbol;
+        // Dump symbols are optional. If there is no dump symbols, use '?'
+        std::string_view whiteDumpStr = "?";
+        std::string_view blackDumpStr = "?";
+        if constexpr (requires { Type::WhiteDumpStr; Type::BlackDumpStr; }) {
+            whiteDumpStr = Type::WhiteDumpStr;
+            blackDumpStr = Type::BlackDumpStr;
         }
         TPieceInfo pieceInfo{.Cost = Type::Cost,
-                             .DumpSymbol = dumpSymbol,
+                             .WhiteDumpStr = whiteDumpStr,
+                             .BlackDumpStr = blackDumpStr,
                              .FillMovesFn = fillMovesFn};
         TPieceRegistry::AddPieceInfo(Type::PieceId, pieceInfo);
     }
