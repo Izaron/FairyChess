@@ -8,19 +8,27 @@ namespace NFairyChess {
 
 class TBoard {
 public:
+    struct TBoardPieceWithPos {
+        std::size_t Column;
+        std::size_t Row;
+        TBoardPiece BoardPiece;
+    };
+
     template<typename TContainer>
     class TBoardPiecesIterator {
     public:
         using value_type = TBoardPiece;
-        using pointer = const value_type*;
-        using reference = const value_type&;
-        using difference_type = std::ptrdiff_t;
+        using reference = TBoardPieceWithPos;
         using iterator_category = std::forward_iterator_tag;
 
     public:
-        TBoardPiecesIterator(const TContainer::const_iterator& iter, const TContainer::const_iterator& end)
-            : Iter_{iter}
+        TBoardPiecesIterator(const TContainer::const_iterator& begin,
+                             const TContainer::const_iterator& end,
+                             std::size_t rows)
+            : BeginIter_{begin}
+            , Iter_{begin}
             , EndIter_{end}
+            , Rows_{rows}
         {
             SkipUntilNonEmptyPiece();
         }
@@ -36,11 +44,9 @@ public:
         }
 
         reference operator*() const {
-            return *Iter_;
-        }
-
-        pointer operator->() const {
-            return &*Iter_;
+            const std::size_t dist = std::distance(BeginIter_, Iter_);
+            return TBoardPieceWithPos{/* col = */ dist / Rows_, /* row = */ dist % Rows_,
+                                      /* boardPiece = */ *Iter_};
         }
 
     private:
@@ -51,8 +57,10 @@ public:
         }
 
     private:
+        TContainer::const_iterator BeginIter_;
         TContainer::const_iterator Iter_;
         TContainer::const_iterator EndIter_;
+        std::size_t Rows_;
     };
 
 public:
@@ -65,10 +73,10 @@ public:
 
     // iterator over non-empty board pieces
     TBoardPiecesIterator<TBoardPiecesContainer> begin() const {
-        return {BoardPieces_.begin(), BoardPieces_.end()};
+        return {BoardPieces_.begin(), BoardPieces_.end(), Rows_};
     }
     TBoardPiecesIterator<TBoardPiecesContainer> end() const {
-        return {BoardPieces_.end(), BoardPieces_.end()};
+        return {BoardPieces_.end(), BoardPieces_.end(), Rows_};
     }
 
 private:

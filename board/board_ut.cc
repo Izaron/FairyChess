@@ -7,7 +7,7 @@ using namespace NFairyChess;
 TEST(BoardTest, TestIterator) {
     const TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::size_t counter = 0;
-    for (TBoardPiece bp : board) {
+    for (auto iter : board) {
         ++counter;
     }
     EXPECT_EQ(counter, 16);

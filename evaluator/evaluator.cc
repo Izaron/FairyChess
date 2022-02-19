@@ -14,12 +14,13 @@ std::size_t GetRawCost(TBoardPiece boardPiece) {
 
 TEvaluationResult Evaluate(const TBoard& board) {
     TEvaluationResult result;
-    for (TBoardPiece bp : board) {
-        if (bp.IsEmpty()) {
+    for (auto iter : board) {
+        auto& boardPiece = iter.BoardPiece;
+        if (boardPiece.IsEmpty()) {
             continue;
         }
-        const std::size_t rawCost = GetRawCost(bp);
-        (bp.GetColor() == EPieceColor::White ?
+        const std::size_t rawCost = GetRawCost(boardPiece);
+        (boardPiece.GetColor() == EPieceColor::White ?
             result.WhiteCost : result.BlackCost) += rawCost;
     }
     return result;
