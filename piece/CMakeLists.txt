@@ -1,4 +1,4 @@
-add_library(piece piece.cc board_piece.cc piece_registry.cc)
+add_library(piece piece.cc board_piece.cc piece_registry.cc piece_or_empty.cc)
 
 target_include_directories(piece INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 

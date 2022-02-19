@@ -23,10 +23,12 @@ TEST(BoardPieceTest, PiecePackAndUnpack) {
     TTestPiece testPiece;
     testPiece.GetTestValue().SetValue(63);
 
-    auto bp = TBoardPiece::CreateFromExisting(EPieceColor::Black, testPiece);
+    TBoardPiece bp = TBoardPiece::CreateFromExisting(EPieceColor::Black, testPiece);
     EXPECT_EQ(bp.GetColor(), EPieceColor::Black);
     EXPECT_EQ(bp.GetPieceId(), 999);
 
-    auto unpackedPiece = bp.GetPiece<TTestPiece>();
+    TPieceOrEmpty<TTestPiece> pieceOrEmpty = bp.GetPiece<TTestPiece>();
+    EXPECT_EQ(pieceOrEmpty.IsEmpty(), false);
+    TTestPiece unpackedPiece = pieceOrEmpty.GetPiece();
     EXPECT_EQ(unpackedPiece.GetTestValue().GetValue(), 63);
 }

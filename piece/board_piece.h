@@ -1,6 +1,7 @@
 #pragma once
 
 #include "piece.h"
+#include "piece_or_empty.h"
 
 namespace NFairyChess {
 
@@ -38,8 +39,11 @@ public:
     }
 
     template<TPieceType T>
-    T GetPiece() {
-        return T{GetView<11>().GetValue()};
+    TPieceOrEmpty<T> GetPiece() {
+        if (GetPieceId() == T::UniqueId) {
+            return TPieceOrEmpty<T>{GetView<11>().GetValue()};
+        }
+        return {};
     }
 
 private:
