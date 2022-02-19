@@ -1,4 +1,7 @@
+#include "piece.h"
+
+using namespace NFairyChess;
 
 int main() {
-    // do nothing..
+    TPiece f;
 }

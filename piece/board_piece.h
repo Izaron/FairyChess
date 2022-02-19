@@ -1,14 +1,14 @@
 #pragma once
 
-#include "figure.h"
+#include "piece.h"
 
 namespace NFairyChess {
 
 // Storage layout:
 // [0] - color
-// [1..11] - figure type
-// [12...] - figure's storage
-class TBoardFigure : public TBitStorage<TStorageType> {
+// [1..11] - piece type
+// [12...] - piece storage
+class TBoardPiece : public TBitStorage<TStorageType> {
 public:
     enum class EColor {
         White,
@@ -20,12 +20,12 @@ public:
         return GetView<0, 1>().GetValue<EColor>();
     }
 
-    std::size_t GetFigureType() {
+    std::size_t GetPieceType() {
         return GetView<1, 11>().GetValue<std::size_t>();
     }
 
-    template<TFigureType T>
-    T GetFigure() {
+    template<TPieceType T>
+    T GetPiece() {
         return T{GetView<12>().GetValue()};
     }
 };
