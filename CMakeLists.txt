@@ -10,10 +10,11 @@ add_executable(fairy_chess fairy_chess.cc)
 
 # link libraries
 add_subdirectory(bit_storage)
+add_subdirectory(board)
 add_subdirectory(piece)
 add_subdirectory(vanilla_pieces)
 
-list(APPEND EXTRA_LIBS bit_storage piece vanilla_pieces)
+list(APPEND EXTRA_LIBS bit_storage board piece vanilla_pieces)
 
 target_link_libraries(fairy_chess PUBLIC ${EXTRA_LIBS})
 

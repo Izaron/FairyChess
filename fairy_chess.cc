@@ -1,7 +1,11 @@
-#include "piece.h"
+#include "board.h"
+#include "pawn.h"
 
 using namespace NFairyChess;
 
 int main() {
-    TPiece f;
+    TBoardPiece whitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
+
+    TBoard board;
+    board.AddBoardPiece(0, 0, whitePawn);
 }

@@ -55,8 +55,8 @@ public:
         : Storage_{value}
     {}
 
-    TBitStorage(const TBitStorage&) = delete;
-    TBitStorage(TBitStorage&&) = delete;
+    //TBitStorage(const TBitStorage&) = delete;
+    //TBitStorage(TBitStorage&&) = delete;
 
     template<std::size_t Begin = 0, std::size_t End = sizeof(TType) * 8>
     auto GetView() {
