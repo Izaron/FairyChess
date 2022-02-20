@@ -13,6 +13,6 @@ TEST(EvaluatorTest, EmptyBoard) {
 TEST(EvaluatorTest, VanillaBoard) {
     const TBoard board = TBoardAssembler::AssembleVanillaBoard();
     const TEvaluationResult r = Evaluate(board);
-    EXPECT_EQ(r.WhiteCost, 3900);
-    EXPECT_EQ(r.BlackCost, 3900);
+    EXPECT_EQ(r.WhiteCost, 23900);
+    EXPECT_EQ(r.BlackCost, 23900);
 }

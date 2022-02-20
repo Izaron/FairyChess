@@ -1,6 +1,7 @@
 #include "boards_assembler.h"
 
 #include "bishop_piece.h"
+#include "king_piece.h"
 #include "knight_piece.h"
 #include "pawn_piece.h"
 #include "queen_piece.h"
@@ -14,12 +15,14 @@ TBoard TBoardAssembler::AssembleVanillaBoard() {
     const auto whiteBishop = TBoardPiece::Create<NVanillaPieces::TBishopPiece>(EPieceColor::White);
     const auto whiteRook = TBoardPiece::Create<NVanillaPieces::TRookPiece>(EPieceColor::White);
     const auto whiteQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::White);
+    const auto whiteKing = TBoardPiece::Create<NVanillaPieces::TKingPiece>(EPieceColor::White);
 
     const auto blackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
     const auto blackKnight = TBoardPiece::Create<NVanillaPieces::TKnightPiece>(EPieceColor::Black);
     const auto blackBishop = TBoardPiece::Create<NVanillaPieces::TBishopPiece>(EPieceColor::Black);
     const auto blackRook = TBoardPiece::Create<NVanillaPieces::TRookPiece>(EPieceColor::Black);
     const auto blackQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::Black);
+    const auto blackKing = TBoardPiece::Create<NVanillaPieces::TKingPiece>(EPieceColor::Black);
 
     return TBoard{}
         // white pieces
@@ -27,7 +30,7 @@ TBoard TBoardAssembler::AssembleVanillaBoard() {
         .SetBoardPiece({1, 0}, whiteKnight)
         .SetBoardPiece({2, 0}, whiteBishop)
         .SetBoardPiece({3, 0}, whiteQueen)
-        // TODO
+        .SetBoardPiece({4, 0}, whiteKing)
         .SetBoardPiece({5, 0}, whiteBishop)
         .SetBoardPiece({6, 0}, whiteKnight)
         .SetBoardPiece({7, 0}, whiteRook)
@@ -45,8 +48,7 @@ TBoard TBoardAssembler::AssembleVanillaBoard() {
         .SetBoardPiece({1, 7}, blackKnight)
         .SetBoardPiece({2, 7}, blackBishop)
         .SetBoardPiece({3, 7}, blackQueen)
-        // TODO
-        // TODO
+        .SetBoardPiece({4, 7}, blackKing)
         .SetBoardPiece({5, 7}, blackBishop)
         .SetBoardPiece({6, 7}, blackKnight)
         .SetBoardPiece({7, 7}, blackRook)

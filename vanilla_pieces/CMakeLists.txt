@@ -1,6 +1,7 @@
 add_library(
     vanilla_pieces
     bishop_piece.cc
+    king_piece.cc
     knight_piece.cc
     pawn_piece.cc
     queen_piece.cc
@@ -17,6 +18,7 @@ enable_testing()
 add_executable(
     vanilla_pieces_test
     bishop_piece_ut.cc
+    king_piece_ut.cc
     knight_piece_ut.cc
     pawn_piece_ut.cc
     queen_piece_ut.cc
