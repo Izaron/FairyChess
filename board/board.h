@@ -8,8 +8,8 @@
 namespace NFairyChess {
 
 struct TBoardPosition {
-    std::size_t Column;
-    std::size_t Row;
+    int Column;
+    int Row;
 };
 
 class TBoard {
@@ -29,7 +29,7 @@ public:
     public:
         TBoardPiecesIterator(const TContainer::const_iterator& begin,
                              const TContainer::const_iterator& end,
-                             std::size_t rows)
+                             int rows)
             : BeginIter_{begin}
             , Iter_{begin}
             , EndIter_{end}
@@ -49,7 +49,7 @@ public:
         }
 
         reference operator*() const {
-            const std::size_t dist = std::distance(BeginIter_, Iter_);
+            const int dist = std::distance(BeginIter_, Iter_);
             TBoardPosition pos{/* col = */ dist / Rows_, /* row = */ dist % Rows_};
             return TBoardPieceWithPosition{/* pos = */ pos, /* boardPiece = */ *Iter_};
         }
@@ -65,14 +65,14 @@ public:
         TContainer::const_iterator BeginIter_;
         TContainer::const_iterator Iter_;
         TContainer::const_iterator EndIter_;
-        std::size_t Rows_;
+        int Rows_;
     };
 
 public:
     using TBoardPiecesContainer = std::vector<TBoardPiece>;
 
 public:
-    TBoard(std::size_t columns = 8, std::size_t rows = 8);
+    TBoard(int columns = 8, int rows = 8);
 
     // board pieces setters and getters
     TBoard& SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece);
@@ -90,18 +90,18 @@ public:
     }
 
     // methods for working with coordinates
-    std::size_t GetColumns() const;
-    std::size_t GetRows() const;
+    int GetColumns() const;
+    int GetRows() const;
     std::optional<TBoardPosition> ShiftPosition(TBoardPosition position,
         TBoardPosition deltaPosition) const;
     TBoardPosition InversePosition(TBoardPosition position) const;
 
 private:
-    std::size_t GetArrayIndex(TBoardPosition position) const;
+    int GetArrayIndex(TBoardPosition position) const;
 
 private:
-    std::size_t Columns_;
-    std::size_t Rows_;
+    int Columns_;
+    int Rows_;
     TBoardPiecesContainer BoardPieces_;
 };
 

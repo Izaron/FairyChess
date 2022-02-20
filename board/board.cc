@@ -2,10 +2,10 @@
 
 namespace NFairyChess {
 
-TBoard::TBoard(std::size_t columns, std::size_t rows)
+TBoard::TBoard(int columns, int rows)
     : Columns_{columns}
     , Rows_{rows}
-    , BoardPieces_{columns * rows}
+    , BoardPieces_{static_cast<std::size_t>(columns * rows)}
 {
 }
 
@@ -25,29 +25,24 @@ TBoardPiece TBoard::GetBoardPiece(TBoardPosition position, bool isInverted) cons
     return GetBoardPiece(position);
 }
 
-std::size_t TBoard::GetColumns() const {
+int TBoard::GetColumns() const {
     return Columns_;
 }
 
-std::size_t TBoard::GetRows() const {
+int TBoard::GetRows() const {
     return Rows_;
 }
 
 std::optional<TBoardPosition> TBoard::ShiftPosition(TBoardPosition position,
     TBoardPosition deltaPosition) const
 {
-    // check for overflow with signed values
-    int signedColumn = static_cast<int>(position.Column) + static_cast<int>(deltaPosition.Column);
-    int signedRow = static_cast<int>(position.Row) + static_cast<int>(deltaPosition.Row);
-    if (signedColumn < 0 || signedColumn >= Columns_ ||
-            signedRow < 0 || signedRow >= Rows_)
-    {
+    // check for overflow
+    int col = position.Column + deltaPosition.Column;
+    int row = position.Row + deltaPosition.Row;
+    if (col < 0 || col >= Columns_ || row < 0 || row >= Rows_) {
         return {};
     }
-
-    // cast back to unsigned value
-    return TBoardPosition{.Column = static_cast<std::size_t>(signedColumn),
-                          .Row = static_cast<std::size_t>(signedRow)};
+    return TBoardPosition{.Column = col, .Row = row};
 }
 
 TBoardPosition TBoard::InversePosition(TBoardPosition position) const {
@@ -55,7 +50,7 @@ TBoardPosition TBoard::InversePosition(TBoardPosition position) const {
                           .Row = Rows_ - 1 - position.Row};
 }
 
-std::size_t TBoard::GetArrayIndex(TBoardPosition position) const {
+int TBoard::GetArrayIndex(TBoardPosition position) const {
     return position.Column * Rows_ + position.Row;
 }
 
