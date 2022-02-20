@@ -1,4 +1,8 @@
-add_library(vanilla_pieces pawn.cc)
+add_library(
+    vanilla_pieces
+    knight.cc
+    pawn.cc
+)
 
 target_include_directories(vanilla_pieces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -9,6 +13,7 @@ enable_testing()
 
 add_executable(
     vanilla_pieces_test
+    knight_ut.cc
     pawn_ut.cc
 )
 

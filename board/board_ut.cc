@@ -10,5 +10,5 @@ TEST(BoardTest, TestIterator) {
     for (auto iter : board) {
         ++counter;
     }
-    EXPECT_EQ(counter, 16);
+    EXPECT_EQ(counter, 20);
 }
