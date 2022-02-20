@@ -175,3 +175,20 @@ TEST(Pawn, BlockedPiece) {
     );
     EXPECT_EQ(set, CollectBoardDumps(moves, board));
 }
+
+TEST(Pawn, OnlyOneDoubleMove) {
+    // Check that pawn can jump two squares only once
+    auto board = TBoard{}
+        .SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn);
+
+    // check that there are two moves possible
+    TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
+    EXPECT_EQ(moves.size(), 2);
+
+    // check that after any move there will be only one move possible0
+    for (const TMove& move : moves) {
+        TBoard newBoard = ApplyMove(board, move);
+        TMoveContainer newMoves = GenerateMoves(newBoard, EPieceColor::White);
+        EXPECT_EQ(newMoves.size(), 1);
+    }
+}
