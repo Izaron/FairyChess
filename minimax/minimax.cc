@@ -12,7 +12,7 @@ using TMoveAndScore = std::pair<TMove, int>;
 int EvaluateScore(const TBoard& board) {
     TEvaluationResult eval = Evaluate(board);
     return (eval.WhiteCost - eval.BlackCost) +
-        10 * (eval.WhiteAvailableMoves - eval.BlackAvailableMoves);
+        5 * (eval.WhiteAvailableMoves - eval.BlackAvailableMoves);
 }
 
 int GetInitialScore(EPieceColor color) {
@@ -30,15 +30,13 @@ void UpdateBestScore(int& bestScore, int newScore, EPieceColor color) {
 
 } // namespace
 
-TMinimax::TMinimax(const TBoard& board, EPieceColor color, int depth)
-    : InitBoard_{board}
-    , InitColor_{color}
-    , InitDepth_{depth}
+TMinimax::TMinimax(int depth)
+    : InitDepth_{depth}
 {
 }
 
-TMove TMinimax::FindBestMove() {
-    FindBestScore(InitBoard_, InitColor_, InitDepth_,
+TMove TMinimax::FindBestMove(const TBoard& board, EPieceColor color) {
+    FindBestScore(board, color, InitDepth_,
             /* alpha = */ std::numeric_limits<int>::min(),
             /* beta = */ std::numeric_limits<int>::max());
     return BestMove_;
@@ -48,19 +46,28 @@ int TMinimax::GetAnalyzedBoards() const {
     return AnalyzedBoards_;
 }
 
-int TMinimax::FindBestScore(const TBoard& board, EPieceColor color, int depth, int alpha, int beta) {
+int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
+                            int depth, int alpha, int beta) {
+    std::size_t hash = board.CalculateHash(depth);
+    if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
+        return iter->second;
+    }
     ++AnalyzedBoards_;
 
-    if (depth == 0) {
+    if (depth <= 0) {
         // terminal level, return only score
-        return EvaluateScore(board);
+        int score = EvaluateScore(board);
+        return score;
     }
 
     int bestScore = GetInitialScore(color);
 
-    for (TMove move : GenerateMoves(board, color)) {
+    TMoveContainer moveContainer = GenerateMoves(board, color);
+    for (std::size_t i = 0; i < moveContainer.MovesCount; ++i) {
+        auto& move = moveContainer.Moves[i];
         TBoard newBoard = ApplyMove(board, move);
-        int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1, alpha, beta);
+        int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1,
+                                  alpha, beta);
         UpdateBestScore(bestScore, score, color);
 
         if (bestScore == score && depth == InitDepth_) {

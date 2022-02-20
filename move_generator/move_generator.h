@@ -2,6 +2,8 @@
 
 #include "board.h"
 
+#include <array>
+
 namespace NFairyChess {
 
 struct TBoardUpdate {
@@ -10,7 +12,8 @@ struct TBoardUpdate {
 };
 
 struct TMove {
-    std::vector<TBoardUpdate> Updates;
+    std::array<TBoardUpdate, 10> Updates;
+    std::size_t UpdatesCount = 0;
 };
 
 class TMoveBuilder {
@@ -23,7 +26,14 @@ private:
     TMove Move_;
 };
 
-using TMoveContainer = std::vector<TMove>;
+struct TMoveContainer {
+    std::array<TMove, 128> Moves;
+    std::size_t MovesCount = 0;
+
+    void Add(TMove move) {
+        Moves[MovesCount++] = std::move(move);
+    }
+};
 
 struct TMoveContext {
     // new moves should be written here

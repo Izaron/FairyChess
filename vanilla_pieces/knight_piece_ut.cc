@@ -30,7 +30,7 @@ TEST(Knight, AllMoves) {
 
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 8);
+    EXPECT_EQ(moves.MovesCount, 8);
 
     // apply move and check dump
     std::unordered_set<std::string> set;
@@ -161,7 +161,7 @@ TEST(Knight, Capturing) {
 
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 4);
+    EXPECT_EQ(moves.MovesCount, 4);
 
     // apply move and check dump
     std::unordered_set<std::string> set;

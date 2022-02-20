@@ -38,7 +38,7 @@ TEST(Pawn, SingleWhitePiece) {
 
     // find moves
     TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 2);
+    EXPECT_EQ(moves.MovesCount, 2);
 
     // apply move and check dump
     std::unordered_set<std::string> set;
@@ -89,7 +89,7 @@ TEST(Pawn, SingleBlackPiece) {
 
     // find moves
     TMoveContainer moves = GenerateMoves(board, EPieceColor::Black);
-    EXPECT_EQ(moves.size(), 2);
+    EXPECT_EQ(moves.MovesCount, 2);
 
     // apply move and check dump
     std::unordered_set<std::string> set;
@@ -142,7 +142,7 @@ TEST(Pawn, BlockedByFriendlyPiece) {
 
     // check that there is only one move possible
     TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 1);
+    EXPECT_EQ(moves.MovesCount, 1);
 
     // apply move and check dump
     std::unordered_set<std::string> set;
@@ -182,8 +182,8 @@ TEST(Pawn, BlockedByEnemyPiece) {
     CheckDump(dump, board);
 
     // check that there are no moves possible
-    EXPECT_EQ(GenerateMoves(board, EPieceColor::White).size(), 0);
-    EXPECT_EQ(GenerateMoves(board, EPieceColor::Black).size(), 0);
+    EXPECT_EQ(GenerateMoves(board, EPieceColor::White).MovesCount, 0);
+    EXPECT_EQ(GenerateMoves(board, EPieceColor::Black).MovesCount, 0);
 }
 
 TEST(Pawn, OnlyOneDoubleMove) {
@@ -193,13 +193,14 @@ TEST(Pawn, OnlyOneDoubleMove) {
 
     // check that there are two moves possible
     TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 2);
+    EXPECT_EQ(moves.MovesCount, 2);
 
     // check that after any move there will be only one move possible0
-    for (const TMove& move : moves) {
+    for (std::size_t i = 0; i < moves.MovesCount; ++i) {
+        const TMove& move = moves.Moves[i];
         TBoard newBoard = ApplyMove(board, move);
         TMoveContainer newMoves = GenerateMoves(newBoard, EPieceColor::White);
-        EXPECT_EQ(newMoves.size(), 1);
+        EXPECT_EQ(newMoves.MovesCount, 1);
     }
 }
 
@@ -226,7 +227,7 @@ TEST(Pawn, SimpleCapturing) {
 
     // check that there are three moves possible: two captures and one move
     TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 3);
+    EXPECT_EQ(moves.MovesCount, 3);
 
     // apply moves and check dump
     std::unordered_set<std::string> set;
@@ -291,7 +292,7 @@ TEST(Pawn, EnPassantImmediateCapturing) {
 
     // check that black pawn can move one or two squares forward
     TMoveContainer moves1 = GenerateMoves(board1, EPieceColor::Black);
-    EXPECT_EQ(moves1.size(), 2);
+    EXPECT_EQ(moves1.MovesCount, 2);
 
     // find board where the black pawn moves two squares forward
     std::string_view dump2 =
@@ -306,7 +307,8 @@ TEST(Pawn, EnPassantImmediateCapturing) {
         "║        ║"
         "╚════════╝";
     std::optional<TBoard> board2;
-    for (const TMove& move : moves1) {
+    for (std::size_t i = 0; i < moves1.MovesCount; ++i) {
+        const TMove& move = moves1.Moves[i];
         TBoard nextBoard = ApplyMove(board1, move);
         std::stringstream ss;
         DumpBoard(nextBoard, ss);
@@ -318,7 +320,7 @@ TEST(Pawn, EnPassantImmediateCapturing) {
 
     // check that white pawn have two moves
     TMoveContainer moves2 = GenerateMoves(*board2, EPieceColor::White);
-    EXPECT_EQ(moves2.size(), 2);
+    EXPECT_EQ(moves2.MovesCount, 2);
 
     std::unordered_set<std::string> set;
     set.insert(

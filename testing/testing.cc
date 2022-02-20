@@ -13,7 +13,8 @@ void CheckDump(std::string_view dump, const TBoard& board) {
 
 std::unordered_set<std::string> CollectBoardDumps(const TMoveContainer& moves, const TBoard& board) {
     std::unordered_set<std::string> set;
-    for (const auto& move : moves) {
+    for (std::size_t i = 0; i < moves.MovesCount; ++i) {
+        const auto& move = moves.Moves[i];
         TBoard newBoard = ApplyMove(board, move);
         std::stringstream ss;
         DumpBoard(newBoard, ss);

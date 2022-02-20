@@ -30,7 +30,7 @@ TEST(Queen, AllMoves) {
 
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 27);
+    EXPECT_EQ(moves.MovesCount, 27);
 }
 
 TEST(Queen, Capturing) {
@@ -61,5 +61,5 @@ TEST(Queen, Capturing) {
 
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 12);
+    EXPECT_EQ(moves.MovesCount, 12);
 }

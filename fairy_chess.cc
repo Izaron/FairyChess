@@ -13,14 +13,16 @@ int main() {
 
     EPieceColor currentColor = EPieceColor::White;
 
-    for (int i = 0; i < 20; ++i) {
-        TMinimax minimax{board, currentColor, 3};
-        TMove move = minimax.FindBestMove();
-        std::cerr << "\nFound a new move, analyzed boards: " << minimax.GetAnalyzedBoards() << std::endl;
+    {
+    TMinimax minimax{5};
+    for (int i = 0; i < 200; ++i) {
+        TMove move = minimax.FindBestMove(board, currentColor);
+        std::cerr << "\nFound a new move " << i << ", analyzed boards: " << minimax.GetAnalyzedBoards() << std::endl;
         board = ApplyMove(board, move);
 
         std::cout << "Current board after move:" << std::endl;
         DumpBoard(board, std::cout, /* useNewline = */ true);
         currentColor = InvertPieceColor(currentColor);
+    }
     }
 }

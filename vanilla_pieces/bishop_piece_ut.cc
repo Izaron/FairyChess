@@ -30,7 +30,7 @@ TEST(Bishop, AllMoves) {
 
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 13);
+    EXPECT_EQ(moves.MovesCount, 13);
 }
 
 TEST(Bishop, Capturing) {
@@ -57,7 +57,7 @@ TEST(Bishop, Capturing) {
 
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 2);
+    EXPECT_EQ(moves.MovesCount, 2);
 
     // apply move and check dump
     std::unordered_set<std::string> set;

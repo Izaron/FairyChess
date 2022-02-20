@@ -4,7 +4,7 @@
 namespace NFairyChess {
 
 TMoveBuilder& TMoveBuilder::SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece) {
-    Move_.Updates.emplace_back(position, boardPiece);
+    Move_.Updates[Move_.UpdatesCount++] = {position, boardPiece};
     return *this;
 }
 
@@ -17,8 +17,8 @@ TMove TMoveBuilder::Build() {
 }
 
 TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
-    const bool isInverted = piecesColor == EPieceColor::Black;
     TMoveContainer moveContainer;
+    const bool isInverted = piecesColor == EPieceColor::Black;
     for (auto iter : board) {
         auto& boardPiece = iter.BoardPiece;
         if (boardPiece.GetColor() != piecesColor) {
@@ -42,9 +42,10 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
 
     // inverse back position for black pieces
     if (isInverted) {
-        for (auto& move : moveContainer) {
-            for (auto& upd : move.Updates) {
-                upd.Position = board.InversePosition(upd.Position);
+        for (std::size_t moveNum = 0; moveNum < moveContainer.MovesCount; ++moveNum) {
+            auto& move = moveContainer.Moves[moveNum];
+            for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
+                move.Updates[i].Position = board.InversePosition(move.Updates[i].Position);
             }
         }
     }
@@ -54,7 +55,8 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
 
 TBoard ApplyMove(const TBoard& board, const TMove& move) {
     TBoard newBoard = board;
-    for (const TBoardUpdate& upd : move.Updates) {
+    for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
+        auto& upd = move.Updates[i];
         newBoard.SetBoardPiece(upd.Position, upd.NewBoardPiece);
     }
 
@@ -87,11 +89,12 @@ void AddStandardMoves(TMoveContext& ctx, EMoveType moveType, TBoardPosition delt
             .Build();
 
         TBoardPiece currentPositionBoardPiece = ctx.Board.GetBoardPiece(currentPosition);
+        auto& moveContainer = ctx.Moves;
         if (currentPositionBoardPiece.IsEmpty()) {
-            ctx.Moves.push_back(std::move(move));
+            moveContainer.Add(std::move(move));
         } else if (currentPositionBoardPiece.GetColor() != color) {
             // capture the enemy piece, but don't move further
-            ctx.Moves.push_back(std::move(move));
+            moveContainer.Add(std::move(move));
             break;
         } else {
             // there is friendly piece, can't move here

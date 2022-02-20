@@ -27,8 +27,8 @@ TEvaluationResult Evaluate(const TBoard& board) {
     }
 
     // calculate number of available moves
-    result.WhiteAvailableMoves = GenerateMoves(board, EPieceColor::White).size();
-    result.BlackAvailableMoves = GenerateMoves(board, EPieceColor::Black).size();
+    result.WhiteAvailableMoves = GenerateMoves(board, EPieceColor::White).MovesCount;
+    result.BlackAvailableMoves = GenerateMoves(board, EPieceColor::Black).MovesCount;
 
     return result;
 }

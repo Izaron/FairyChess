@@ -5,5 +5,5 @@ add_library(
 
 target_include_directories(minimax INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-list(APPEND LIBS move_generator evaluator)
+list(APPEND LIBS move_generator evaluator pretty_printer)
 target_link_libraries(minimax PUBLIC ${LIBS})

@@ -50,6 +50,15 @@ TBoardPosition TBoard::InversePosition(TBoardPosition position) const {
                           .Row = Rows_ - 1 - position.Row};
 }
 
+std::size_t TBoard::CalculateHash(int additionalSeed) const {
+    std::size_t seed = BoardPieces_.size();
+    for(auto piece : BoardPieces_) {
+        seed ^= piece.GetView().GetValue() + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    }
+    seed ^= additionalSeed + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    return seed;
+}
+
 int TBoard::GetArrayIndex(TBoardPosition position) const {
     return position.Column * Rows_ + position.Row;
 }

@@ -2,21 +2,23 @@
 
 #include "move_generator.h"
 
+#include <unordered_map>
+
 namespace NFairyChess {
 
 class TMinimax {
 public:
-    TMinimax(const TBoard& board, EPieceColor color, int depth);
-    TMove FindBestMove();
+    TMinimax(int depth);
+    TMove FindBestMove(const TBoard& board, EPieceColor color);
     int GetAnalyzedBoards() const;
 
 private:
-    int FindBestScore(const TBoard& board, EPieceColor color, int depth, int alpha, int beta);
+    int FindBestScore(const TBoard& board, EPieceColor color, int depth,
+                      int alpha, int beta);
 
 private:
-    const TBoard& InitBoard_;
-    const EPieceColor InitColor_;
     const int InitDepth_;
+    std::unordered_map<std::size_t, int> HashedScores_;
     TMove BestMove_;
     int AnalyzedBoards_ = 0;
 };

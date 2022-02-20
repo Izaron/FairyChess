@@ -26,7 +26,7 @@ bool TryAddForwardMove(TPawnPiece pawnPiece, TMoveContext& ctx, int dist) {
     }
 
     const EPieceColor color = ctx.Board.GetBoardPiece(ctx.Position).GetColor();
-    ctx.Moves.push_back(
+    ctx.Moves.Add(
         TMoveBuilder{}
             .SetBoardPiece(*movePosition, TBoardPiece::CreateFromExisting(color, pawnPiece))
             .RemoveBoardPiece(ctx.Position)
@@ -40,7 +40,7 @@ void TryAddSimpleCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx,
 {
     TBoardPiece enemyBoardPiece = ctx.Board.GetBoardPiece(movePosition);
     if (!enemyBoardPiece.IsEmpty() && enemyBoardPiece.GetColor() != currentColor) {
-        ctx.Moves.push_back(
+        ctx.Moves.Add(
             TMoveBuilder{}
                 .SetBoardPiece(movePosition, TBoardPiece::CreateFromExisting(currentColor, pawnPiece))
                 .RemoveBoardPiece(ctx.Position)
@@ -59,7 +59,7 @@ void TryAddEnPassantCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx, TBoar
                 pawnOrEmpty.GetPiece().GetMoveStatus().GetValue<TPawnPiece::EMoveStatus>();
             if (enemyMoveStatus == CanBeCapturedEnPassant) {
                 // we can capture en passant!
-                ctx.Moves.push_back(
+                ctx.Moves.Add(
                     TMoveBuilder{}
                         .SetBoardPiece(movePosition, TBoardPiece::CreateFromExisting(currentColor, pawnPiece))
                         .RemoveBoardPiece(enPassantPosition)
