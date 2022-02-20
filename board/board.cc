@@ -18,8 +18,8 @@ TBoardPiece TBoard::GetBoardPiece(TBoardPosition position) const {
     return BoardPieces_[GetArrayIndex(position)];
 }
 
-TBoardPiece TBoard::GetBoardPiece(TBoardPosition position, EPieceColor color) const {
-    if (color == EPieceColor::Black) {
+TBoardPiece TBoard::GetBoardPiece(TBoardPosition position, bool isInverted) const {
+    if (isInverted) {
         position = InversePosition(position);
     }
     return GetBoardPiece(position);

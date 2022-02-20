@@ -20,10 +20,9 @@ struct TMoveContext {
     TMoveContainer& Moves;
 
     // used to "look around" to see other pieces
-    const TBoard& Board;
+    TOrientedBoard Board;
 
     // additional info about current piece
-    EPieceColor Color;
     TBoardPosition Position;
 };
 

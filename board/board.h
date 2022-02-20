@@ -79,7 +79,7 @@ public:
     TBoardPiece GetBoardPiece(TBoardPosition position) const;
 
     // getter with check of inverted position
-    TBoardPiece GetBoardPiece(TBoardPosition position, EPieceColor color) const;
+    TBoardPiece GetBoardPiece(TBoardPosition position, bool isInverted) const;
 
     // iterator over non-empty board pieces
     TBoardPiecesIterator<TBoardPiecesContainer> begin() const {
@@ -103,6 +103,28 @@ private:
     std::size_t Columns_;
     std::size_t Rows_;
     TBoardPiecesContainer BoardPieces_;
+};
+
+class TOrientedBoard {
+public:
+    TOrientedBoard(const TBoard& board, bool isInverted)
+        : Board_{board}
+        , IsInverted_{isInverted}
+    {}
+
+    template<typename... TArgs>
+    decltype(auto) GetBoardPiece(TArgs... args) const {
+        return Board_.GetBoardPiece(std::forward<TArgs>(args)..., IsInverted_);
+    }
+
+    template<typename... TArgs>
+    decltype(auto) ShiftPosition(TArgs... args) const {
+        return Board_.ShiftPosition(std::forward<TArgs>(args)...);
+    }
+
+private:
+    const TBoard& Board_;
+    const bool IsInverted_;
 };
 
 } // namespace NFairyChess

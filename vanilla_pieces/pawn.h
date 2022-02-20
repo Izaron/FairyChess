@@ -30,7 +30,7 @@ public:
     }
 
     void FillMoves(TMoveContext moveContext);
-    void AfterMove(); // TODO: make it
+    void OnMoveApply();
 };
 
 REGISTER_PIECE(TPawnPiece);
