@@ -19,9 +19,11 @@ add_subdirectory(pretty_printer)
 add_subdirectory(testing)
 add_subdirectory(vanilla_pieces)
 add_subdirectory(fairy_pieces)
+add_subdirectory(minimax)
 
 list(APPEND EXTRA_LIBS bit_storage board boards_assembler evaluator
-                       move_generator piece pretty_printer vanilla_pieces)
+                       move_generator piece pretty_printer vanilla_pieces
+                       minimax)
 
 target_link_libraries(fairy_chess PUBLIC ${EXTRA_LIBS})
 

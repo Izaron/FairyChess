@@ -5,8 +5,8 @@
 namespace NFairyChess {
 
 struct TEvaluationResult {
-    std::size_t WhiteCost = 0;
-    std::size_t BlackCost = 0;
+    int WhiteCost = 0;
+    int BlackCost = 0;
 };
 
 TEvaluationResult Evaluate(const TBoard& board);

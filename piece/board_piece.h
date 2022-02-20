@@ -59,4 +59,8 @@ inline TBoardPiece EmptyBoardPiece() {
     return TBoardPiece();
 }
 
+inline EPieceColor InvertPieceColor(EPieceColor color) {
+    return color == EPieceColor::White ? EPieceColor::Black : EPieceColor::White;
+}
+
 } // namespace NFairyChess

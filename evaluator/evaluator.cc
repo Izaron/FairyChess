@@ -5,7 +5,7 @@ namespace NFairyChess {
 
 namespace {
 
-std::size_t GetRawCost(TBoardPiece boardPiece) {
+int GetRawCost(TBoardPiece boardPiece) {
     const std::size_t pieceId = boardPiece.GetPieceId();
     return TPieceRegistry::GetPieceInfo(pieceId)->Cost;
 }
@@ -19,7 +19,7 @@ TEvaluationResult Evaluate(const TBoard& board) {
         if (boardPiece.IsEmpty()) {
             continue;
         }
-        const std::size_t rawCost = GetRawCost(boardPiece);
+        const int rawCost = GetRawCost(boardPiece);
         (boardPiece.GetColor() == EPieceColor::White ?
             result.WhiteCost : result.BlackCost) += rawCost;
     }
