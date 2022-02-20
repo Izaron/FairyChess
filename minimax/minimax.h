@@ -11,7 +11,7 @@ public:
     int GetAnalyzedBoards() const;
 
 private:
-    int FindBestScore(const TBoard& board, EPieceColor color, int depth);
+    int FindBestScore(const TBoard& board, EPieceColor color, int depth, int alpha, int beta);
 
 private:
     const TBoard& InitBoard_;

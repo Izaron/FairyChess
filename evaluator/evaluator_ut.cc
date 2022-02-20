@@ -15,4 +15,6 @@ TEST(EvaluatorTest, VanillaBoard) {
     const TEvaluationResult r = Evaluate(board);
     EXPECT_EQ(r.WhiteCost, 23900);
     EXPECT_EQ(r.BlackCost, 23900);
+    EXPECT_EQ(r.WhiteAvailableMoves, 20);
+    EXPECT_EQ(r.BlackAvailableMoves, 20);
 }

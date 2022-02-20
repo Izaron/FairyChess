@@ -14,6 +14,8 @@ int GetRawCost(TBoardPiece boardPiece) {
 
 TEvaluationResult Evaluate(const TBoard& board) {
     TEvaluationResult result;
+
+    // calculate cost of pieces
     for (auto iter : board) {
         auto& boardPiece = iter.BoardPiece;
         if (boardPiece.IsEmpty()) {
@@ -23,6 +25,11 @@ TEvaluationResult Evaluate(const TBoard& board) {
         (boardPiece.GetColor() == EPieceColor::White ?
             result.WhiteCost : result.BlackCost) += rawCost;
     }
+
+    // calculate number of available moves
+    result.WhiteAvailableMoves = GenerateMoves(board, EPieceColor::White).size();
+    result.BlackAvailableMoves = GenerateMoves(board, EPieceColor::Black).size();
+
     return result;
 }
 

@@ -11,7 +11,8 @@ using TMoveAndScore = std::pair<TMove, int>;
 
 int EvaluateScore(const TBoard& board) {
     TEvaluationResult eval = Evaluate(board);
-    return eval.WhiteCost - eval.BlackCost;
+    return (eval.WhiteCost - eval.BlackCost) +
+        10 * (eval.WhiteAvailableMoves - eval.BlackAvailableMoves);
 }
 
 int GetInitialScore(EPieceColor color) {
@@ -37,7 +38,9 @@ TMinimax::TMinimax(const TBoard& board, EPieceColor color, int depth)
 }
 
 TMove TMinimax::FindBestMove() {
-    FindBestScore(InitBoard_, InitColor_, InitDepth_);
+    FindBestScore(InitBoard_, InitColor_, InitDepth_,
+            /* alpha = */ std::numeric_limits<int>::min(),
+            /* beta = */ std::numeric_limits<int>::max());
     return BestMove_;
 }
 
@@ -45,7 +48,7 @@ int TMinimax::GetAnalyzedBoards() const {
     return AnalyzedBoards_;
 }
 
-int TMinimax::FindBestScore(const TBoard& board, EPieceColor color, int depth) {
+int TMinimax::FindBestScore(const TBoard& board, EPieceColor color, int depth, int alpha, int beta) {
     ++AnalyzedBoards_;
 
     if (depth == 0) {
@@ -57,11 +60,20 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color, int depth) {
 
     for (TMove move : GenerateMoves(board, color)) {
         TBoard newBoard = ApplyMove(board, move);
-        int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1);
+        int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1, alpha, beta);
         UpdateBestScore(bestScore, score, color);
 
         if (bestScore == score && depth == InitDepth_) {
             BestMove_ = std::move(move);
+        }
+
+        if (color == EPieceColor::White) {
+            alpha = std::max(alpha, bestScore);
+        } else {
+            beta = std::min(beta, bestScore);
+        }
+        if (beta < alpha) {
+            break;
         }
     }
 
