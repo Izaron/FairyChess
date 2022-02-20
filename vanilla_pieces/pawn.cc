@@ -38,6 +38,29 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
         updates.emplace_back(ctx.Position, EmptyBoardPiece());
     }
 
+    // the pawn can capture a piece diagonally
+    for (int deltaCol : {-1, 1}) {
+        // check move position for correctness
+        auto movePosition = ctx.Board.ShiftPosition(ctx.Position, {.Column = deltaCol, .Row = 1});
+        if (!movePosition) {
+            continue;
+        }
+
+        // can only capture existing piece of enemy color
+        TBoardPiece boardPiece = ctx.Board.GetBoardPiece(*movePosition, ctx.Color);
+        if (boardPiece.IsEmpty() || boardPiece.GetColor() == ctx.Color) {
+            continue;
+        }
+
+        // we can capture the piece! update the move status and add the move
+        TPawnPiece newPawnPiece = *this;
+        newPawnPiece.GetMoveStatus().SetValue(EMoveStatus::Moved);
+
+        auto& updates = ctx.Moves.emplace_back().Updates;
+        updates.emplace_back(*movePosition, TBoardPiece::CreateFromExisting(ctx.Color, newPawnPiece));
+        updates.emplace_back(ctx.Position, EmptyBoardPiece());
+    }
+
     // TODO: attacking other pieces
 }
 

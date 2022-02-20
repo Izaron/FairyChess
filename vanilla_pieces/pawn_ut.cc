@@ -218,3 +218,69 @@ TEST(Pawn, OnlyOneDoubleMove) {
         EXPECT_EQ(newMoves.size(), 1);
     }
 }
+
+TEST(Pawn, SimpleCapturing) {
+    // Check that piece can't go forward if there is another piece there
+    auto board = TBoard{}
+        .SetBoardPiece({.Column = 1, .Row = 2}, WhiteMovedPawn)
+        .SetBoardPiece({.Column = 2, .Row = 3}, BlackMovedPawn)
+        .SetBoardPiece({.Column = 0, .Row = 3}, BlackMovedPawn);
+
+    // check initial position
+    std::string_view dump =
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║♟︎ ♟︎     ║"
+        "║ ♙      ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
+    CheckDump(dump, board);
+
+    // check that there are three moves possible: two captures and one move
+    TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
+    EXPECT_EQ(moves.size(), 3);
+
+    // apply moves and check dump
+    std::unordered_set<std::string> set;
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║♙ ♟︎     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║♟︎ ♙     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║♟︎♙♟︎     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    EXPECT_EQ(set, CollectBoardDumps(moves, board));
+}
