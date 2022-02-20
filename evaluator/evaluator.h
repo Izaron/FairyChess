@@ -12,6 +12,6 @@ struct TEvaluationResult {
     int BlackAvailableMoves = 0;
 };
 
-TEvaluationResult Evaluate(const TBoard& board);
+TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves = true);
 
 } // namespace NFairyChess

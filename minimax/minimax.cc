@@ -20,6 +20,11 @@ int GetInitialScore(EPieceColor color) {
         std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
 }
 
+int EvaluatePieceScore(const TBoard& board) {
+    TEvaluationResult eval = Evaluate(board, /* calculateAvailableMoves = */ false);
+    return eval.WhiteCost - eval.BlackCost;
+}
+
 void UpdateBestScore(int& bestScore, int newScore, EPieceColor color) {
     if (color == EPieceColor::White) {
         bestScore = std::max(bestScore, newScore);
@@ -63,6 +68,23 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
     int bestScore = GetInitialScore(color);
 
     TMoveContainer moveContainer = GenerateMoves(board, color);
+
+    // sort moves by their immediate score
+    auto movesBeginIter = std::begin(moveContainer.Moves);
+    auto movesEndIter = std::begin(moveContainer.Moves);
+    std::advance(movesEndIter, moveContainer.MovesCount);
+    std::sort(movesBeginIter, movesEndIter,
+        [&board, color](const TMove& oneMove, const TMove& twoMove) {
+            const int oneScore = EvaluatePieceScore(ApplyMove(board, oneMove));
+            const int twoScore = EvaluatePieceScore(ApplyMove(board, twoMove));
+            if (color == EPieceColor::White) {
+                return oneScore > twoScore;
+            } else {
+                return oneScore < twoScore;
+            }
+        }
+    );
+
     for (std::size_t i = 0; i < moveContainer.MovesCount; ++i) {
         auto& move = moveContainer.Moves[i];
         TBoard newBoard = ApplyMove(board, move);

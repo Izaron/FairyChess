@@ -15,7 +15,7 @@ int main() {
 
     {
     TMinimax minimax{5};
-    for (int i = 0; i < 200; ++i) {
+    for (int i = 0; i < 10; ++i) {
         TMove move = minimax.FindBestMove(board, currentColor);
         std::cerr << "\nFound a new move " << i << ", analyzed boards: " << minimax.GetAnalyzedBoards() << std::endl;
         board = ApplyMove(board, move);

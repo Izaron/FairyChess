@@ -12,7 +12,7 @@ int GetRawCost(TBoardPiece boardPiece) {
 
 } // namespace
 
-TEvaluationResult Evaluate(const TBoard& board) {
+TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves) {
     TEvaluationResult result;
 
     // calculate cost of pieces
@@ -27,8 +27,10 @@ TEvaluationResult Evaluate(const TBoard& board) {
     }
 
     // calculate number of available moves
-    result.WhiteAvailableMoves = GenerateMoves(board, EPieceColor::White).MovesCount;
-    result.BlackAvailableMoves = GenerateMoves(board, EPieceColor::Black).MovesCount;
+    if (calculateAvailableMoves) {
+        result.WhiteAvailableMoves = GenerateMoves(board, EPieceColor::White).MovesCount;
+        result.BlackAvailableMoves = GenerateMoves(board, EPieceColor::Black).MovesCount;
+    }
 
     return result;
 }
