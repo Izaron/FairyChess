@@ -21,6 +21,7 @@ target_link_libraries(
     vanilla_pieces_test
     gtest_main
     vanilla_pieces
+    fairy_pieces
     pretty_printer
     testing
 )
