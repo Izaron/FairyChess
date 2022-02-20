@@ -14,6 +14,7 @@ struct TPieceInfo {
     std::string_view WhiteDumpStr;
     std::string_view BlackDumpStr;
     std::function<void(TBoardPiece, TMoveContext)> FillMovesFn;
+    std::function<bool(TBoardPiece&)> AfterMoveApplyFn;
 };
 
 namespace NImpl {
@@ -33,10 +34,6 @@ public:
 template<TPieceType Type>
 struct TPieceRegistrator {
     TPieceRegistrator() {
-        constexpr auto fillMovesFn = [](TBoardPiece boardPiece, TMoveContext moveContext) {
-            Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
-            piece.FillMoves(std::move(moveContext));
-        };
         // Dump symbols are optional. If there is no dump symbols, use '?'
         std::string_view whiteDumpStr = "?";
         std::string_view blackDumpStr = "?";
@@ -44,10 +41,31 @@ struct TPieceRegistrator {
             whiteDumpStr = Type::WhiteDumpStr;
             blackDumpStr = Type::BlackDumpStr;
         }
+
+        // FillMovesFn is mandatory
+        constexpr auto fillMovesFn = [](TBoardPiece boardPiece, TMoveContext moveContext) {
+            Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
+            piece.FillMoves(std::move(moveContext));
+        };
+
+        // AfterMoveApply is optional
+        std::function<bool(TBoardPiece&)> afterMoveApplyFn;
+        if constexpr (requires { &Type::AfterMoveApply; }) {
+            afterMoveApplyFn = [](TBoardPiece& boardPiece) {
+                Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
+                if (piece.AfterMoveApply()) {
+                    boardPiece = TBoardPiece::CreateFromExisting<Type>(boardPiece.GetColor(), piece);
+                    return true;
+                }
+                return false;
+            };
+        }
+
         TPieceInfo pieceInfo{.Cost = Type::Cost,
                              .WhiteDumpStr = whiteDumpStr,
                              .BlackDumpStr = blackDumpStr,
-                             .FillMovesFn = fillMovesFn};
+                             .FillMovesFn = fillMovesFn,
+                             .AfterMoveApplyFn = std::move(afterMoveApplyFn)};
         TPieceRegistry::AddPieceInfo(Type::PieceId, pieceInfo);
     }
 };

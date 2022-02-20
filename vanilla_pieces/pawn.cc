@@ -78,7 +78,21 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
     // TODO: make pawn promotion
 }
 
-void TPawnPiece::OnMoveApply() {
+bool TPawnPiece::AfterMoveApply() {
+    auto moveStatus = GetMoveStatus();
+    switch (moveStatus.GetValue<EMoveStatus>()) {
+        case EMoveStatus::JustMovedTwoSquares: {
+            moveStatus.SetValue(EMoveStatus::CanBeCapturedEnPassant);
+            return true;
+        }
+        case EMoveStatus::CanBeCapturedEnPassant: {
+            moveStatus.SetValue(EMoveStatus::Moved);
+            return true;
+        }
+        default: {
+            return false;
+        }
+    }
 };
 
 } // namespace NFairyChess::NVanillaPieces

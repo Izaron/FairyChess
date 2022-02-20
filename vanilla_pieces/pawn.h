@@ -30,7 +30,7 @@ public:
     }
 
     void FillMoves(TMoveContext moveContext);
-    void OnMoveApply();
+    bool AfterMoveApply();
 };
 
 REGISTER_PIECE(TPawnPiece);
