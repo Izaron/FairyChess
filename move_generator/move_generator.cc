@@ -69,4 +69,39 @@ TBoard ApplyMove(const TBoard& board, const TMove& move) {
     return newBoard;
 }
 
+void AddStandardMoves(TMoveContext& ctx, EMoveType moveType, TBoardPosition deltaPosition) {
+    TBoardPosition currentPosition = ctx.Position;
+    TBoardPiece boardPiece = ctx.Board.GetBoardPiece(currentPosition);
+    const EPieceColor color = boardPiece.GetColor();
+
+    while (true) {
+        auto optionalPosition = ctx.Board.ShiftPosition(currentPosition, deltaPosition);
+        if (!optionalPosition) {
+            break;
+        }
+        currentPosition = *optionalPosition;
+
+        TMove move = TMoveBuilder{}
+            .SetBoardPiece(currentPosition, boardPiece)
+            .RemoveBoardPiece(ctx.Position)
+            .Build();
+
+        TBoardPiece currentPositionBoardPiece = ctx.Board.GetBoardPiece(currentPosition);
+        if (currentPositionBoardPiece.IsEmpty()) {
+            ctx.Moves.push_back(std::move(move));
+        } else if (currentPositionBoardPiece.GetColor() != color) {
+            // capture the enemy piece, but don't move further
+            ctx.Moves.push_back(std::move(move));
+            break;
+        } else {
+            // there is friendly piece, can't move here
+            break;
+        }
+
+        if (moveType != EMoveType::Rider) {
+            break;
+        }
+    }
+}
+
 } // namespace NFairyChess

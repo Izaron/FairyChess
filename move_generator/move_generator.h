@@ -40,4 +40,11 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor);
 
 TBoard ApplyMove(const TBoard& board, const TMove& move);
 
+// helper functions for move generating
+enum class EMoveType {
+    Leaper,
+    Rider,
+};
+void AddStandardMoves(TMoveContext& ctx, EMoveType moveType, TBoardPosition deltaPosition);
+
 } // namespace NFairyChess
