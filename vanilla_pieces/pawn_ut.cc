@@ -22,6 +22,7 @@ static TBoardPiece ConstructPawnPiece(TPawnPiece::EMoveStatus moveStatus = TPawn
 const auto WhitePawn = ConstructPawnPiece();
 const auto WhiteMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved);
 const auto BlackPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::NotMoved, EPieceColor::Black);
+const auto BlackMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved, EPieceColor::Black);
 
 std::unordered_set<std::string> CollectBoardDumps(const TMoveContainer& moves, const TBoard& board) {
     std::unordered_set<std::string> set;
@@ -135,7 +136,7 @@ TEST(Pawn, SingleBlackPiece) {
     EXPECT_EQ(set, CollectBoardDumps(moves, board));
 }
 
-TEST(Pawn, BlockedPiece) {
+TEST(Pawn, BlockedByFriendlyPiece) {
     // Check that piece can't go forward if there is another piece there
     auto board = TBoard{}
         .SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn)
@@ -174,6 +175,31 @@ TEST(Pawn, BlockedPiece) {
         "╚════════╝"
     );
     EXPECT_EQ(set, CollectBoardDumps(moves, board));
+}
+
+TEST(Pawn, BlockedByEnemyPiece) {
+    // Check that piece can't go forward if there is another piece there
+    auto board = TBoard{}
+        .SetBoardPiece({.Column = 1, .Row = 2}, WhiteMovedPawn)
+        .SetBoardPiece({.Column = 1, .Row = 3}, BlackMovedPawn);
+
+    // check initial position
+    std::string_view dump =
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♟︎      ║"
+        "║ ♙      ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
+    CheckDump(dump, board);
+
+    // check that there are no moves possible
+    EXPECT_EQ(GenerateMoves(board, EPieceColor::White).size(), 0);
+    EXPECT_EQ(GenerateMoves(board, EPieceColor::Black).size(), 0);
 }
 
 TEST(Pawn, OnlyOneDoubleMove) {
