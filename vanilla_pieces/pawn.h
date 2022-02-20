@@ -13,8 +13,14 @@ public:
 
 public:
     enum class EMoveStatus {
+        // the pawn has not moved yet, meaning that
+        // it may be able to move two squares forward
         NotMoved,
-        MovedTwoSquares,
+        // the pawn just moved two squares forward
+        JustMovedTwoSquares,
+        // the enemy's pawn may capture this pawn en passant
+        CanBeCapturedEnPassant,
+        // the pawn can move only one square forward
         Moved,
     };
 
@@ -24,6 +30,7 @@ public:
     }
 
     void FillMoves(TMoveContext moveContext);
+    void AfterMove(); // TODO: make it
 };
 
 REGISTER_PIECE(TPawnPiece);

@@ -13,5 +13,5 @@ TEST(MoveGenerator, EmptyBoard) {
 TEST(MoveGenerator, VanillaBoard) {
     auto board = TBoardAssembler::AssembleVanillaBoard();
     TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 8);
+    EXPECT_EQ(moves.size(), 16);
 }

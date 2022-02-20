@@ -5,20 +5,40 @@
 using namespace NFairyChess;
 using namespace NFairyChess::NVanillaPieces;
 
-const auto WhitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
-const auto BlackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
-
 static void CheckDump(std::string_view dump, const TBoard& board) {
     std::stringstream ss;
     DumpBoard(board, ss);
     EXPECT_STREQ(dump.data(), ss.str().data());
 }
 
+static TBoardPiece ConstructPawnPiece(TPawnPiece::EMoveStatus moveStatus = TPawnPiece::EMoveStatus::NotMoved,
+                                      EPieceColor color = EPieceColor::White)
+{
+    TPawnPiece pawnPiece;
+    pawnPiece.GetMoveStatus().SetValue(moveStatus);
+    return TBoardPiece::CreateFromExisting(color, pawnPiece);
+}
+
+const auto WhitePawn = ConstructPawnPiece();
+const auto WhiteMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved);
+const auto BlackPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::NotMoved, EPieceColor::Black);
+
+std::unordered_set<std::string> CollectBoardDumps(const TMoveContainer& moves, const TBoard& board) {
+    std::unordered_set<std::string> set;
+    for (const auto& move : moves) {
+        TBoard newBoard = ApplyMove(board, move);
+        std::stringstream ss;
+        DumpBoard(newBoard, ss);
+        set.insert(ss.str());
+    }
+    return set;
+}
+
 TEST(Pawn, SingleWhitePiece) {
-    auto board1 = TBoard{}.SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn);
+    auto board = TBoard{}.SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn);
 
     // check initial position
-    std::string_view dump1 =
+    std::string_view dump =
         "╔════════╗"
         "║        ║"
         "║        ║"
@@ -29,15 +49,15 @@ TEST(Pawn, SingleWhitePiece) {
         "║ ♙      ║"
         "║        ║"
         "╚════════╝";
-    CheckDump(dump1, board1);
+    CheckDump(dump, board);
 
     // find moves
-    TMoveContainer moves = GenerateMoves(board1, EPieceColor::White);
-    EXPECT_EQ(moves.size(), 1);
+    TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
+    EXPECT_EQ(moves.size(), 2);
 
     // apply move and check dump
-    auto board2 = ApplyMove(board1, moves[0]);
-    std::string_view dump2 =
+    std::unordered_set<std::string> set;
+    set.insert(
         "╔════════╗"
         "║        ║"
         "║        ║"
@@ -47,16 +67,29 @@ TEST(Pawn, SingleWhitePiece) {
         "║ ♙      ║"
         "║        ║"
         "║        ║"
-        "╚════════╝";
-    CheckDump(dump2, board2);
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    EXPECT_EQ(set, CollectBoardDumps(moves, board));
 }
 
 // Checking that black pieces have mirroring behaviour
 TEST(Pawn, SingleBlackPiece) {
-    auto board1 = TBoard{}.SetBoardPiece({.Column = 6, .Row = 6}, BlackPawn);
+    auto board = TBoard{}.SetBoardPiece({.Column = 6, .Row = 6}, BlackPawn);
 
     // check initial position
-    std::string_view dump1 =
+    std::string_view dump =
         "╔════════╗"
         "║        ║"
         "║      ♟︎ ║"
@@ -67,15 +100,15 @@ TEST(Pawn, SingleBlackPiece) {
         "║        ║"
         "║        ║"
         "╚════════╝";
-    CheckDump(dump1, board1);
+    CheckDump(dump, board);
 
     // find moves
-    TMoveContainer moves = GenerateMoves(board1, EPieceColor::Black);
-    EXPECT_EQ(moves.size(), 1);
+    TMoveContainer moves = GenerateMoves(board, EPieceColor::Black);
+    EXPECT_EQ(moves.size(), 2);
 
     // apply move and check dump
-    auto board2 = ApplyMove(board1, moves[0]);
-    std::string_view dump2 =
+    std::unordered_set<std::string> set;
+    set.insert(
         "╔════════╗"
         "║        ║"
         "║        ║"
@@ -85,18 +118,31 @@ TEST(Pawn, SingleBlackPiece) {
         "║        ║"
         "║        ║"
         "║        ║"
-        "╚════════╝";
-    CheckDump(dump2, board2);
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║      ♟︎ ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    EXPECT_EQ(set, CollectBoardDumps(moves, board));
 }
 
 TEST(Pawn, BlockedPiece) {
     // Check that piece can't go forward if there is another piece there
-    auto board1 = TBoard{}
+    auto board = TBoard{}
         .SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn)
-        .SetBoardPiece({.Column = 1, .Row = 2}, WhitePawn);
+        .SetBoardPiece({.Column = 1, .Row = 2}, WhiteMovedPawn);
 
     // check initial position
-    std::string_view dump1 =
+    std::string_view dump =
         "╔════════╗"
         "║        ║"
         "║        ║"
@@ -107,15 +153,15 @@ TEST(Pawn, BlockedPiece) {
         "║ ♙      ║"
         "║        ║"
         "╚════════╝";
-    CheckDump(dump1, board1);
+    CheckDump(dump, board);
 
     // check that there is only one move possible
-    TMoveContainer moves = GenerateMoves(board1, EPieceColor::White);
+    TMoveContainer moves = GenerateMoves(board, EPieceColor::White);
     EXPECT_EQ(moves.size(), 1);
 
     // apply move and check dump
-    auto board2 = ApplyMove(board1, moves[0]);
-    std::string_view dump2 =
+    std::unordered_set<std::string> set;
+    set.insert(
         "╔════════╗"
         "║        ║"
         "║        ║"
@@ -125,6 +171,7 @@ TEST(Pawn, BlockedPiece) {
         "║        ║"
         "║ ♙      ║"
         "║        ║"
-        "╚════════╝";
-    CheckDump(dump2, board2);
+        "╚════════╝"
+    );
+    EXPECT_EQ(set, CollectBoardDumps(moves, board));
 }
