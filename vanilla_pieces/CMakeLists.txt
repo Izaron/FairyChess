@@ -3,6 +3,7 @@ add_library(
     bishop_piece.cc
     knight_piece.cc
     pawn_piece.cc
+    rook_piece.cc
 )
 
 target_include_directories(vanilla_pieces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -17,6 +18,7 @@ add_executable(
     bishop_piece_ut.cc
     knight_piece_ut.cc
     pawn_piece_ut.cc
+    rook_piece_ut.cc
 )
 
 target_link_libraries(

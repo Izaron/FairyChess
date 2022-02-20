@@ -9,14 +9,14 @@ TEST(PrettyPrinterTest, VanillaBoard) {
 
     std::string_view dump =
         "╔════════╗"
-        "║ ♞♝  ♝♞ ║"
+        "║♜♞♝  ♝♞♜║"
         "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
         "║        ║"
         "║        ║"
         "║        ║"
         "║        ║"
         "║♙♙♙♙♙♙♙♙║"
-        "║ ♘♗  ♗♘ ║"
+        "║♖♘♗  ♗♘♖║"
         "╚════════╝";
 
     std::stringstream ss;
