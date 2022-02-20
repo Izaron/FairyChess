@@ -220,7 +220,7 @@ TEST(Pawn, OnlyOneDoubleMove) {
 }
 
 TEST(Pawn, SimpleCapturing) {
-    // Check that piece can't go forward if there is another piece there
+    // Check that piece can capture diagonally
     auto board = TBoard{}
         .SetBoardPiece({.Column = 1, .Row = 2}, WhiteMovedPawn)
         .SetBoardPiece({.Column = 2, .Row = 3}, BlackMovedPawn)
@@ -283,4 +283,83 @@ TEST(Pawn, SimpleCapturing) {
         "╚════════╝"
     );
     EXPECT_EQ(set, CollectBoardDumps(moves, board));
+}
+
+TEST(Pawn, EnPassantImmediateCapturing) {
+    // Check that piece can capture en passant
+    auto board1 = TBoard{}
+        .SetBoardPiece({.Column = 1, .Row = 4}, WhiteMovedPawn)
+        .SetBoardPiece({.Column = 2, .Row = 6}, BlackPawn);
+
+    // check initial position
+    std::string_view dump1 =
+        "╔════════╗"
+        "║        ║"
+        "║  ♟︎     ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
+    CheckDump(dump1, board1);
+
+    // check that black pawn can move one or two squares forward
+    TMoveContainer moves1 = GenerateMoves(board1, EPieceColor::Black);
+    EXPECT_EQ(moves1.size(), 2);
+
+    // find board where the black pawn moves two squares forward
+    std::string_view dump2 =
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║ ♙♟︎     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
+    std::optional<TBoard> board2;
+    for (const TMove& move : moves1) {
+        TBoard nextBoard = ApplyMove(board1, move);
+        std::stringstream ss;
+        DumpBoard(nextBoard, ss);
+        if (ss.str().data() == dump2) {
+            board2 = nextBoard;
+        }
+    }
+    EXPECT_TRUE(board2);
+
+    // check that white pawn have two moves
+    TMoveContainer moves2 = GenerateMoves(*board2, EPieceColor::White);
+    EXPECT_EQ(moves2.size(), 2);
+
+    std::unordered_set<std::string> set;
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║ ♙      ║"
+        "║  ♟︎     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║        ║"
+        "║        ║"
+        "║  ♙     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    EXPECT_EQ(set, CollectBoardDumps(moves2, *board2));
 }
