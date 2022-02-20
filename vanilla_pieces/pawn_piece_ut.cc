@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "pawn.h"
+#include "pawn_piece.h"
 #include "pretty_printer.h"
 #include "testing.h"
 

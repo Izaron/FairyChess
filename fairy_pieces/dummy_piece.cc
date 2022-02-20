@@ -1,4 +1,4 @@
-#include "dummy.h"
+#include "dummy_piece.h"
 
 namespace NFairyChess::NFairyPieces {
 

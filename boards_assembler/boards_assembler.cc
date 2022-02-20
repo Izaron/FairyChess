@@ -1,7 +1,7 @@
 #include "boards_assembler.h"
 
-#include "pawn.h"
-#include "knight.h"
+#include "pawn_piece.h"
+#include "knight_piece.h"
 
 namespace NFairyChess {
 

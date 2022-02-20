@@ -1,4 +1,4 @@
-#include "pawn.h"
+#include "pawn_piece.h"
 
 namespace NFairyChess::NVanillaPieces {
 

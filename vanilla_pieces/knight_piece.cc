@@ -1,4 +1,4 @@
-#include "knight.h"
+#include "knight_piece.h"
 
 namespace NFairyChess::NVanillaPieces {
 

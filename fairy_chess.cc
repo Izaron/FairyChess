@@ -1,5 +1,5 @@
 #include "board.h"
-#include "pawn.h"
+#include "pawn_piece.h"
 
 using namespace NFairyChess;
 

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "knight.h"
-#include "dummy.h"
+#include "knight_piece.h"
+#include "dummy_piece.h"
 #include "testing.h"
 
 using namespace NFairyChess;

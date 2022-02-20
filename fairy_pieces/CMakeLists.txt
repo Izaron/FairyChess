@@ -1,6 +1,6 @@
 add_library(
     fairy_pieces
-    dummy.cc
+    dummy_piece.cc
 )
 
 target_include_directories(fairy_pieces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
