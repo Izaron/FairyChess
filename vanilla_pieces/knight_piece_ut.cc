@@ -162,6 +162,7 @@ TEST(Knight, Capturing) {
     // find moves
     auto moves = GenerateMoves(board, EPieceColor::White);
     EXPECT_EQ(moves.size(), 4);
+
     // apply move and check dump
     std::unordered_set<std::string> set;
     set.insert(
