@@ -3,6 +3,7 @@ add_library(
     bishop_piece.cc
     knight_piece.cc
     pawn_piece.cc
+    queen_piece.cc
     rook_piece.cc
 )
 
@@ -18,6 +19,7 @@ add_executable(
     bishop_piece_ut.cc
     knight_piece_ut.cc
     pawn_piece_ut.cc
+    queen_piece_ut.cc
     rook_piece_ut.cc
 )
 

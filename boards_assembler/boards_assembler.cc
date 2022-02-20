@@ -3,6 +3,7 @@
 #include "bishop_piece.h"
 #include "knight_piece.h"
 #include "pawn_piece.h"
+#include "queen_piece.h"
 #include "rook_piece.h"
 
 namespace NFairyChess {
@@ -12,18 +13,20 @@ TBoard TBoardAssembler::AssembleVanillaBoard() {
     const auto whiteKnight = TBoardPiece::Create<NVanillaPieces::TKnightPiece>(EPieceColor::White);
     const auto whiteBishop = TBoardPiece::Create<NVanillaPieces::TBishopPiece>(EPieceColor::White);
     const auto whiteRook = TBoardPiece::Create<NVanillaPieces::TRookPiece>(EPieceColor::White);
+    const auto whiteQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::White);
 
     const auto blackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
     const auto blackKnight = TBoardPiece::Create<NVanillaPieces::TKnightPiece>(EPieceColor::Black);
     const auto blackBishop = TBoardPiece::Create<NVanillaPieces::TBishopPiece>(EPieceColor::Black);
     const auto blackRook = TBoardPiece::Create<NVanillaPieces::TRookPiece>(EPieceColor::Black);
+    const auto blackQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::Black);
 
     return TBoard{}
         // white pieces
         .SetBoardPiece({0, 0}, whiteRook)
         .SetBoardPiece({1, 0}, whiteKnight)
         .SetBoardPiece({2, 0}, whiteBishop)
-        // TODO
+        .SetBoardPiece({3, 0}, whiteQueen)
         // TODO
         .SetBoardPiece({5, 0}, whiteBishop)
         .SetBoardPiece({6, 0}, whiteKnight)
@@ -41,7 +44,7 @@ TBoard TBoardAssembler::AssembleVanillaBoard() {
         .SetBoardPiece({0, 7}, blackRook)
         .SetBoardPiece({1, 7}, blackKnight)
         .SetBoardPiece({2, 7}, blackBishop)
-        // TODO
+        .SetBoardPiece({3, 7}, blackQueen)
         // TODO
         // TODO
         .SetBoardPiece({5, 7}, blackBishop)
