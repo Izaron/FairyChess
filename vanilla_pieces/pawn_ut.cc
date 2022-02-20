@@ -1,15 +1,10 @@
 #include <gtest/gtest.h>
 #include "pawn.h"
 #include "pretty_printer.h"
+#include "testing.h"
 
 using namespace NFairyChess;
 using namespace NFairyChess::NVanillaPieces;
-
-static void CheckDump(std::string_view dump, const TBoard& board) {
-    std::stringstream ss;
-    DumpBoard(board, ss);
-    EXPECT_STREQ(dump.data(), ss.str().data());
-}
 
 static TBoardPiece ConstructPawnPiece(TPawnPiece::EMoveStatus moveStatus = TPawnPiece::EMoveStatus::NotMoved,
                                       EPieceColor color = EPieceColor::White)
@@ -23,17 +18,6 @@ const auto WhitePawn = ConstructPawnPiece();
 const auto WhiteMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved);
 const auto BlackPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::NotMoved, EPieceColor::Black);
 const auto BlackMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved, EPieceColor::Black);
-
-std::unordered_set<std::string> CollectBoardDumps(const TMoveContainer& moves, const TBoard& board) {
-    std::unordered_set<std::string> set;
-    for (const auto& move : moves) {
-        TBoard newBoard = ApplyMove(board, move);
-        std::stringstream ss;
-        DumpBoard(newBoard, ss);
-        set.insert(ss.str());
-    }
-    return set;
-}
 
 TEST(Pawn, SingleWhitePiece) {
     auto board = TBoard{}.SetBoardPiece({.Column = 1, .Row = 1}, WhitePawn);

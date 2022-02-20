@@ -17,6 +17,7 @@ target_link_libraries(
     gtest_main
     vanilla_pieces
     pretty_printer
+    testing
 )
 
 include(GoogleTest)
