@@ -13,6 +13,16 @@ struct TMove {
     std::vector<TBoardUpdate> Updates;
 };
 
+class TMoveBuilder {
+public:
+    TMoveBuilder& SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece);
+    TMoveBuilder& RemoveBoardPiece(TBoardPosition position);
+    TMove Build();
+
+private:
+    TMove Move_;
+};
+
 using TMoveContainer = std::vector<TMove>;
 
 struct TMoveContext {

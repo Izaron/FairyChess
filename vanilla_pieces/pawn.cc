@@ -34,9 +34,12 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
             newPawnPiece.GetMoveStatus().SetValue(EMoveStatus::Moved);
         }
 
-        auto& updates = ctx.Moves.emplace_back().Updates;
-        updates.emplace_back(*movePosition, TBoardPiece::CreateFromExisting(color, newPawnPiece));
-        updates.emplace_back(ctx.Position, EmptyBoardPiece());
+        ctx.Moves.push_back(
+            TMoveBuilder{}
+                .SetBoardPiece(*movePosition, TBoardPiece::CreateFromExisting(color, newPawnPiece))
+                .RemoveBoardPiece(ctx.Position)
+                .Build()
+        );
     }
 
     // the pawn can capture a piece diagonally
@@ -53,9 +56,12 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
         // can only capture existing piece of enemy color
         TBoardPiece enemyBoardPiece = ctx.Board.GetBoardPiece(*movePosition);
         if (!enemyBoardPiece.IsEmpty() && enemyBoardPiece.GetColor() != color) {
-            auto& updates = ctx.Moves.emplace_back().Updates;
-            updates.emplace_back(*movePosition, TBoardPiece::CreateFromExisting(color, newPawnPiece));
-            updates.emplace_back(ctx.Position, EmptyBoardPiece());
+            ctx.Moves.push_back(
+                TMoveBuilder{}
+                    .SetBoardPiece(*movePosition, TBoardPiece::CreateFromExisting(color, newPawnPiece))
+                    .RemoveBoardPiece(ctx.Position)
+                    .Build()
+            );
         }
 
         // check if we can capture enemy's pawn en passant
@@ -66,10 +72,13 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
                 const EMoveStatus enemyMoveStatus = pawnOrEmpty.GetPiece().GetMoveStatus().GetValue<EMoveStatus>();
                 if (enemyMoveStatus == EMoveStatus::CanBeCapturedEnPassant) {
                     // we can capture en passant!
-                    auto& updates = ctx.Moves.emplace_back().Updates;
-                    updates.emplace_back(*movePosition, TBoardPiece::CreateFromExisting(color, newPawnPiece));
-                    updates.emplace_back(ctx.Position, EmptyBoardPiece());
-                    updates.emplace_back(*enPassantEnemyPosition, EmptyBoardPiece());
+                    ctx.Moves.push_back(
+                        TMoveBuilder{}
+                            .SetBoardPiece(*movePosition, TBoardPiece::CreateFromExisting(color, newPawnPiece))
+                            .RemoveBoardPiece(*enPassantEnemyPosition)
+                            .RemoveBoardPiece(ctx.Position)
+                            .Build()
+                    );
                 }
             }
         }

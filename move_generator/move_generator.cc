@@ -3,6 +3,19 @@
 
 namespace NFairyChess {
 
+TMoveBuilder& TMoveBuilder::SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece) {
+    Move_.Updates.emplace_back(position, boardPiece);
+    return *this;
+}
+
+TMoveBuilder& TMoveBuilder::RemoveBoardPiece(TBoardPosition position) {
+    return SetBoardPiece(position, EmptyBoardPiece());
+}
+
+TMove TMoveBuilder::Build() {
+    return std::move(Move_);
+}
+
 TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
     const bool isInverted = piecesColor == EPieceColor::Black;
     TMoveContainer moveContainer;
