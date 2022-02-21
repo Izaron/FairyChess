@@ -21,6 +21,7 @@ private:
     std::unordered_map<std::size_t, int> HashedScores_;
     TMove BestMove_;
     int AnalyzedBoards_ = 0;
+    int PreviousAnalyzedBoards_ = 0;
 };
 
 } // namespace NFairyChess

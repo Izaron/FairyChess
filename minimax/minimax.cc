@@ -46,6 +46,7 @@ TMove TMinimax::FindBestMove(const TBoard& board, EPieceColor color) {
             /* alpha = */ std::numeric_limits<int>::min(),
             /* beta = */ std::numeric_limits<int>::max(),
             false);
+    PreviousAnalyzedBoards_ = AnalyzedBoards_;
     return BestMove_;
 }
 
@@ -62,9 +63,9 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
     ++AnalyzedBoards_;
 
     if ((depth <= 0 && !forceSearch) || depth <= -6) {
-    //if (depth <= 0 && !forceSearch) {
-        // terminal level, return only score
-        return EvaluateScore(board);
+        int score = EvaluateScore(board);
+        HashedScores_[hash] = score;
+        return score;
     }
 
     int bestScore = GetInitialScore(color);
@@ -94,9 +95,6 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         TBoard newBoard = ApplyMove(board, move);
 
         const int newBoardPieceScore = EvaluatePieceScore(newBoard);
-        //if (depth <= 0 && newBoardPieceScore == currentBoardPieceScore) {
-            //continue;
-        //}
         const bool forceSearchNow = newBoardPieceScore != currentBoardPieceScore;
 
         int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1,
@@ -117,6 +115,7 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         }
     }
 
+    HashedScores_[hash] = bestScore;
     return bestScore;
 }
 
