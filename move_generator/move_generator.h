@@ -43,7 +43,7 @@ struct TMoveContext {
     TOrientedBoard Board;
 
     // additional info about current piece
-    TBoardPosition Position;
+    const TBoardPosition Position;
 };
 
 TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor);

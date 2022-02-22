@@ -5,7 +5,6 @@ namespace NFairyChess {
 TBoard::TBoard(int columns, int rows)
     : Columns_{columns}
     , Rows_{rows}
-    , BoardPieces_{static_cast<std::size_t>(columns * rows)}
 {
 }
 
@@ -33,16 +32,16 @@ int TBoard::GetRows() const {
     return Rows_;
 }
 
-std::optional<TBoardPosition> TBoard::ShiftPosition(TBoardPosition position,
-    TBoardPosition deltaPosition) const
-{
+bool TBoard::ShiftPosition(TBoardPosition& position, TBoardPosition deltaPosition) const {
     // check for overflow
     int col = position.Column + deltaPosition.Column;
     int row = position.Row + deltaPosition.Row;
     if (col < 0 || col >= Columns_ || row < 0 || row >= Rows_) {
-        return {};
+        return false;
     }
-    return TBoardPosition{.Column = col, .Row = row};
+    position.Column = col;
+    position.Row = row;
+    return true;
 }
 
 TBoardPosition TBoard::InversePosition(TBoardPosition position) const {

@@ -8,13 +8,13 @@ namespace {
 
 bool TryAddForwardMove(TPawnPiece pawnPiece, TMoveContext& ctx, int dist) {
     // check move position for correctness
-    auto movePosition = ctx.Board.ShiftPosition(ctx.Position, TBoardPosition{.Column = 0, .Row = dist});
-    if (!movePosition) {
+    TBoardPosition movePosition = ctx.Position;
+    if (!ctx.Board.ShiftPosition(movePosition, TBoardPosition{.Column = 0, .Row = dist})) {
         return false;
     }
 
     // break if this square is blocked by another piece
-    if (!ctx.Board.GetBoardPiece(*movePosition).IsEmpty()) {
+    if (!ctx.Board.GetBoardPiece(movePosition).IsEmpty()) {
         return false;
     }
 
@@ -28,7 +28,7 @@ bool TryAddForwardMove(TPawnPiece pawnPiece, TMoveContext& ctx, int dist) {
     const EPieceColor color = ctx.Board.GetBoardPiece(ctx.Position).GetColor();
     ctx.Moves.Add(
         TMoveBuilder{}
-            .SetBoardPiece(*movePosition, TBoardPiece::CreateFromExisting(color, pawnPiece))
+            .SetBoardPiece(movePosition, TBoardPiece::CreateFromExisting(color, pawnPiece))
             .RemoveBoardPiece(ctx.Position)
             .Build()
     );
@@ -73,8 +73,8 @@ void TryAddEnPassantCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx, TBoar
 
 void TryAddCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx, int deltaCol) {
     // check move position for correctness
-    auto movePosition = ctx.Board.ShiftPosition(ctx.Position, TBoardPosition{.Column = deltaCol, .Row = 1});
-    if (!movePosition) {
+    TBoardPosition movePosition = ctx.Position;
+    if (!ctx.Board.ShiftPosition(movePosition, TBoardPosition{.Column = deltaCol, .Row = 1})) {
         return;
     }
 
@@ -82,11 +82,12 @@ void TryAddCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx, int deltaCol) 
     const EPieceColor color = ctx.Board.GetBoardPiece(ctx.Position).GetColor();
 
     // can only capture existing piece of enemy color
-    TryAddSimpleCapturingMove(pawnPiece, ctx, *movePosition, color);
+    TryAddSimpleCapturingMove(pawnPiece, ctx, movePosition, color);
 
     // check if we can capture enemy's pawn en passant
-    auto enPassantPosition = ctx.Board.ShiftPosition(ctx.Position, TBoardPosition{.Column = deltaCol, .Row = 0});
-    TryAddEnPassantCapturingMove(pawnPiece, ctx, *movePosition, *enPassantPosition, color);
+    TBoardPosition enPassantPosition = ctx.Position;
+    ctx.Board.ShiftPosition(enPassantPosition, TBoardPosition{.Column = deltaCol, .Row = 0});
+    TryAddEnPassantCapturingMove(pawnPiece, ctx, movePosition, enPassantPosition, color);
 }
 
 } // namespace

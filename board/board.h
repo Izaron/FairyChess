@@ -1,7 +1,6 @@
 #pragma once
 
-#include <optional>
-#include <vector>
+#include <array>
 
 #include "board_piece.h"
 
@@ -69,7 +68,7 @@ public:
     };
 
 public:
-    using TBoardPiecesContainer = std::vector<TBoardPiece>;
+    using TBoardPiecesContainer = std::array<TBoardPiece, 64>;
 
 public:
     TBoard(int columns = 8, int rows = 8);
@@ -92,8 +91,7 @@ public:
     // methods for working with coordinates
     int GetColumns() const;
     int GetRows() const;
-    std::optional<TBoardPosition> ShiftPosition(TBoardPosition position,
-        TBoardPosition deltaPosition) const;
+    bool ShiftPosition(TBoardPosition& position, TBoardPosition deltaPosition) const;
     TBoardPosition InversePosition(TBoardPosition position) const;
 
     // generate a unique hash of this board
@@ -115,14 +113,12 @@ public:
         , IsInverted_{isInverted}
     {}
 
-    template<typename... TArgs>
-    decltype(auto) GetBoardPiece(TArgs... args) const {
-        return Board_.GetBoardPiece(std::forward<TArgs>(args)..., IsInverted_);
+    TBoardPiece GetBoardPiece(TBoardPosition position) const {
+        return Board_.GetBoardPiece(position, IsInverted_);
     }
 
-    template<typename... TArgs>
-    decltype(auto) ShiftPosition(TArgs... args) const {
-        return Board_.ShiftPosition(std::forward<TArgs>(args)...);
+    bool ShiftPosition(TBoardPosition& position, TBoardPosition deltaPosition) const {
+        return Board_.ShiftPosition(position, deltaPosition);
     }
 
 private:

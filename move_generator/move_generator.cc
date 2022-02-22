@@ -77,11 +77,9 @@ void AddStandardMoves(TMoveContext& ctx, EMoveType moveType, TBoardPosition delt
     const EPieceColor color = boardPiece.GetColor();
 
     while (true) {
-        auto optionalPosition = ctx.Board.ShiftPosition(currentPosition, deltaPosition);
-        if (!optionalPosition) {
+        if (!ctx.Board.ShiftPosition(currentPosition, deltaPosition)) {
             break;
         }
-        currentPosition = *optionalPosition;
 
         TMove move = TMoveBuilder{}
             .SetBoardPiece(currentPosition, boardPiece)

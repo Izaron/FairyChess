@@ -7,8 +7,8 @@
 using namespace NFairyChess;
 
 int main() {
-    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
-    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
+    TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::cout << "Current board:" << std::endl;
     DumpBoard(board, std::cout, /* useNewline = */ true);
 
@@ -17,7 +17,7 @@ int main() {
     {
         TMinimax minimax{4};
         int analyzedBoards = minimax.GetAnalyzedBoards();
-        for (int i = 0; i < 25; ++i) {
+        for (int i = 0; i < 100; ++i) {
             const clock_t begin_time = clock();
             TMove move = minimax.FindBestMove(board, currentColor);
             const double secs = double(clock () - begin_time) /  CLOCKS_PER_SEC;
