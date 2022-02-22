@@ -26,18 +26,34 @@ private:
     TMove Move_;
 };
 
-struct TMoveContainer {
+struct IMoveContainer {
+    ~IMoveContainer() = default;
+    virtual void Add(const TMove& move) = 0;
+    virtual void InverseMoves(const TBoard& board) = 0;
+};
+
+struct TMoveContainer : IMoveContainer {
     std::array<TMove, 128> Moves;
     std::size_t MovesCount = 0;
 
-    void Add(TMove move) {
-        Moves[MovesCount++] = std::move(move);
+    void Add(const TMove& move) override {
+        Moves[MovesCount++] = move;
     }
+    void InverseMoves(const TBoard& board) override;
+};
+
+struct TDummyMoveContainer : IMoveContainer {
+    std::size_t MovesCount = 0;
+
+    void Add(const TMove& move) override {
+        MovesCount++;
+    }
+    void InverseMoves(const TBoard& /* board */) override {}
 };
 
 struct TMoveContext {
     // new moves should be written here
-    TMoveContainer& Moves;
+    IMoveContainer& Moves;
 
     // used to "look around" to see other pieces
     TOrientedBoard Board;
@@ -46,7 +62,7 @@ struct TMoveContext {
     const TBoardPosition Position;
 };
 
-TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor);
+void GenerateMoves(IMoveContainer& moveContainer, const TBoard& board, EPieceColor piecesColor);
 
 TBoard ApplyMove(const TBoard& board, const TMove& move);
 

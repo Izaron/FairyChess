@@ -92,7 +92,8 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
 
     int bestScore = GetInitialScore(color);
 
-    TMoveContainer moveContainer = GenerateMoves(board, color);
+    TMoveContainer moveContainer;
+    GenerateMoves(moveContainer, board, color);
 
     // sort moves by their immediate score
     auto movesBeginIter = std::begin(moveContainer.Moves);

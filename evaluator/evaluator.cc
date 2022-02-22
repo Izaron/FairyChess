@@ -28,8 +28,16 @@ TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves) {
 
     // calculate number of available moves
     if (calculateAvailableMoves) {
-        result.WhiteAvailableMoves = GenerateMoves(board, EPieceColor::White).MovesCount;
-        result.BlackAvailableMoves = GenerateMoves(board, EPieceColor::Black).MovesCount;
+        {
+            TDummyMoveContainer moveContainer;
+            GenerateMoves(moveContainer, board, EPieceColor::White);
+            result.WhiteAvailableMoves = moveContainer.MovesCount;
+        }
+        {
+            TDummyMoveContainer moveContainer;
+            GenerateMoves(moveContainer, board, EPieceColor::Black);
+            result.BlackAvailableMoves = moveContainer.MovesCount;
+        }
     }
 
     return result;

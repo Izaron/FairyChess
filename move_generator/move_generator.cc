@@ -16,8 +16,16 @@ TMove TMoveBuilder::Build() {
     return std::move(Move_);
 }
 
-TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
-    TMoveContainer moveContainer;
+void TMoveContainer::InverseMoves(const TBoard& board) {
+    for (std::size_t moveNum = 0; moveNum < MovesCount; ++moveNum) {
+        auto& move = Moves[moveNum];
+        for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
+            move.Updates[i].Position = board.InversePosition(move.Updates[i].Position);
+        }
+    }
+}
+
+void GenerateMoves(IMoveContainer& moveContainer, const TBoard& board, EPieceColor piecesColor) {
     const bool isInverted = piecesColor == EPieceColor::Black;
     for (auto iter : board) {
         auto& boardPiece = iter.BoardPiece;
@@ -42,15 +50,8 @@ TMoveContainer GenerateMoves(const TBoard& board, EPieceColor piecesColor) {
 
     // inverse back position for black pieces
     if (isInverted) {
-        for (std::size_t moveNum = 0; moveNum < moveContainer.MovesCount; ++moveNum) {
-            auto& move = moveContainer.Moves[moveNum];
-            for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
-                move.Updates[i].Position = board.InversePosition(move.Updates[i].Position);
-            }
-        }
+        moveContainer.InverseMoves(board);
     }
-
-    return moveContainer;
 }
 
 TBoard ApplyMove(const TBoard& board, const TMove& move) {
