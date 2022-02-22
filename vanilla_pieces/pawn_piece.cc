@@ -1,4 +1,8 @@
 #include "pawn_piece.h"
+#include "queen_piece.h"
+#include "rook_piece.h"
+#include "knight_piece.h"
+#include "bishop_piece.h"
 
 namespace NFairyChess::NVanillaPieces {
 
@@ -6,10 +10,34 @@ using enum TPawnPiece::EMoveStatus;
 
 namespace {
 
-//void AddMoveWithPromotionCheck(TPawnPiece pawnPiece, TMoveContext& ctx,
-                               //TBoardPosition movePosition, EPieceColor currentColor)
-//{
-//}
+void AddMoveWithPromotionCheck(TPawnPiece pawnPiece, TMoveContext& ctx,
+                               TBoardPosition movePosition, EPieceColor color)
+{
+    if (movePosition.Row == ctx.Board.GetRows() - 1) {
+        // a pawn on the last row should be promoted to a valuable piece
+        std::array<TBoardPiece, 4> arr = {
+            TBoardPiece::Create<TQueenPiece>(color),
+            TBoardPiece::Create<TRookPiece>(color),
+            TBoardPiece::Create<TKnightPiece>(color),
+            TBoardPiece::Create<TBishopPiece>(color),
+        };
+        for (TBoardPiece boardPiece : arr) {
+            ctx.Moves.Add(
+                TMoveBuilder{}
+                    .SetBoardPiece(movePosition, boardPiece)
+                    .RemoveBoardPiece(ctx.Position)
+                    .Build()
+            );
+        }
+    } else {
+        ctx.Moves.Add(
+            TMoveBuilder{}
+                .SetBoardPiece(movePosition, TBoardPiece::CreateFromExisting(color, pawnPiece))
+                .RemoveBoardPiece(ctx.Position)
+                .Build()
+        );
+    }
+}
 
 bool TryAddForwardMove(TPawnPiece pawnPiece, TMoveContext& ctx, int dist) {
     // check move position for correctness
@@ -31,12 +59,7 @@ bool TryAddForwardMove(TPawnPiece pawnPiece, TMoveContext& ctx, int dist) {
     }
 
     const EPieceColor color = ctx.Board.GetBoardPiece(ctx.Position).GetColor();
-    ctx.Moves.Add(
-        TMoveBuilder{}
-            .SetBoardPiece(movePosition, TBoardPiece::CreateFromExisting(color, pawnPiece))
-            .RemoveBoardPiece(ctx.Position)
-            .Build()
-    );
+    AddMoveWithPromotionCheck(pawnPiece, ctx, movePosition, color);
     return true;
 }
 
@@ -45,12 +68,7 @@ void TryAddSimpleCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx,
 {
     TBoardPiece enemyBoardPiece = ctx.Board.GetBoardPiece(movePosition);
     if (!enemyBoardPiece.IsEmpty() && enemyBoardPiece.GetColor() != currentColor) {
-        ctx.Moves.Add(
-            TMoveBuilder{}
-                .SetBoardPiece(movePosition, TBoardPiece::CreateFromExisting(currentColor, pawnPiece))
-                .RemoveBoardPiece(ctx.Position)
-                .Build()
-        );
+        AddMoveWithPromotionCheck(pawnPiece, ctx, movePosition, currentColor);
     }
 }
 

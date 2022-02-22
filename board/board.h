@@ -121,6 +121,9 @@ public:
         return Board_.ShiftPosition(position, deltaPosition);
     }
 
+    int GetColumns() const { return Board_.GetColumns(); }
+    int GetRows() const { return Board_.GetRows(); }
+
 private:
     const TBoard& Board_;
     const bool IsInverted_;

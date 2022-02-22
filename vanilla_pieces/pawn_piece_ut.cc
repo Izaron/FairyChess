@@ -361,3 +361,79 @@ TEST(Pawn, EnPassantImmediateCapturing) {
     );
     EXPECT_EQ(set, CollectBoardDumps(moves2, *board2));
 }
+
+TEST(Pawn, Promotion) {
+    // Check that piece can capture en passant
+    auto board1 = TBoard{}
+        .SetBoardPiece({.Column = 2, .Row = 6}, WhiteMovedPawn);
+
+    // check initial position
+    std::string_view dump1 =
+        "╔════════╗"
+        "║        ║"
+        "║  ♙     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝";
+    CheckDump(dump1, board1);
+
+    // check that pawn moves forward and promotes to a valuable figure
+    TMoveContainer moves1;
+    GenerateMoves(moves1, board1, EPieceColor::White);
+    EXPECT_EQ(moves1.MovesCount, 4);
+
+    std::unordered_set<std::string> set;
+    set.insert(
+        "╔════════╗"
+        "║  ♕     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║  ♖     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║  ♘     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    set.insert(
+        "╔════════╗"
+        "║  ♗     ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "╚════════╝"
+    );
+    EXPECT_EQ(set, CollectBoardDumps(moves1, board1));
+}
