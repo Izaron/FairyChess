@@ -7,8 +7,8 @@
 using namespace NFairyChess;
 
 int main() {
-    //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
-    TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
+    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::cout << "Current board:" << std::endl;
     DumpBoard(board, std::cout, /* useNewline = */ true);
 

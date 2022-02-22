@@ -114,8 +114,6 @@ void TPawnPiece::FillMoves(TMoveContext ctx) {
     for (int deltaCol : {-1, 1}) {
         TryAddCapturingMove(*this, ctx, deltaCol);
     }
-
-    // TODO: make pawn promotion
 }
 
 bool TPawnPiece::AfterMoveApply() {

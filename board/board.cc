@@ -24,14 +24,6 @@ TBoardPiece TBoard::GetBoardPiece(TBoardPosition position, bool isInverted) cons
     return GetBoardPiece(position);
 }
 
-int TBoard::GetColumns() const {
-    return Columns_;
-}
-
-int TBoard::GetRows() const {
-    return Rows_;
-}
-
 bool TBoard::ShiftPosition(TBoardPosition& position, TBoardPosition deltaPosition) const {
     // check for overflow
     int col = position.Column + deltaPosition.Column;

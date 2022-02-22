@@ -89,8 +89,8 @@ public:
     }
 
     // methods for working with coordinates
-    int GetColumns() const;
-    int GetRows() const;
+    int GetColumns() const { return Columns_; }
+    int GetRows() const { return Rows_; }
     bool ShiftPosition(TBoardPosition& position, TBoardPosition deltaPosition) const;
     TBoardPosition InversePosition(TBoardPosition position) const;
 
