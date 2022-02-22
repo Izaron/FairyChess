@@ -1,5 +1,6 @@
 #include "minimax.h"
 #include "evaluator.h"
+#include "king_piece.h"
 
 #include <limits>
 #include <iostream>
@@ -8,7 +9,28 @@ namespace NFairyChess {
 
 namespace {
 
-using TMoveAndScore = std::pair<TMove, int>;
+bool CanCaptureKing(const TBoard& board, const TMove& move) {
+    int kingsBalance = 0;
+    for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
+        const TBoardUpdate& update = move.Updates[i];
+        if (board.GetBoardPiece(update.Position).GetPieceId() == NVanillaPieces::TKingPiece::PieceId) {
+            --kingsBalance;
+        }
+        if (TBoardPiece{update.NewBoardPiece}.GetPieceId() == NVanillaPieces::TKingPiece::PieceId) {
+            ++kingsBalance;
+        }
+    }
+    return kingsBalance != 0;
+}
+
+bool CanCaptureKing(const TBoard& board, const TMoveContainer& moveContainer) {
+    for (std::size_t i = 0; i < moveContainer.MovesCount; ++i) {
+        if (CanCaptureKing(board, moveContainer.Moves[i])) {
+            return true;
+        }
+    }
+    return false;
+}
 
 int EvaluateScore(const TBoard& board) {
     TEvaluationResult eval = Evaluate(board);
@@ -45,7 +67,7 @@ TMove TMinimax::FindBestMove(const TBoard& board, EPieceColor color) {
     FindBestScore(board, color, InitDepth_,
             /* alpha = */ std::numeric_limits<int>::min(),
             /* beta = */ std::numeric_limits<int>::max(),
-            false);
+            /* prolongatedDepth = */ 0);
     PreviousAnalyzedBoards_ = AnalyzedBoards_;
     return BestMove_;
 }
@@ -55,14 +77,14 @@ int TMinimax::GetAnalyzedBoards() const {
 }
 
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
-                            int depth, int alpha, int beta, bool forceSearch) {
+                            int depth, int alpha, int beta, int prolongatedDepth) {
     std::size_t hash = board.CalculateHash(depth);
     if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
         return iter->second;
     }
     ++AnalyzedBoards_;
 
-    if ((depth <= 0 && !forceSearch) || depth <= -6) {
+    if ((depth <= 0 && !prolongatedDepth) || depth <= -6) {
         int score = EvaluateScore(board);
         HashedScores_[hash] = score;
         return score;
@@ -95,10 +117,25 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         TBoard newBoard = ApplyMove(board, move);
 
         const int newBoardPieceScore = EvaluatePieceScore(newBoard);
-        const bool forceSearchNow = newBoardPieceScore != currentBoardPieceScore;
+        int newProlongatedDepth = std::max(0, prolongatedDepth - 1);
+        if (newBoardPieceScore != currentBoardPieceScore) {
+            newProlongatedDepth = std::max(newProlongatedDepth, 1);
+        }
+
+        //if (!newProlongatedDepth && depth - 1 <= 0) {
+            // we can prolongate if we made a check
+            //TMoveContainer nextMoveContainer = GenerateMoves(newBoard, color);
+            //if (CanCaptureKing(newBoard, nextMoveContainer)) {
+                //newProlongatedDepth = 2;
+            //}
+        //}
+
+        //if (!newProlongatedDepth && AnalyzedBoards_ - PreviousAnalyzedBoards_ >= 15 * 60000) {
+            //continue;
+        //}
 
         int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1,
-                                  alpha, beta, forceSearchNow);
+                                  alpha, beta, newProlongatedDepth);
         UpdateBestScore(bestScore, score, color);
 
         if (bestScore == score && depth == InitDepth_) {
