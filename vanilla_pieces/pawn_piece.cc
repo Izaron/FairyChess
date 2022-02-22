@@ -6,6 +6,11 @@ using enum TPawnPiece::EMoveStatus;
 
 namespace {
 
+//void AddMoveWithPromotionCheck(TPawnPiece pawnPiece, TMoveContext& ctx,
+                               //TBoardPosition movePosition, EPieceColor currentColor)
+//{
+//}
+
 bool TryAddForwardMove(TPawnPiece pawnPiece, TMoveContext& ctx, int dist) {
     // check move position for correctness
     TBoardPosition movePosition = ctx.Position;

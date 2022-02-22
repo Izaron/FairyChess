@@ -29,7 +29,8 @@ TEST(Bishop, AllMoves) {
     CheckDump(dump, board);
 
     // find moves
-    auto moves = GenerateMoves(board, EPieceColor::White);
+    TMoveContainer moves;
+    GenerateMoves(moves, board, EPieceColor::White);
     EXPECT_EQ(moves.MovesCount, 13);
 }
 
@@ -56,7 +57,8 @@ TEST(Bishop, Capturing) {
     CheckDump(dump, board);
 
     // find moves
-    auto moves = GenerateMoves(board, EPieceColor::White);
+    TMoveContainer moves;
+    GenerateMoves(moves, board, EPieceColor::White);
     EXPECT_EQ(moves.MovesCount, 2);
 
     // apply move and check dump

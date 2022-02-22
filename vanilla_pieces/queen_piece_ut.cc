@@ -29,7 +29,8 @@ TEST(Queen, AllMoves) {
     CheckDump(dump, board);
 
     // find moves
-    auto moves = GenerateMoves(board, EPieceColor::White);
+    TMoveContainer moves;
+    GenerateMoves(moves, board, EPieceColor::White);
     EXPECT_EQ(moves.MovesCount, 27);
 }
 
@@ -60,6 +61,7 @@ TEST(Queen, Capturing) {
     CheckDump(dump, board);
 
     // find moves
-    auto moves = GenerateMoves(board, EPieceColor::White);
+    TMoveContainer moves;
+    GenerateMoves(moves, board, EPieceColor::White);
     EXPECT_EQ(moves.MovesCount, 12);
 }
