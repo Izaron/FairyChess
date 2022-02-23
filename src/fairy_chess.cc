@@ -41,7 +41,8 @@ int main() {
     // create board
     //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
-    TBoard board = TBoardAssembler::AssembleHordeBoard();
+    //TBoard board = TBoardAssembler::AssembleHordeBoard();
+    TBoard board = TBoardAssembler::AssemblePeasantsRevoltBoard();
 
     // create render window
     sf::ContextSettings settings;
@@ -68,7 +69,7 @@ int main() {
     EPieceColor currentColor = EPieceColor::White;
 
     {
-        TMinimax minimax{4};
+        TMinimax minimax{6};
         int analyzedBoards = minimax.GetAnalyzedBoards();
         for (int i = 0; i < 300; ++i) {
             const clock_t begin_time = clock();

@@ -11,6 +11,7 @@ struct TBoardAssembler {
     // standard board but different number of pieces
     static TBoard AssembleChargeOfTheLightBrigadeBoard();
     static TBoard AssembleHordeBoard();
+    static TBoard AssemblePeasantsRevoltBoard();
 };
 
 } // namespace NFairyChess

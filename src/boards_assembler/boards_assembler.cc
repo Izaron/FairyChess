@@ -149,4 +149,26 @@ TBoard TBoardAssembler::AssembleHordeBoard() {
     return board;
 }
 
+TBoard TBoardAssembler::AssemblePeasantsRevoltBoard() {
+    return TBoard{}
+        // White pieces
+        .SetBoardPiece({4, 0}, WhiteKing)
+        .SetBoardPiece({0, 1}, WhitePawn)
+        .SetBoardPiece({1, 1}, WhitePawn)
+        .SetBoardPiece({2, 1}, WhitePawn)
+        .SetBoardPiece({3, 1}, WhitePawn)
+        .SetBoardPiece({4, 1}, WhitePawn)
+        .SetBoardPiece({5, 1}, WhitePawn)
+        .SetBoardPiece({6, 1}, WhitePawn)
+        .SetBoardPiece({7, 1}, WhitePawn)
+
+        // Black pieces
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackKnight)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackKnight)
+        .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({4, 6}, BlackPawn);
+}
+
 } // namespace NFairyChess
