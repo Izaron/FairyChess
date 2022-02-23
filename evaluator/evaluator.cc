@@ -43,4 +43,28 @@ TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves) {
     return result;
 }
 
+TEvaluationResult EvaluateDelta(const TBoard& board, const TMove& move) {
+    TEvaluationResult result;
+    for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
+        const TBoardUpdate& update = move.Updates[i];
+
+        // substract the old piece cost
+        TBoardPiece oldBoardPiece = board.GetBoardPiece(update.Position);
+        if (!oldBoardPiece.IsEmpty()) {
+            const int rawCost = GetRawCost(oldBoardPiece);
+            (oldBoardPiece.GetColor() == EPieceColor::White ?
+                result.WhiteCost : result.BlackCost) -= rawCost;
+        }
+
+        // add the new piece cost
+        TBoardPiece newBoardPiece = update.NewBoardPiece;
+        if (!newBoardPiece.IsEmpty()) {
+            const int rawCost = GetRawCost(newBoardPiece);
+            (newBoardPiece.GetColor() == EPieceColor::White ?
+                result.WhiteCost : result.BlackCost) += rawCost;
+        }
+    }
+    return result;
+}
+
 } // namespace NFairyChess

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "board.h"
+#include "move_generator.h"
 
 namespace NFairyChess {
 
@@ -13,5 +14,6 @@ struct TEvaluationResult {
 };
 
 TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves = true);
+TEvaluationResult EvaluateDelta(const TBoard& board, const TMove& move);
 
 } // namespace NFairyChess

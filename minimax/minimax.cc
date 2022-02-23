@@ -44,9 +44,12 @@ int GetInitialScore(EPieceColor color) {
         std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
 }
 
-int EvaluatePieceScore(const TBoard& board) {
-    TEvaluationResult eval = Evaluate(board, /* calculateAvailableMoves = */ false);
+int EvaluatePieceScore(const TEvaluationResult& eval) {
     return eval.WhiteCost - eval.BlackCost;
+}
+
+int EvaluatePieceScore(const TBoard& board) {
+    return EvaluatePieceScore(Evaluate(board, /* calculateAvailableMoves = */ false));
 }
 
 void UpdateBestScore(int& bestScore, int newScore, EPieceColor color) {
@@ -105,9 +108,8 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
     std::advance(movesEndIter, moveContainer.MovesCount);
     std::sort(movesBeginIter, movesEndIter,
         [&board, color](const TMove& oneMove, const TMove& twoMove) {
-            // FIXME: calculate without ApplyMove
-            const int oneScore = EvaluatePieceScore(ApplyMove(board, oneMove));
-            const int twoScore = EvaluatePieceScore(ApplyMove(board, twoMove));
+            const int oneScore = EvaluatePieceScore(EvaluateDelta(board, oneMove));
+            const int twoScore = EvaluatePieceScore(EvaluateDelta(board, twoMove));
             if (color == EPieceColor::White) {
                 return oneScore > twoScore;
             } else {
