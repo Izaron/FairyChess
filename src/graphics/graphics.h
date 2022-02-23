@@ -13,7 +13,7 @@ public:
     void DrawBoard(const TBoard& board);
 
 public:
-    static constexpr unsigned int SquarePixelSize = 100;
+    static constexpr unsigned int SquarePixelSize = 80;
 
 private:
     sf::RenderWindow& Window_;

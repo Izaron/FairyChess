@@ -33,6 +33,12 @@ find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 list(APPEND EXTRA_LIBS sfml-graphics sfml-window sfml-system)
 
 
+# add threads library
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+list(APPEND EXTRA_LIBS Threads::Threads)
+
 # link the executable
 target_link_libraries(fairy_chess PUBLIC ${EXTRA_LIBS})
 

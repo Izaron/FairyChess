@@ -5,13 +5,42 @@
 #include "minimax.h"
 #include "pretty_printer.h"
 
+#include <thread>
 #include <iostream>
 
 using namespace NFairyChess;
 
+namespace {
+
+std::mutex BoardMutex;
+
+void RenderingThread(sf::RenderWindow& window, TGraphics& graphics, TBoard& board) {
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        TBoard boardCopy;
+        {
+            std::lock_guard<std::mutex> guard(BoardMutex);
+            boardCopy = board;
+        }
+
+        window.clear();
+        graphics.DrawBoard(boardCopy);
+        window.display();
+    }
+}
+
+} // namespace
+
 int main() {
     // create board
-    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
+    TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
 
     // create render window
     sf::ContextSettings settings;
@@ -29,22 +58,9 @@ int main() {
         return 1;
     }
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    std::thread renderingThread{RenderingThread, std::ref(window), std::ref(graphics),
+                                std::ref(board)};
 
-        window.clear();
-        graphics.DrawBoard(board);
-        window.display();
-    }
-
-
-    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::cout << "Current board:" << std::endl;
     DumpBoard(board, std::cout, /* useNewline = */ true);
 
@@ -53,7 +69,7 @@ int main() {
     {
         TMinimax minimax{4};
         int analyzedBoards = minimax.GetAnalyzedBoards();
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 300; ++i) {
             const clock_t begin_time = clock();
             auto moveOrGameEnd = minimax.FindBestMoveOrGameEnd(board, currentColor);
             const double secs = double(clock () - begin_time) /  CLOCKS_PER_SEC;
@@ -69,6 +85,7 @@ int main() {
                         break;
                     }
                 }
+                break;
             }
             TMove move = std::get<TMove>(moveOrGameEnd);
 
@@ -78,7 +95,12 @@ int main() {
                 << newAnalyzedBoard << ", time taken: " << secs << "s"
                 << ", average speed " << (newAnalyzedBoard - analyzedBoards) / secs
                 << " boards/s" << std::endl;
-            board = ApplyMove(board, move);
+
+            {
+                std::lock_guard<std::mutex> guard(BoardMutex);
+                board = ApplyMove(board, move);
+            }
+
             TEvaluationResult eval = Evaluate(board);
             std::cerr << "Current white score: " << eval.WhiteCost + 10 * eval.WhiteAvailableMoves
                 << ", black score: " << eval.BlackCost + 10 * eval.BlackAvailableMoves << std::endl;
@@ -90,4 +112,6 @@ int main() {
             analyzedBoards = newAnalyzedBoard;
         }
     }
+
+    renderingThread.join();
 }
