@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast")
 add_executable(fairy_chess fairy_chess.cc)
 
 
-# link libraries
+# add our libraries
 add_subdirectory(bit_storage)
 add_subdirectory(board)
 add_subdirectory(boards_assembler)
@@ -27,9 +27,16 @@ list(APPEND EXTRA_LIBS bit_storage board boards_assembler evaluator
                        move_generator piece pretty_printer vanilla_pieces
                        minimax)
 
+# add SFML libraries (for graphics)
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+list(APPEND EXTRA_LIBS sfml-graphics sfml-window sfml-system)
+
+
+# link the executable
 target_link_libraries(fairy_chess PUBLIC ${EXTRA_LIBS})
 
-# enable gtest
+
+# enable gtest (for testing)
 include(FetchContent)
 FetchContent_Declare(
   googletest
