@@ -205,7 +205,7 @@ TEST(MinimaxTest, SimpleDefeatDetection) {
 
     TMinimax minimax{/* depth = */ 2};
     EGameEnd gameEnd = std::get<EGameEnd>(minimax.FindBestMoveOrGameEnd(board1, EPieceColor::White));
-    EXPECT_EQ(gameEnd, EGameEnd::Defeat);
+    EXPECT_EQ(gameEnd, EGameEnd::Checkmate);
 }
 
 TEST(MinimaxTest, SimpleStalemateDetection) {

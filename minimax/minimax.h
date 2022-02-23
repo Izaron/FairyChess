@@ -7,7 +7,7 @@
 namespace NFairyChess {
 
 enum class EGameEnd {
-    Defeat, // any move will lead to defeat, and the enemy is attacking the king
+    Checkmate, // any move will lead to defeat, and the enemy is attacking the king
     Stalemate, // same as above, but the enemy is not attacking the king
 };
 

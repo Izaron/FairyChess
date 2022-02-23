@@ -79,7 +79,7 @@ std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& boar
                 /* beta = */ std::numeric_limits<int>::max(),
                 /* prolongatedDepth = */ 0);
         if (skipMoveScore == GetMaximalScore(InvertPieceColor(color))) {
-            return EGameEnd::Defeat;
+            return EGameEnd::Checkmate;
         } else {
             return EGameEnd::Stalemate;
         }

@@ -25,8 +25,8 @@ int main() {
 
             if (const EGameEnd* gameEnd = std::get_if<EGameEnd>(&moveOrGameEnd)) {
                 switch (*gameEnd) {
-                    case EGameEnd::Defeat: {
-                        std::cerr << "Game ended, the enemy won!" << std::endl;
+                    case EGameEnd::Checkmate: {
+                        std::cerr << "Game ended, it's a checkmate!" << std::endl;
                         break;
                     }
                     case EGameEnd::Stalemate: {
