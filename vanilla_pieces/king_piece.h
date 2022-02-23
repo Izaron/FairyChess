@@ -12,6 +12,19 @@ public:
     static constexpr std::string_view BlackDumpStr = "♚";
 
 public:
+    enum class EMoveStatus {
+        // the king has not moved yet, meaning that
+        // it may be able to castle
+        NotMoved,
+        // the king has moved
+        Moved,
+    };
+
+public:
+    auto GetMoveStatus() {
+        return GetView<0, 1>();
+    }
+
     void FillMoves(TMoveContext moveContext);
 };
 

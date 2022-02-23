@@ -12,6 +12,20 @@ public:
     static constexpr std::string_view BlackDumpStr = "♜";
 
 public:
+    enum class EMoveStatus {
+        // the rook has not moved yet, meaning that
+        // it may be able to castle
+        NotMoved,
+        // the rook has moved
+        Moved,
+    };
+
+public:
+    auto GetMoveStatus() {
+        return GetView<0, 1>();
+    }
+
+public:
     void FillMoves(TMoveContext moveContext);
 };
 

@@ -1,6 +1,7 @@
 #include "minimax.h"
 #include "evaluator.h"
 #include "king_piece.h"
+#include "pretty_printer.h"
 
 #include <limits>
 #include <iostream>
@@ -78,15 +79,18 @@ int TMinimax::GetAnalyzedBoards() const {
 
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
                             int depth, int alpha, int beta, int prolongatedDepth) {
+    // FIXME: WRONG HASH!!!
     std::size_t hash = board.CalculateHash(depth);
     if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
         return iter->second;
     }
     ++AnalyzedBoards_;
 
+    //DumpBoard(board, std::cout, true);
+
     if ((depth <= 0 && !prolongatedDepth) || depth <= -6) {
         int score = EvaluateScore(board);
-        HashedScores_[hash] = score;
+        //HashedScores_[hash] = score;
         return score;
     }
 
@@ -101,6 +105,7 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
     std::advance(movesEndIter, moveContainer.MovesCount);
     std::sort(movesBeginIter, movesEndIter,
         [&board, color](const TMove& oneMove, const TMove& twoMove) {
+            // FIXME: calculate without ApplyMove
             const int oneScore = EvaluatePieceScore(ApplyMove(board, oneMove));
             const int twoScore = EvaluatePieceScore(ApplyMove(board, twoMove));
             if (color == EPieceColor::White) {
@@ -153,7 +158,7 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         }
     }
 
-    HashedScores_[hash] = bestScore;
+    //HashedScores_[hash] = bestScore;
     return bestScore;
 }
 

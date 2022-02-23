@@ -72,9 +72,10 @@ TBoard ApplyMove(const TBoard& board, const TMove& move) {
     return newBoard;
 }
 
-void AddStandardMoves(TMoveContext& ctx, EMoveType moveType, TBoardPosition deltaPosition) {
+void AddStandardMoves(TMoveContext& ctx, TBoardPiece boardPiece, EMoveType moveType,
+                      TBoardPosition deltaPosition)
+{
     TBoardPosition currentPosition = ctx.Position;
-    TBoardPiece boardPiece = ctx.Board.GetBoardPiece(currentPosition);
     const EPieceColor color = boardPiece.GetColor();
 
     while (true) {

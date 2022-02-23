@@ -71,6 +71,6 @@ enum class EMoveType {
     Leaper,
     Rider,
 };
-void AddStandardMoves(TMoveContext& ctx, EMoveType moveType, TBoardPosition deltaPosition);
+void AddStandardMoves(TMoveContext& ctx, TBoardPiece boardPiece, EMoveType moveType, TBoardPosition deltaPosition);
 
 } // namespace NFairyChess
