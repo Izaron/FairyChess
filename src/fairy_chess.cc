@@ -39,8 +39,8 @@ void RenderingThread(sf::RenderWindow& window, TGraphics& graphics, TBoard& boar
 
 int main() {
     // create board
-    TBoard board = TBoardAssembler::AssembleVanillaBoard();
-    //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
+    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
 
     // create render window
     sf::ContextSettings settings;
