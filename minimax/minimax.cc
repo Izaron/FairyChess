@@ -2,6 +2,7 @@
 #include "evaluator.h"
 #include "king_piece.h"
 #include "pretty_printer.h"
+#include "zobrist_hashing.h"
 
 #include <limits>
 #include <iostream>
@@ -84,6 +85,8 @@ std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& boar
             return EGameEnd::Stalemate;
         }
     } else {
+        uint32_t nextBoardHash = TZobristHashing::CalculateSimpleHash(ApplyMove(board, BestMove_));
+        CommitedBoards_.insert(nextBoardHash);
         return BestMove_;
     }
 }
@@ -95,6 +98,14 @@ int TMinimax::GetAnalyzedBoards() const {
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
                             int depth, int alpha, int beta, int prolongatedDepth) {
     ++AnalyzedBoards_;
+
+    if (depth != InitDepth_) {
+        uint32_t boardHash = TZobristHashing::CalculateSimpleHash(board);
+        if (CommitedBoards_.contains(boardHash)) {
+            // we already visited this board, don't check it
+            return GetMaximalScore(InvertPieceColor(color));
+        }
+    }
 
     //DumpBoard(board, std::cout, true);
 

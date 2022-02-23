@@ -3,6 +3,7 @@
 #include "move_generator.h"
 
 #include <variant>
+#include <unordered_set>
 
 namespace NFairyChess {
 
@@ -24,7 +25,7 @@ private:
 private:
     const int InitDepth_;
     // FIXME: resurrect Zobrist hashing?
-    //std::unordered_map<uint32_t, int> HashedScores_;
+    std::unordered_set<uint32_t> CommitedBoards_;
     TMove BestMove_;
     int AnalyzedBoards_ = 0;
     int PreviousAnalyzedBoards_ = 0;

@@ -52,4 +52,8 @@ uint32_t TZobristHashing::CalculateHash(const TBoard& board, EPieceColor playerC
     return hash;
 }
 
+uint32_t TZobristHashing::CalculateSimpleHash(const TBoard& board) {
+    return CalculateHash(board, /* color = */ EPieceColor::White, /* depth = */ 0);
+}
+
 } // namespace NFairyChess
