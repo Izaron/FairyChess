@@ -10,38 +10,33 @@ namespace NFairyChess {
 
 namespace {
 
-bool CanCaptureKing(const TBoard& board, const TMove& move) {
-    int kingsBalance = 0;
+int CalculateKingPiecesDelta(const TBoard& board, const TMove& move) {
+    int kingsDelta = 0;
     for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
         const TBoardUpdate& update = move.Updates[i];
         if (board.GetBoardPiece(update.Position).GetPieceId() == NVanillaPieces::TKingPiece::PieceId) {
-            --kingsBalance;
+            --kingsDelta;
         }
         if (TBoardPiece{update.NewBoardPiece}.GetPieceId() == NVanillaPieces::TKingPiece::PieceId) {
-            ++kingsBalance;
+            ++kingsDelta;
         }
     }
-    return kingsBalance != 0;
+    return kingsDelta;
 }
 
-bool CanCaptureKing(const TBoard& board, const TMoveContainer& moveContainer) {
-    for (std::size_t i = 0; i < moveContainer.MovesCount; ++i) {
-        if (CanCaptureKing(board, moveContainer.Moves[i])) {
-            return true;
-        }
-    }
-    return false;
+int GetInitialScore(EPieceColor color) {
+    return color == EPieceColor::White ?
+        std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
+}
+
+int GetMaximalScore(EPieceColor color) {
+    return GetInitialScore(InvertPieceColor(color));
 }
 
 int EvaluateScore(const TBoard& board) {
     TEvaluationResult eval = Evaluate(board);
     return (eval.WhiteCost - eval.BlackCost) +
         10 * (eval.WhiteAvailableMoves - eval.BlackAvailableMoves);
-}
-
-int GetInitialScore(EPieceColor color) {
-    return color == EPieceColor::White ?
-        std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
 }
 
 int EvaluatePieceScore(const TEvaluationResult& eval) {
@@ -83,10 +78,10 @@ int TMinimax::GetAnalyzedBoards() const {
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
                             int depth, int alpha, int beta, int prolongatedDepth) {
     // FIXME: WRONG HASH!!!
-    std::size_t hash = board.CalculateHash(depth);
-    if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
-        return iter->second;
-    }
+    //std::size_t hash = board.CalculateHash(depth);
+    //if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
+        //return iter->second;
+    //}
     ++AnalyzedBoards_;
 
     //DumpBoard(board, std::cout, true);
@@ -122,6 +117,12 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
 
     for (std::size_t i = 0; i < moveContainer.MovesCount; ++i) {
         auto& move = moveContainer.Moves[i];
+        int kingsDelta = CalculateKingPiecesDelta(board, move);
+        if (kingsDelta != 0) {
+            // we captured the king! it's a win
+            return GetMaximalScore(color);
+        }
+
         TBoard newBoard = ApplyMove(board, move);
 
         const int newBoardPieceScore = EvaluatePieceScore(newBoard);
@@ -129,18 +130,6 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         if (newBoardPieceScore != currentBoardPieceScore) {
             newProlongatedDepth = std::max(newProlongatedDepth, 1);
         }
-
-        //if (!newProlongatedDepth && depth - 1 <= 0) {
-            // we can prolongate if we made a check
-            //TMoveContainer nextMoveContainer = GenerateMoves(newBoard, color);
-            //if (CanCaptureKing(newBoard, nextMoveContainer)) {
-                //newProlongatedDepth = 2;
-            //}
-        //}
-
-        //if (!newProlongatedDepth && AnalyzedBoards_ - PreviousAnalyzedBoards_ >= 15 * 60000) {
-            //continue;
-        //}
 
         int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1,
                                   alpha, beta, newProlongatedDepth);
