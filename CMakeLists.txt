@@ -21,6 +21,7 @@ add_subdirectory(testing)
 add_subdirectory(vanilla_pieces)
 add_subdirectory(fairy_pieces)
 add_subdirectory(minimax)
+add_subdirectory(zobrist_hashing)
 
 list(APPEND EXTRA_LIBS bit_storage board boards_assembler evaluator
                        move_generator piece pretty_printer vanilla_pieces

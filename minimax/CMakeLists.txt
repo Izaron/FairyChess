@@ -5,7 +5,7 @@ add_library(
 
 target_include_directories(minimax INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-list(APPEND LIBS move_generator evaluator pretty_printer)
+list(APPEND LIBS move_generator evaluator pretty_printer zobrist_hashing)
 target_link_libraries(minimax PUBLIC ${LIBS})
 
 enable_testing()

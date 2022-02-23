@@ -77,18 +77,20 @@ int TMinimax::GetAnalyzedBoards() const {
 
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
                             int depth, int alpha, int beta, int prolongatedDepth) {
-    // FIXME: WRONG HASH!!!
-    //std::size_t hash = board.CalculateHash(depth);
-    //if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
-        //return iter->second;
-    //}
+    uint32_t hash = TZobristHashing::CalculateHash(board, color, depth + prolongatedDepth * 100);
+    //if (depth != InitDepth_ && false) {
+    if (depth != InitDepth_) {
+        if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
+            return iter->second;
+        }
+    }
     ++AnalyzedBoards_;
 
     //DumpBoard(board, std::cout, true);
 
     if ((depth <= 0 && !prolongatedDepth) || depth <= -6) {
         int score = EvaluateScore(board);
-        //HashedScores_[hash] = score;
+        HashedScores_[hash] = score;
         return score;
     }
 
@@ -120,7 +122,8 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         int kingsDelta = CalculateKingPiecesDelta(board, move);
         if (kingsDelta != 0) {
             // we captured the king! it's a win
-            return GetMaximalScore(color);
+            bestScore = GetMaximalScore(color);
+            break;
         }
 
         TBoard newBoard = ApplyMove(board, move);
@@ -149,7 +152,7 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         }
     }
 
-    //HashedScores_[hash] = bestScore;
+    HashedScores_[hash] = bestScore;
     return bestScore;
 }
 

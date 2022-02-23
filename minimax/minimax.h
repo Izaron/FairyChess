@@ -1,6 +1,7 @@
 #pragma once
 
 #include "move_generator.h"
+#include "zobrist_hashing.h"
 
 #include <unordered_map>
 
@@ -18,7 +19,7 @@ private:
 
 private:
     const int InitDepth_;
-    std::unordered_map<std::size_t, int> HashedScores_;
+    std::unordered_map<uint32_t, int> HashedScores_;
     TMove BestMove_;
     int AnalyzedBoards_ = 0;
     int PreviousAnalyzedBoards_ = 0;

@@ -18,7 +18,7 @@ int main() {
     {
         TMinimax minimax{4};
         int analyzedBoards = minimax.GetAnalyzedBoards();
-        for (int i = 0; i < 1000; ++i) {
+        for (int i = 0; i < 20; ++i) {
             const clock_t begin_time = clock();
             TMove move = minimax.FindBestMove(board, currentColor);
             const double secs = double(clock () - begin_time) /  CLOCKS_PER_SEC;
