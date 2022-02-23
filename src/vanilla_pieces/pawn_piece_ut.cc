@@ -6,14 +6,6 @@
 using namespace NFairyChess;
 using namespace NFairyChess::NVanillaPieces;
 
-static TBoardPiece ConstructPawnPiece(TPawnPiece::EMoveStatus moveStatus = TPawnPiece::EMoveStatus::NotMoved,
-                                      EPieceColor color = EPieceColor::White)
-{
-    TPawnPiece pawnPiece;
-    pawnPiece.GetMoveStatus().SetValue(moveStatus);
-    return TBoardPiece::CreateFromExisting(color, pawnPiece);
-}
-
 const auto WhitePawn = ConstructPawnPiece();
 const auto WhiteMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved);
 const auto BlackPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::NotMoved, EPieceColor::Black);

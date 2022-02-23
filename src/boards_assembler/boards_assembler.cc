@@ -7,102 +7,146 @@
 #include "queen_piece.h"
 #include "rook_piece.h"
 
+using namespace NFairyChess::NVanillaPieces;
+
 namespace NFairyChess {
 
+namespace {
+
+TBoardPiece ConstructPawnPiece(TPawnPiece::EMoveStatus moveStatus, EPieceColor color = EPieceColor::White) {
+    TPawnPiece pawnPiece;
+    pawnPiece.GetMoveStatus().SetValue(moveStatus);
+    return TBoardPiece::CreateFromExisting(color, pawnPiece);
+}
+
+const auto WhitePawn = TBoardPiece::Create<TPawnPiece>(EPieceColor::White);
+const auto WhiteMovedPawn = ConstructPawnPiece(TPawnPiece::EMoveStatus::Moved);
+const auto WhiteKnight = TBoardPiece::Create<TKnightPiece>(EPieceColor::White);
+const auto WhiteBishop = TBoardPiece::Create<TBishopPiece>(EPieceColor::White);
+const auto WhiteRook = TBoardPiece::Create<TRookPiece>(EPieceColor::White);
+const auto WhiteQueen = TBoardPiece::Create<TQueenPiece>(EPieceColor::White);
+const auto WhiteKing = TBoardPiece::Create<TKingPiece>(EPieceColor::White);
+
+const auto BlackPawn = TBoardPiece::Create<TPawnPiece>(EPieceColor::Black);
+const auto BlackKnight = TBoardPiece::Create<TKnightPiece>(EPieceColor::Black);
+const auto BlackBishop = TBoardPiece::Create<TBishopPiece>(EPieceColor::Black);
+const auto BlackRook = TBoardPiece::Create<TRookPiece>(EPieceColor::Black);
+const auto BlackQueen = TBoardPiece::Create<TQueenPiece>(EPieceColor::Black);
+const auto BlackKing = TBoardPiece::Create<TKingPiece>(EPieceColor::Black);
+
+} // namespace
+
 TBoard TBoardAssembler::AssembleVanillaBoard() {
-    const auto whitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
-    const auto whiteKnight = TBoardPiece::Create<NVanillaPieces::TKnightPiece>(EPieceColor::White);
-    const auto whiteBishop = TBoardPiece::Create<NVanillaPieces::TBishopPiece>(EPieceColor::White);
-    const auto whiteRook = TBoardPiece::Create<NVanillaPieces::TRookPiece>(EPieceColor::White);
-    const auto whiteQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::White);
-    const auto whiteKing = TBoardPiece::Create<NVanillaPieces::TKingPiece>(EPieceColor::White);
-
-    const auto blackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
-    const auto blackKnight = TBoardPiece::Create<NVanillaPieces::TKnightPiece>(EPieceColor::Black);
-    const auto blackBishop = TBoardPiece::Create<NVanillaPieces::TBishopPiece>(EPieceColor::Black);
-    const auto blackRook = TBoardPiece::Create<NVanillaPieces::TRookPiece>(EPieceColor::Black);
-    const auto blackQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::Black);
-    const auto blackKing = TBoardPiece::Create<NVanillaPieces::TKingPiece>(EPieceColor::Black);
-
     return TBoard{}
-        // white pieces
-        .SetBoardPiece({0, 0}, whiteRook)
-        .SetBoardPiece({1, 0}, whiteKnight)
-        .SetBoardPiece({2, 0}, whiteBishop)
-        .SetBoardPiece({3, 0}, whiteQueen)
-        .SetBoardPiece({4, 0}, whiteKing)
-        .SetBoardPiece({5, 0}, whiteBishop)
-        .SetBoardPiece({6, 0}, whiteKnight)
-        .SetBoardPiece({7, 0}, whiteRook)
-        .SetBoardPiece({0, 1}, whitePawn)
-        .SetBoardPiece({1, 1}, whitePawn)
-        .SetBoardPiece({2, 1}, whitePawn)
-        .SetBoardPiece({3, 1}, whitePawn)
-        .SetBoardPiece({4, 1}, whitePawn)
-        .SetBoardPiece({5, 1}, whitePawn)
-        .SetBoardPiece({6, 1}, whitePawn)
-        .SetBoardPiece({7, 1}, whitePawn)
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteRook)
+        .SetBoardPiece({1, 0}, WhiteKnight)
+        .SetBoardPiece({2, 0}, WhiteBishop)
+        .SetBoardPiece({3, 0}, WhiteQueen)
+        .SetBoardPiece({4, 0}, WhiteKing)
+        .SetBoardPiece({5, 0}, WhiteBishop)
+        .SetBoardPiece({6, 0}, WhiteKnight)
+        .SetBoardPiece({7, 0}, WhiteRook)
+        .SetBoardPiece({0, 1}, WhitePawn)
+        .SetBoardPiece({1, 1}, WhitePawn)
+        .SetBoardPiece({2, 1}, WhitePawn)
+        .SetBoardPiece({3, 1}, WhitePawn)
+        .SetBoardPiece({4, 1}, WhitePawn)
+        .SetBoardPiece({5, 1}, WhitePawn)
+        .SetBoardPiece({6, 1}, WhitePawn)
+        .SetBoardPiece({7, 1}, WhitePawn)
 
-        // black pieces
-        .SetBoardPiece({0, 7}, blackRook)
-        .SetBoardPiece({1, 7}, blackKnight)
-        .SetBoardPiece({2, 7}, blackBishop)
-        .SetBoardPiece({3, 7}, blackQueen)
-        .SetBoardPiece({4, 7}, blackKing)
-        .SetBoardPiece({5, 7}, blackBishop)
-        .SetBoardPiece({6, 7}, blackKnight)
-        .SetBoardPiece({7, 7}, blackRook)
-        .SetBoardPiece({0, 6}, blackPawn)
-        .SetBoardPiece({1, 6}, blackPawn)
-        .SetBoardPiece({2, 6}, blackPawn)
-        .SetBoardPiece({3, 6}, blackPawn)
-        .SetBoardPiece({4, 6}, blackPawn)
-        .SetBoardPiece({5, 6}, blackPawn)
-        .SetBoardPiece({6, 6}, blackPawn)
-        .SetBoardPiece({7, 6}, blackPawn);
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackRook)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackBishop)
+        .SetBoardPiece({3, 7}, BlackQueen)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackBishop)
+        .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({7, 7}, BlackRook)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn);
 }
 
 TBoard TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard() {
-    const auto whitePawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::White);
-    const auto whiteQueen = TBoardPiece::Create<NVanillaPieces::TQueenPiece>(EPieceColor::White);
-    const auto whiteKing = TBoardPiece::Create<NVanillaPieces::TKingPiece>(EPieceColor::White);
-
-    const auto blackPawn = TBoardPiece::Create<NVanillaPieces::TPawnPiece>(EPieceColor::Black);
-    const auto blackKnight = TBoardPiece::Create<NVanillaPieces::TKnightPiece>(EPieceColor::Black);
-    const auto blackKing = TBoardPiece::Create<NVanillaPieces::TKingPiece>(EPieceColor::Black);
-
     return TBoard{}
-        // white pieces
-        .SetBoardPiece({1, 0}, whiteQueen)
-        .SetBoardPiece({3, 0}, whiteQueen)
-        .SetBoardPiece({4, 0}, whiteKing)
-        .SetBoardPiece({6, 0}, whiteQueen)
-        .SetBoardPiece({0, 1}, whitePawn)
-        .SetBoardPiece({1, 1}, whitePawn)
-        .SetBoardPiece({2, 1}, whitePawn)
-        .SetBoardPiece({3, 1}, whitePawn)
-        .SetBoardPiece({4, 1}, whitePawn)
-        .SetBoardPiece({5, 1}, whitePawn)
-        .SetBoardPiece({6, 1}, whitePawn)
-        .SetBoardPiece({7, 1}, whitePawn)
+        // White pieces
+        .SetBoardPiece({1, 0}, WhiteQueen)
+        .SetBoardPiece({3, 0}, WhiteQueen)
+        .SetBoardPiece({4, 0}, WhiteKing)
+        .SetBoardPiece({6, 0}, WhiteQueen)
+        .SetBoardPiece({0, 1}, WhitePawn)
+        .SetBoardPiece({1, 1}, WhitePawn)
+        .SetBoardPiece({2, 1}, WhitePawn)
+        .SetBoardPiece({3, 1}, WhitePawn)
+        .SetBoardPiece({4, 1}, WhitePawn)
+        .SetBoardPiece({5, 1}, WhitePawn)
+        .SetBoardPiece({6, 1}, WhitePawn)
+        .SetBoardPiece({7, 1}, WhitePawn)
 
-        // black pieces
-        .SetBoardPiece({0, 7}, blackKnight)
-        .SetBoardPiece({1, 7}, blackKnight)
-        .SetBoardPiece({2, 7}, blackKnight)
-        .SetBoardPiece({3, 7}, blackKnight)
-        .SetBoardPiece({4, 7}, blackKing)
-        .SetBoardPiece({5, 7}, blackKnight)
-        .SetBoardPiece({6, 7}, blackKnight)
-        .SetBoardPiece({7, 7}, blackKnight)
-        .SetBoardPiece({0, 6}, blackPawn)
-        .SetBoardPiece({1, 6}, blackPawn)
-        .SetBoardPiece({2, 6}, blackPawn)
-        .SetBoardPiece({3, 6}, blackPawn)
-        .SetBoardPiece({4, 6}, blackPawn)
-        .SetBoardPiece({5, 6}, blackPawn)
-        .SetBoardPiece({6, 6}, blackPawn)
-        .SetBoardPiece({7, 6}, blackPawn);
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackKnight)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackKnight)
+        .SetBoardPiece({3, 7}, BlackKnight)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackKnight)
+        .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({7, 7}, BlackKnight)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn);
+}
+
+TBoard TBoardAssembler::AssembleHordeBoard() {
+    auto board = TBoard{};
+    // White pieces (a lot of pawns)
+    for (int row = 0; row < 2; ++row) {
+        for (int col = 0; col < 8; ++col) {
+            board.SetBoardPiece({col, row}, WhitePawn);
+        }
+    }
+    for (int row = 2; row < 4; ++row) {
+        for (int col = 0; col < 8; ++col) {
+            board.SetBoardPiece({col, row}, WhiteMovedPawn);
+        }
+    }
+    board.SetBoardPiece({1, 4}, WhiteMovedPawn)
+        .SetBoardPiece({2, 4}, WhiteMovedPawn)
+        .SetBoardPiece({5, 4}, WhiteMovedPawn)
+        .SetBoardPiece({6, 4}, WhiteMovedPawn);
+
+    // Black pieces
+    board.SetBoardPiece({0, 7}, BlackRook)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackBishop)
+        .SetBoardPiece({3, 7}, BlackQueen)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackBishop)
+        .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({7, 7}, BlackRook)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn);
+
+    return board;
 }
 
 } // namespace NFairyChess

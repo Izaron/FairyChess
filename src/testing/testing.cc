@@ -3,6 +3,8 @@
 
 #include <gtest/gtest.h>
 
+using namespace NFairyChess::NVanillaPieces;
+
 namespace NFairyChess {
 
 void CheckDump(std::string_view dump, const TBoard& board) {
@@ -21,6 +23,12 @@ std::unordered_set<std::string> CollectBoardDumps(const TMoveContainer& moves, c
         set.insert(ss.str());
     }
     return set;
+}
+
+TBoardPiece ConstructPawnPiece(TPawnPiece::EMoveStatus moveStatus, EPieceColor color) {
+    TPawnPiece pawnPiece;
+    pawnPiece.GetMoveStatus().SetValue(moveStatus);
+    return TBoardPiece::CreateFromExisting(color, pawnPiece);
 }
 
 } // namespace NFairyChess
