@@ -10,30 +10,24 @@
 using namespace NFairyChess;
 
 int main() {
-    TGraphics graphics;
+    // create board
+    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
+
+    // create render window
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    sf::VideoMode videoMode{/* modeWidth = */ board.GetColumns() * TGraphics::SquarePixelSize,
+                            /* modeHeight = */ board.GetRows() * TGraphics::SquarePixelSize};
+    sf::RenderWindow window(videoMode, "Fairy chess",
+                            sf::Style::Titlebar | sf::Style::Close, settings);
+    window.setVerticalSyncEnabled(true);
+
+    // create graphics handler
+    TGraphics graphics{window, board.GetColumns(), board.GetRows()};
     if (!graphics.LoadTextures()) {
         std::cerr << "Can't load textures!" << std::endl;
         return 1;
     }
-
-    sf::Texture texture;
-    if (!texture.loadFromFile("prikol.png")) {
-        std::cerr << "NO U" << std::endl;
-        return 0;
-    }
-    texture.setSmooth(true);
-
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(480, 480), "Fairy chess",
-                            sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setVerticalSyncEnabled(true);
-
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-    sprite.scale(sf::Vector2f(0.15f, 0.15f));
-    //sprite.scale(sf::Vector2f(0.3f, 0.3f));
-    //sprite.scale(sf::Vector2f(3.2f, 3.2f));
 
     while (window.isOpen())
     {
@@ -44,13 +38,12 @@ int main() {
                 window.close();
         }
 
-        window.clear(sf::Color::Blue);
-        window.draw(sprite);
+        window.clear();
+        graphics.DrawBoard(board);
         window.display();
     }
 
 
-    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
     //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::cout << "Current board:" << std::endl;
     DumpBoard(board, std::cout, /* useNewline = */ true);
