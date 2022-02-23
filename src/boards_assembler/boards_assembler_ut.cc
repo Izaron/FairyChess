@@ -103,3 +103,23 @@ TEST(BoardsAssemplerTest, WeakBoard) {
     DumpBoard(board, ss);
     EXPECT_STREQ(dump.data(), ss.str().data());
 }
+
+TEST(BoardsAssemplerTest, BerolinaBoard) {
+    TBoard board = TBoardAssembler::AssembleBerolinaBoard();
+
+    std::string_view dump =
+        "╔════════╗"
+        "║♜♞♝♛♚♝♞♜║"
+        "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║♙♙♙♙♙♙♙♙║"
+        "║♖♘♗♕♔♗♘♖║"
+        "╚════════╝";
+
+    std::stringstream ss;
+    DumpBoard(board, ss);
+    EXPECT_STREQ(dump.data(), ss.str().data());
+}

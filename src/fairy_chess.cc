@@ -43,7 +43,8 @@ int main() {
     //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
     //TBoard board = TBoardAssembler::AssembleHordeBoard();
     //TBoard board = TBoardAssembler::AssemblePeasantsRevoltBoard();
-    TBoard board = TBoardAssembler::AssembleWeakBoard();
+    //TBoard board = TBoardAssembler::AssembleWeakBoard();
+    TBoard board = TBoardAssembler::AssembleBerolinaBoard();
 
     // create render window
     sf::ContextSettings settings;
