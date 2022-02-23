@@ -14,4 +14,14 @@ const TPieceInfo* TPieceRegistry::GetPieceInfo(std::size_t pieceId) {
     return &NImpl::PieceInfo[pieceId];
 }
 
+std::vector<std::pair<std::size_t, const TPieceInfo*>> TPieceRegistry::GetAllPieceInfos() {
+    std::vector<std::pair<std::size_t, const TPieceInfo*>> pieceInfos;
+    for (std::size_t i = 0; i < NImpl::HavePieceInfo.size(); ++i) {
+        if (NImpl::HavePieceInfo[i]) {
+            pieceInfos.emplace_back(i, &NImpl::PieceInfo[i]);
+        }
+    }
+    return pieceInfos;
+}
+
 } // namespace NFairyChess

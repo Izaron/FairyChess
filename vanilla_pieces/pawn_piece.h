@@ -10,6 +10,8 @@ public:
     static constexpr std::size_t Cost = 100;
     static constexpr std::string_view WhiteDumpStr = "♙";
     static constexpr std::string_view BlackDumpStr = "♟︎";
+    static constexpr std::string_view WhiteImageFile = "pawn_white.png";
+    static constexpr std::string_view BlackImageFile = "pawn_black.png";
 
 public:
     enum class EMoveStatus {

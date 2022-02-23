@@ -22,10 +22,11 @@ add_subdirectory(vanilla_pieces)
 add_subdirectory(fairy_pieces)
 add_subdirectory(minimax)
 add_subdirectory(zobrist_hashing)
+add_subdirectory(graphics)
 
 list(APPEND EXTRA_LIBS bit_storage board boards_assembler evaluator
                        move_generator piece pretty_printer vanilla_pieces
-                       minimax)
+                       minimax graphics)
 
 # add SFML libraries (for graphics)
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)

@@ -1,13 +1,55 @@
+#include <SFML/Graphics.hpp>
 #include "boards_assembler.h"
+#include "evaluator.h"
+#include "graphics.h"
 #include "minimax.h"
 #include "pretty_printer.h"
-#include "evaluator.h"
 
 #include <iostream>
 
 using namespace NFairyChess;
 
 int main() {
+    TGraphics graphics;
+    if (!graphics.LoadTextures()) {
+        std::cerr << "Can't load textures!" << std::endl;
+        return 1;
+    }
+
+    sf::Texture texture;
+    if (!texture.loadFromFile("prikol.png")) {
+        std::cerr << "NO U" << std::endl;
+        return 0;
+    }
+    texture.setSmooth(true);
+
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    sf::RenderWindow window(sf::VideoMode(480, 480), "Fairy chess",
+                            sf::Style::Titlebar | sf::Style::Close, settings);
+    window.setVerticalSyncEnabled(true);
+
+    sf::Sprite sprite;
+    sprite.setTexture(texture);
+    sprite.scale(sf::Vector2f(0.15f, 0.15f));
+    //sprite.scale(sf::Vector2f(0.3f, 0.3f));
+    //sprite.scale(sf::Vector2f(3.2f, 3.2f));
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear(sf::Color::Blue);
+        window.draw(sprite);
+        window.display();
+    }
+
+
     TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
     //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::cout << "Current board:" << std::endl;

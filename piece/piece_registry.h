@@ -13,6 +13,8 @@ struct TPieceInfo {
     std::size_t Cost;
     std::string_view WhiteDumpStr;
     std::string_view BlackDumpStr;
+    std::string_view WhiteImageFile;
+    std::string_view BlackImageFile;
     std::function<void(TBoardPiece, TMoveContext)> FillMovesFn;
     std::function<bool(TBoardPiece&)> AfterMoveApplyFn;
 };
@@ -29,6 +31,7 @@ class TPieceRegistry {
 public:
     static void AddPieceInfo(std::size_t pieceId, TPieceInfo pieceInfo);
     static const TPieceInfo* GetPieceInfo(std::size_t pieceId);
+    static std::vector<std::pair<std::size_t, const TPieceInfo*>> GetAllPieceInfos();
 };
 
 template<TPieceType Type>
@@ -61,9 +64,15 @@ struct TPieceRegistrator {
             };
         }
 
+        // Image files are mandatory
+        const std::string_view whiteImageFile = Type::WhiteImageFile;
+        const std::string_view blackImageFile = Type::BlackImageFile;
+
         TPieceInfo pieceInfo{.Cost = Type::Cost,
                              .WhiteDumpStr = whiteDumpStr,
                              .BlackDumpStr = blackDumpStr,
+                             .WhiteImageFile = whiteImageFile,
+                             .BlackImageFile = blackImageFile,
                              .FillMovesFn = fillMovesFn,
                              .AfterMoveApplyFn = std::move(afterMoveApplyFn)};
         TPieceRegistry::AddPieceInfo(Type::PieceId, pieceInfo);
