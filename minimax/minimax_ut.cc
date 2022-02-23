@@ -38,7 +38,7 @@ TEST(MinimaxTest, SimpleBestCapture) {
     CheckDump(dump1, board1);
 
     TMinimax minimax{/* depth = */ 1};
-    TMove move = minimax.FindBestMove(board1, EPieceColor::White);
+    TMove move = std::get<TMove>(minimax.FindBestMoveOrGameEnd(board1, EPieceColor::White));
 
     TBoard board2 = ApplyMove(board1, move);
     std::string_view dump2 =
@@ -77,7 +77,7 @@ TEST(MinimaxTest, CaptureSearchProlongation) {
     CheckDump(dump1, board1);
 
     TMinimax minimax{/* depth = */ 1};
-    TMove move = minimax.FindBestMove(board1, EPieceColor::White);
+    TMove move = std::get<TMove>(minimax.FindBestMoveOrGameEnd(board1, EPieceColor::White));
 
     TBoard board2 = ApplyMove(board1, move);
     std::string_view dump2 =
@@ -118,7 +118,7 @@ TEST(MinimaxTest, CheckSearchProlongation) {
     CheckDump(dump1, board1);
 
     TMinimax minimax{/* depth = */ 1};
-    TMove move = minimax.FindBestMove(board1, EPieceColor::White);
+    TMove move = std::get<TMove>(minimax.FindBestMoveOrGameEnd(board1, EPieceColor::White));
 
     TBoard board2 = ApplyMove(board1, move);
     std::string_view dump2 =

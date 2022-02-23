@@ -8,8 +8,8 @@
 using namespace NFairyChess;
 
 int main() {
-    //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
-    TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
+    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     std::cout << "Current board:" << std::endl;
     DumpBoard(board, std::cout, /* useNewline = */ true);
 
@@ -18,10 +18,25 @@ int main() {
     {
         TMinimax minimax{4};
         int analyzedBoards = minimax.GetAnalyzedBoards();
-        for (int i = 0; i < 20; ++i) {
+        for (int i = 0; i < 100; ++i) {
             const clock_t begin_time = clock();
-            TMove move = minimax.FindBestMove(board, currentColor);
+            auto moveOrGameEnd = minimax.FindBestMoveOrGameEnd(board, currentColor);
             const double secs = double(clock () - begin_time) /  CLOCKS_PER_SEC;
+
+            if (const EGameEnd* gameEnd = std::get_if<EGameEnd>(&moveOrGameEnd)) {
+                switch (*gameEnd) {
+                    case EGameEnd::Defeat: {
+                        std::cerr << "Game ended, the enemy won!" << std::endl;
+                        break;
+                    }
+                    case EGameEnd::Stalemate: {
+                        std::cerr << "Game ended, it's a stalemate!" << std::endl;
+                        break;
+                    }
+                }
+            }
+            TMove move = std::get<TMove>(moveOrGameEnd);
+
             int newAnalyzedBoard = minimax.GetAnalyzedBoards();
 
             std::cerr << "\nFound a new move " << i << ", analyzed boards: "

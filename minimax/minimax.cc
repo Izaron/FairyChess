@@ -62,13 +62,19 @@ TMinimax::TMinimax(int depth)
 {
 }
 
-TMove TMinimax::FindBestMove(const TBoard& board, EPieceColor color) {
-    FindBestScore(board, color, InitDepth_,
+std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& board, EPieceColor color) {
+    int score = FindBestScore(board, color, InitDepth_,
             /* alpha = */ std::numeric_limits<int>::min(),
             /* beta = */ std::numeric_limits<int>::max(),
             /* prolongatedDepth = */ 0);
     PreviousAnalyzedBoards_ = AnalyzedBoards_;
-    return BestMove_;
+
+    if (score == GetMaximalScore(InvertPieceColor(color))) {
+        // the enemy will win if we move!
+        return EGameEnd::Defeat;
+    } else {
+        return BestMove_;
+    }
 }
 
 int TMinimax::GetAnalyzedBoards() const {
@@ -77,21 +83,12 @@ int TMinimax::GetAnalyzedBoards() const {
 
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
                             int depth, int alpha, int beta, int prolongatedDepth) {
-    uint32_t hash = TZobristHashing::CalculateHash(board, color, depth + prolongatedDepth * 100);
-    //if (depth != InitDepth_ && false) {
-    if (depth != InitDepth_) {
-        if (auto iter = HashedScores_.find(hash); iter != HashedScores_.end()) {
-            return iter->second;
-        }
-    }
     ++AnalyzedBoards_;
 
     //DumpBoard(board, std::cout, true);
 
     if ((depth <= 0 && !prolongatedDepth) || depth <= -6) {
-        int score = EvaluateScore(board);
-        HashedScores_[hash] = score;
-        return score;
+        return EvaluateScore(board);
     }
 
     int bestScore = GetInitialScore(color);
@@ -152,7 +149,6 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         }
     }
 
-    HashedScores_[hash] = bestScore;
     return bestScore;
 }
 
