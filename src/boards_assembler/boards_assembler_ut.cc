@@ -83,3 +83,23 @@ TEST(BoardsAssemplerTest, PeasantsRevoltBoard) {
     DumpBoard(board, ss);
     EXPECT_STREQ(dump.data(), ss.str().data());
 }
+
+TEST(BoardsAssemplerTest, WeakBoard) {
+    TBoard board = TBoardAssembler::AssembleWeakBoard();
+
+    std::string_view dump =
+        "╔════════╗"
+        "║♞♞♞♞♚♞♞♞║"
+        "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+        "║  ♟︎  ♟︎  ║"
+        "║ ♟︎♟︎♟︎♟︎♟︎♟︎ ║"
+        "║        ║"
+        "║        ║"
+        "║♙♙♙♙♙♙♙♙║"
+        "║♖♘♗♕♔♗♘♖║"
+        "╚════════╝";
+
+    std::stringstream ss;
+    DumpBoard(board, ss);
+    EXPECT_STREQ(dump.data(), ss.str().data());
+}
