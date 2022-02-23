@@ -20,6 +20,7 @@ target_link_libraries(
     gtest_main
     minimax
     vanilla_pieces
+    fairy_pieces
     testing
 )
 

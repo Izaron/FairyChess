@@ -71,7 +71,18 @@ std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& boar
 
     if (score == GetMaximalScore(InvertPieceColor(color))) {
         // the enemy will win if we move!
-        return EGameEnd::Defeat;
+        // check if the enemy is attacking us, the it's a checkmate,
+        // otherwise it's a stalemate
+        int skipMoveScore = FindBestScore(board, InvertPieceColor(color),
+                /* depth = */ 1,
+                /* alpha = */ std::numeric_limits<int>::min(),
+                /* beta = */ std::numeric_limits<int>::max(),
+                /* prolongatedDepth = */ 0);
+        if (skipMoveScore == GetMaximalScore(InvertPieceColor(color))) {
+            return EGameEnd::Defeat;
+        } else {
+            return EGameEnd::Stalemate;
+        }
     } else {
         return BestMove_;
     }
