@@ -3,6 +3,8 @@ add_library(
     amazon_piece.cc
     anti_pawn_piece.cc
     dummy_piece.cc
+    empress_piece.cc
+    princess_piece.cc
 )
 
 target_include_directories(fairy_pieces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -16,6 +18,8 @@ add_executable(
     fairy_pieces_test
     amazon_piece_ut.cc
     anti_pawn_piece_ut.cc
+    empress_piece_ut.cc
+    princess_piece_ut.cc
 )
 
 target_link_libraries(
