@@ -11,15 +11,16 @@ using namespace NFairyChess;
 
 int main() {
     // create board
-    TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
     //TBoard board = TBoardAssembler::AssembleHordeBoard();
     //TBoard board = TBoardAssembler::AssemblePeasantsRevoltBoard();
     //TBoard board = TBoardAssembler::AssembleWeakBoard();
     //TBoard board = TBoardAssembler::AssembleBerolinaBoard();
+    TBoard board = TBoardAssembler::AssembleMadKingBoard();
 
     // create render window
-    std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsWindowRender>(board);
+    std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsFileRender>(board);
 
     std::cerr << "Current board:" << std::endl;
     DumpBoard(board, std::cerr, /* useNewline = */ true);

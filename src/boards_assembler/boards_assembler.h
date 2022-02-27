@@ -16,6 +16,7 @@ struct TBoardAssembler {
     
     // standard board with fairy pieces
     static TBoard AssembleBerolinaBoard();
+    static TBoard AssembleMadKingBoard();
 };
 
 } // namespace NFairyChess

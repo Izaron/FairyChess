@@ -1,5 +1,6 @@
 add_library(
     fairy_pieces
+    amazon_piece.cc
     anti_pawn_piece.cc
     dummy_piece.cc
 )
@@ -13,6 +14,7 @@ enable_testing()
 
 add_executable(
     fairy_pieces_test
+    amazon_piece_ut.cc
     anti_pawn_piece_ut.cc
 )
 

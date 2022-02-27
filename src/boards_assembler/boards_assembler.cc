@@ -7,6 +7,7 @@
 #include "queen_piece.h"
 #include "rook_piece.h"
 
+#include "amazon_piece.h"
 #include "anti_pawn_piece.h"
 
 using namespace NFairyChess::NVanillaPieces;
@@ -40,6 +41,7 @@ const auto BlackKing = TBoardPiece::Create<TKingPiece>(EPieceColor::Black);
 
 // fairy pieces
 const auto WhiteAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::White);
+const auto WhiteAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
 
@@ -264,6 +266,30 @@ TBoard TBoardAssembler::AssembleBerolinaBoard() {
         .SetBoardPiece({5, 6}, BlackAntiPawn)
         .SetBoardPiece({6, 6}, BlackAntiPawn)
         .SetBoardPiece({7, 6}, BlackAntiPawn);
+}
+
+TBoard TBoardAssembler::AssembleMadKingBoard() {
+    return TBoard{}
+        // White pieces
+        .SetBoardPiece({4, 0}, WhiteAmazon)
+
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackRook)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackBishop)
+        .SetBoardPiece({3, 7}, BlackQueen)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackBishop)
+        .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({7, 7}, BlackRook)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn);
 }
 
 } // namespace NFairyChess

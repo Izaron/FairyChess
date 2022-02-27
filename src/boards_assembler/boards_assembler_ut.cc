@@ -123,3 +123,23 @@ TEST(BoardsAssemplerTest, BerolinaBoard) {
     DumpBoard(board, ss);
     EXPECT_STREQ(dump.data(), ss.str().data());
 }
+
+TEST(BoardsAssemplerTest, MadKingBoard) {
+    TBoard board = TBoardAssembler::AssembleMadKingBoard();
+
+    std::string_view dump =
+        "╔════════╗"
+        "║♜♞♝♛♚♝♞♜║"
+        "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║        ║"
+        "║    A   ║"
+        "╚════════╝";
+
+    std::stringstream ss;
+    DumpBoard(board, ss);
+    EXPECT_STREQ(dump.data(), ss.str().data());
+}
