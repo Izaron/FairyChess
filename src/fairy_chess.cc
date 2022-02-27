@@ -21,8 +21,8 @@ int main() {
     // create render window
     std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsFileRender>(board);
 
-    std::cout << "Current board:" << std::endl;
-    DumpBoard(board, std::cout, /* useNewline = */ true);
+    std::cerr << "Current board:" << std::endl;
+    DumpBoard(board, std::cerr, /* useNewline = */ true);
 
     EPieceColor currentColor = EPieceColor::White;
 
@@ -67,8 +67,8 @@ int main() {
             std::cerr << "Current white score: " << eval.WhiteCost + 10 * eval.WhiteAvailableMoves
                 << ", black score: " << eval.BlackCost + 10 * eval.BlackAvailableMoves << std::endl;
 
-            std::cout << "Current board after move:" << std::endl;
-            DumpBoard(board, std::cout, /* useNewline = */ true);
+            std::cerr << "Current board after move:" << std::endl;
+            DumpBoard(board, std::cerr, /* useNewline = */ true);
             currentColor = InvertPieceColor(currentColor);
 
             analyzedBoards = newAnalyzedBoard;

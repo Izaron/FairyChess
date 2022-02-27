@@ -176,6 +176,7 @@ TGraphicsFileRender::TGraphicsFileRender(const TBoard& initialBoard) {
         throw std::runtime_error("Can't load textures");
     }
     UpdateCurrentBoard(initialBoard);
+    OnNewBoard(initialBoard); // save the initial board image
 }
 
 void TGraphicsFileRender::OnNewBoard(const TBoard& board) {
