@@ -9,6 +9,8 @@
 
 #include "amazon_piece.h"
 #include "anti_pawn_piece.h"
+#include "empress_piece.h"
+#include "princess_piece.h"
 
 using namespace NFairyChess::NVanillaPieces;
 using namespace NFairyChess::NFairyPieces;
@@ -42,8 +44,13 @@ const auto BlackKing = TBoardPiece::Create<TKingPiece>(EPieceColor::Black);
 // fairy pieces
 const auto WhiteAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::White);
 const auto WhiteAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::White);
+const auto WhiteEmpress = TBoardPiece::Create<TEmpressPiece>(EPieceColor::White);
+const auto WhitePrincess = TBoardPiece::Create<TPrincessPiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
+const auto BlackAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::Black);
+const auto BlackEmpress = TBoardPiece::Create<TEmpressPiece>(EPieceColor::Black);
+const auto BlackPrincess = TBoardPiece::Create<TPrincessPiece>(EPieceColor::Black);
 
 } // namespace
 
@@ -281,6 +288,45 @@ TBoard TBoardAssembler::AssembleMadKingBoard() {
         .SetBoardPiece({4, 7}, BlackKing)
         .SetBoardPiece({5, 7}, BlackBishop)
         .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({7, 7}, BlackRook)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn);
+}
+
+TBoard TBoardAssembler::AssembleTuttiFruttiBoard() {
+    return TBoard{}
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteEmpress)
+        .SetBoardPiece({1, 0}, WhiteKnight)
+        .SetBoardPiece({2, 0}, WhiteBishop)
+        .SetBoardPiece({3, 0}, WhiteAmazon)
+        .SetBoardPiece({4, 0}, WhiteKing)
+        .SetBoardPiece({5, 0}, WhiteQueen)
+        .SetBoardPiece({6, 0}, WhitePrincess)
+        .SetBoardPiece({7, 0}, WhiteRook)
+        .SetBoardPiece({0, 1}, WhitePawn)
+        .SetBoardPiece({1, 1}, WhitePawn)
+        .SetBoardPiece({2, 1}, WhitePawn)
+        .SetBoardPiece({3, 1}, WhitePawn)
+        .SetBoardPiece({4, 1}, WhitePawn)
+        .SetBoardPiece({5, 1}, WhitePawn)
+        .SetBoardPiece({6, 1}, WhitePawn)
+        .SetBoardPiece({7, 1}, WhitePawn)
+
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackEmpress)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackBishop)
+        .SetBoardPiece({3, 7}, BlackAmazon)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackQueen)
+        .SetBoardPiece({6, 7}, BlackPrincess)
         .SetBoardPiece({7, 7}, BlackRook)
         .SetBoardPiece({0, 6}, BlackPawn)
         .SetBoardPiece({1, 6}, BlackPawn)
