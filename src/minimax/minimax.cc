@@ -82,7 +82,9 @@ std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& boar
         if (skipMoveScore == GetMaximalScore(InvertPieceColor(color))) {
             return EGameEnd::Checkmate;
         } else {
-            return EGameEnd::Stalemate;
+            // FIXME: check for stalemate in the right way
+            //return EGameEnd::Stalemate;
+            return EGameEnd::Checkmate;
         }
     } else {
         uint32_t nextBoardHash = TZobristHashing::CalculateSimpleHash(ApplyMove(board, BestMove_));
