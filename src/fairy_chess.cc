@@ -19,7 +19,7 @@ int main() {
     //TBoard board = TBoardAssembler::AssembleBerolinaBoard();
 
     // create render window
-    std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsFileRender>(board);
+    std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsWindowRender>(board);
 
     std::cerr << "Current board:" << std::endl;
     DumpBoard(board, std::cerr, /* useNewline = */ true);

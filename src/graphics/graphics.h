@@ -17,7 +17,7 @@ public:
     virtual void OnNewBoard(const TBoard& board) = 0;
 
 protected:
-    bool LoadTextures();
+    bool LoadMedia();
     void UpdateCurrentBoard(const TBoard& board);
     void RenderCurrentBoard(sf::RenderTarget& renderTarget);
 
@@ -25,6 +25,7 @@ private:
     // maps PieceId to texture
     std::unordered_map<std::size_t, sf::Texture> WhiteTextures_;
     std::unordered_map<std::size_t, sf::Texture> BlackTextures_;
+    sf::Font Font_;
 
     std::set<std::pair<int, int>> ChangedSquares_;
     std::optional<TBoard> CurrentBoard_;

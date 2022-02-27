@@ -1,6 +1,8 @@
 #include "graphics.h"
 #include "piece_registry.h"
 
+#include <sstream>
+
 namespace NFairyChess {
 
 namespace {
@@ -8,6 +10,7 @@ namespace {
 const std::string ImageFilesFolder = "images/";
 
 constexpr unsigned int SquarePixelSize = 60;
+constexpr unsigned int FontPixelSize = 17;
 
 const sf::Color WhiteSquareColor = sf::Color{239, 217, 182};
 const sf::Color BlackSquareColor = sf::Color{180, 136, 100};
@@ -33,19 +36,36 @@ void CreateRenderWindow(sf::RenderWindow& renderWindow, const TBoard& board) {
     renderWindow.setVerticalSyncEnabled(true);
 }
 
+sf::Vector2f GetLetterTextPosition(const TBoard& board, int col, int row) {
+    float colPosition = SquarePixelSize * col + 0.1f * FontPixelSize;
+    float rowPosition = SquarePixelSize * (board.GetRows() - 1 - row);
+    rowPosition += SquarePixelSize - 1.3f * FontPixelSize;
+    return {colPosition, rowPosition};
+}
+
+sf::Vector2f GetNumberTextPosition(const TBoard& board, int col, int row) {
+    float colPosition = SquarePixelSize * col;
+    float rowPosition = SquarePixelSize * (board.GetRows() - 1 - row);
+    colPosition += SquarePixelSize - 0.8f * FontPixelSize;
+    return {colPosition, rowPosition};
+}
+
 } // namespace
 
 const TBoard& TGraphics::GetCurrentBoard() const {
     return *CurrentBoard_;
 }
 
-bool TGraphics::LoadTextures() {
+bool TGraphics::LoadMedia() {
     for (auto [pieceId, pieceInfo] : TPieceRegistry::GetAllPieceInfos()) {
         if (!LoadTexture(WhiteTextures_[pieceId], pieceInfo->WhiteImageFile) ||
             !LoadTexture(BlackTextures_[pieceId], pieceInfo->BlackImageFile))
         {
             return false;
         }
+    }
+    if (!Font_.loadFromFile("font.ttf")) {
+        return false;
     }
     return true;
 }
@@ -76,6 +96,42 @@ void TGraphics::RenderCurrentBoard(sf::RenderTarget& renderTarget) {
 
             renderTarget.draw(rect);
         }
+    }
+
+    // draw column letters
+    for (int col = 0; col < CurrentBoard_->GetColumns(); ++col) {
+        std::stringstream ss;
+        ss << static_cast<char>('a' + col);
+
+        const bool isWhiteSquare = (col + /* row = */ 0) % 2 == 0;
+
+        sf::Text text;
+        text.setFont(Font_);
+        text.setCharacterSize(FontPixelSize);
+        text.setFillColor(isWhiteSquare ? BlackSquareColor : WhiteSquareColor);
+        text.setStyle(sf::Text::Bold);
+        text.setPosition(GetLetterTextPosition(*CurrentBoard_, col, /* row = */ 0));
+        text.setString(ss.str());
+        renderTarget.draw(text);
+    }
+
+    // draw column letters
+    for (int row = 0; row < CurrentBoard_->GetRows(); ++row) {
+        int col = CurrentBoard_->GetColumns() - 1;
+
+        std::stringstream ss;
+        ss << static_cast<char>('1' + row);
+
+        const bool isWhiteSquare = (col + row) % 2 == 0;
+
+        sf::Text text;
+        text.setFont(Font_);
+        text.setCharacterSize(FontPixelSize);
+        text.setFillColor(isWhiteSquare ? BlackSquareColor : WhiteSquareColor);
+        text.setStyle(sf::Text::Bold);
+        text.setPosition(GetNumberTextPosition(*CurrentBoard_, col, row));
+        text.setString(ss.str());
+        renderTarget.draw(text);
     }
 
     // draw every piece
@@ -133,8 +189,8 @@ void TGraphics::UpdateCurrentBoard(const TBoard& board) {
 }
 
 TGraphicsWindowRender::TGraphicsWindowRender(const TBoard& initialBoard) {
-    if (!LoadTextures()) {
-        throw std::runtime_error("Can't load textures");
+    if (!LoadMedia()) {
+        throw std::runtime_error("Can't load media!");
     }
     UpdateCurrentBoard(initialBoard);
     CreateRenderWindow(Window_, GetCurrentBoard());
@@ -172,8 +228,8 @@ void TGraphicsWindowRender::OnNewBoard(const TBoard& board) {
 }
 
 TGraphicsFileRender::TGraphicsFileRender(const TBoard& initialBoard) {
-    if (!LoadTextures()) {
-        throw std::runtime_error("Can't load textures");
+    if (!LoadMedia()) {
+        throw std::runtime_error("Can't load media!");
     }
     UpdateCurrentBoard(initialBoard);
     OnNewBoard(initialBoard); // save the initial board image
