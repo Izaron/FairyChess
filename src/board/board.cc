@@ -1,11 +1,16 @@
 #include "board.h"
 
+#include <stdexcept>
+
 namespace NFairyChess {
 
 TBoard::TBoard(int columns, int rows)
     : Columns_{columns}
     , Rows_{rows}
 {
+    if (columns * rows > BoardPieces_.size()) {
+        throw std::runtime_error("Please extend the size of TBoardPiecesContainer");
+    }
 }
 
 TBoard& TBoard::SetBoardPiece(TBoardPosition position, TBoardPiece boardPiece) {

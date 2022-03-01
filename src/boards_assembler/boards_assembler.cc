@@ -383,4 +383,51 @@ TBoard TBoardAssembler::AssembleKnightmateBoard() {
         .SetBoardPiece({7, 6}, BlackPawn);
 }
 
+TBoard TBoardAssembler::AssembleCapablancaBoard() {
+    return TBoard{/* columns = */ 10, /* rows = */ 8}
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteRook)
+        .SetBoardPiece({1, 0}, WhiteKnight)
+        .SetBoardPiece({2, 0}, WhitePrincess)
+        .SetBoardPiece({3, 0}, WhiteBishop)
+        .SetBoardPiece({4, 0}, WhiteQueen)
+        .SetBoardPiece({5, 0}, WhiteKing)
+        .SetBoardPiece({6, 0}, WhiteBishop)
+        .SetBoardPiece({7, 0}, WhiteEmpress)
+        .SetBoardPiece({8, 0}, WhiteKnight)
+        .SetBoardPiece({9, 0}, WhiteRook)
+        .SetBoardPiece({0, 1}, WhitePawn)
+        .SetBoardPiece({1, 1}, WhitePawn)
+        .SetBoardPiece({2, 1}, WhitePawn)
+        .SetBoardPiece({3, 1}, WhitePawn)
+        .SetBoardPiece({4, 1}, WhitePawn)
+        .SetBoardPiece({5, 1}, WhitePawn)
+        .SetBoardPiece({6, 1}, WhitePawn)
+        .SetBoardPiece({7, 1}, WhitePawn)
+        .SetBoardPiece({8, 1}, WhitePawn)
+        .SetBoardPiece({9, 1}, WhitePawn)
+
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackRook)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackPrincess)
+        .SetBoardPiece({3, 7}, BlackBishop)
+        .SetBoardPiece({4, 7}, BlackQueen)
+        .SetBoardPiece({5, 7}, BlackKing)
+        .SetBoardPiece({6, 7}, BlackBishop)
+        .SetBoardPiece({7, 7}, BlackEmpress)
+        .SetBoardPiece({8, 7}, BlackKnight)
+        .SetBoardPiece({9, 7}, BlackRook)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn)
+        .SetBoardPiece({8, 6}, BlackPawn)
+        .SetBoardPiece({9, 6}, BlackPawn);
+}
+
 } // namespace NFairyChess

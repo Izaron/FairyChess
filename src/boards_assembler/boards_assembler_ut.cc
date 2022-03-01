@@ -183,3 +183,23 @@ TEST(BoardsAssemplerTest, KnightmateBoard) {
     DumpBoard(board, ss);
     EXPECT_STREQ(dump.data(), ss.str().data());
 }
+
+TEST(BoardsAssemplerTest, CapablancaBoard) {
+    TBoard board = TBoardAssembler::AssembleCapablancaBoard();
+
+    std::string_view dump =
+        "╔══════════╗"
+        "║♜♞p♝♛♚♝e♞♜║"
+        "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+        "║          ║"
+        "║          ║"
+        "║          ║"
+        "║          ║"
+        "║♙♙♙♙♙♙♙♙♙♙║"
+        "║♖♘P♗♕♔♗E♘♖║"
+        "╚══════════╝";
+
+    std::stringstream ss;
+    DumpBoard(board, ss);
+    EXPECT_STREQ(dump.data(), ss.str().data());
+}
