@@ -20,4 +20,4 @@ public:
 
 REGISTER_PIECE(TKnightKingPiece);
 
-} // namespace NFairyChess::NVanillaPieces
+} // namespace NFairyChess::NFairyPieces

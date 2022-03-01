@@ -7,6 +7,8 @@ add_library(
     knight_king_piece.cc
     mann_piece.cc
     princess_piece.cc
+    unicorn_piece.cc
+    zebra_piece.cc
 )
 
 target_include_directories(fairy_pieces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -24,6 +26,8 @@ add_executable(
     knight_king_piece_ut.cc
     mann_piece_ut.cc
     princess_piece_ut.cc
+    unicorn_piece_ut.cc
+    zebra_piece_ut.cc
 )
 
 target_link_libraries(

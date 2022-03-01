@@ -43,10 +43,14 @@ sf::Vector2f GetLetterTextPosition(const TBoard& board, int col, int row) {
     return {colPosition, rowPosition};
 }
 
-sf::Vector2f GetNumberTextPosition(const TBoard& board, int col, int row) {
+sf::Vector2f GetNumberTextPosition(const TBoard& board, int col, int row, int digits) {
     float colPosition = SquarePixelSize * col;
     float rowPosition = SquarePixelSize * (board.GetRows() - 1 - row);
     colPosition += SquarePixelSize - 0.8f * FontPixelSize;
+    while (digits > 1) {
+        --digits;
+        colPosition -= FontPixelSize / 2.0f;
+    }
     return {colPosition, rowPosition};
 }
 
@@ -120,7 +124,8 @@ void TGraphics::RenderCurrentBoard(sf::RenderTarget& renderTarget) {
         int col = CurrentBoard_->GetColumns() - 1;
 
         std::stringstream ss;
-        ss << static_cast<char>('1' + row);
+        ss << (row + 1);
+        std::string str = ss.str();
 
         const bool isWhiteSquare = (col + row) % 2 == 0;
 
@@ -129,8 +134,8 @@ void TGraphics::RenderCurrentBoard(sf::RenderTarget& renderTarget) {
         text.setCharacterSize(FontPixelSize);
         text.setFillColor(isWhiteSquare ? BlackSquareColor : WhiteSquareColor);
         text.setStyle(sf::Text::Bold);
-        text.setPosition(GetNumberTextPosition(*CurrentBoard_, col, row));
-        text.setString(ss.str());
+        text.setPosition(GetNumberTextPosition(*CurrentBoard_, col, row, str.size()));
+        text.setString(str);
         renderTarget.draw(text);
     }
 

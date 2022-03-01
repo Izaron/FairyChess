@@ -205,3 +205,27 @@ TEST(BoardsAssemplerTest, CapablancaBoard) {
         EXPECT_STREQ(dump.data(), ss.str().data());
     }
 }
+
+TEST(BoardsAssemplerTest, WildebeestBoard) {
+    if constexpr (std::tuple_size_v<TBoard::TBoardPiecesContainer> >= 11 * 10) {
+        TBoard board = TBoardAssembler::AssembleWildebeestBoard();
+
+        std::string_view dump =
+            "╔═══════════╗"
+            "║♜♞zzu♚♛♝♝♞♜║"
+            "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+            "║           ║"
+            "║           ║"
+            "║           ║"
+            "║           ║"
+            "║           ║"
+            "║           ║"
+            "║♙♙♙♙♙♙♙♙♙♙♙║"
+            "║♖♘♗♗♕♔UZZ♘♖║"
+            "╚═══════════╝";
+
+        std::stringstream ss;
+        DumpBoard(board, ss);
+        EXPECT_STREQ(dump.data(), ss.str().data());
+    }
+}
