@@ -10,6 +10,8 @@
 #include "amazon_piece.h"
 #include "anti_pawn_piece.h"
 #include "empress_piece.h"
+#include "knight_king_piece.h"
+#include "mann_piece.h"
 #include "princess_piece.h"
 
 using namespace NFairyChess::NVanillaPieces;
@@ -46,11 +48,15 @@ const auto WhiteAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Whit
 const auto WhiteAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::White);
 const auto WhiteEmpress = TBoardPiece::Create<TEmpressPiece>(EPieceColor::White);
 const auto WhitePrincess = TBoardPiece::Create<TPrincessPiece>(EPieceColor::White);
+const auto WhiteMann = TBoardPiece::Create<TMannPiece>(EPieceColor::White);
+const auto WhiteKnightKing = TBoardPiece::Create<TKnightKingPiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
 const auto BlackAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::Black);
 const auto BlackEmpress = TBoardPiece::Create<TEmpressPiece>(EPieceColor::Black);
 const auto BlackPrincess = TBoardPiece::Create<TPrincessPiece>(EPieceColor::Black);
+const auto BlackMann = TBoardPiece::Create<TMannPiece>(EPieceColor::Black);
+const auto BlackKnightKing = TBoardPiece::Create<TKnightKingPiece>(EPieceColor::Black);
 
 } // namespace
 
@@ -327,6 +333,45 @@ TBoard TBoardAssembler::AssembleTuttiFruttiBoard() {
         .SetBoardPiece({4, 7}, BlackKing)
         .SetBoardPiece({5, 7}, BlackQueen)
         .SetBoardPiece({6, 7}, BlackPrincess)
+        .SetBoardPiece({7, 7}, BlackRook)
+        .SetBoardPiece({0, 6}, BlackPawn)
+        .SetBoardPiece({1, 6}, BlackPawn)
+        .SetBoardPiece({2, 6}, BlackPawn)
+        .SetBoardPiece({3, 6}, BlackPawn)
+        .SetBoardPiece({4, 6}, BlackPawn)
+        .SetBoardPiece({5, 6}, BlackPawn)
+        .SetBoardPiece({6, 6}, BlackPawn)
+        .SetBoardPiece({7, 6}, BlackPawn);
+}
+
+TBoard TBoardAssembler::AssembleKnightmateBoard() {
+    return TBoard{}
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteRook)
+        .SetBoardPiece({1, 0}, WhiteMann)
+        .SetBoardPiece({2, 0}, WhiteBishop)
+        .SetBoardPiece({3, 0}, WhiteQueen)
+        .SetBoardPiece({4, 0}, WhiteKnightKing)
+        .SetBoardPiece({5, 0}, WhiteBishop)
+        .SetBoardPiece({6, 0}, WhiteMann)
+        .SetBoardPiece({7, 0}, WhiteRook)
+        .SetBoardPiece({0, 1}, WhitePawn)
+        .SetBoardPiece({1, 1}, WhitePawn)
+        .SetBoardPiece({2, 1}, WhitePawn)
+        .SetBoardPiece({3, 1}, WhitePawn)
+        .SetBoardPiece({4, 1}, WhitePawn)
+        .SetBoardPiece({5, 1}, WhitePawn)
+        .SetBoardPiece({6, 1}, WhitePawn)
+        .SetBoardPiece({7, 1}, WhitePawn)
+
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackRook)
+        .SetBoardPiece({1, 7}, BlackMann)
+        .SetBoardPiece({2, 7}, BlackBishop)
+        .SetBoardPiece({3, 7}, BlackQueen)
+        .SetBoardPiece({4, 7}, BlackKnightKing)
+        .SetBoardPiece({5, 7}, BlackBishop)
+        .SetBoardPiece({6, 7}, BlackMann)
         .SetBoardPiece({7, 7}, BlackRook)
         .SetBoardPiece({0, 6}, BlackPawn)
         .SetBoardPiece({1, 6}, BlackPawn)

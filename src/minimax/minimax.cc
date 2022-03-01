@@ -11,18 +11,23 @@ namespace NFairyChess {
 
 namespace {
 
-int CalculateKingPiecesDelta(const TBoard& board, const TMove& move) {
-    int kingsDelta = 0;
+bool IsRoyalPiece(TBoardPiece piece) {
+    const auto* pieceInfo = TPieceRegistry::GetPieceInfo(piece.GetPieceId());
+    return pieceInfo && pieceInfo->IsRoyal;
+}
+
+int CalculateRoyalPiecesDelta(const TBoard& board, const TMove& move) {
+    int royalPiecesDelta = 0;
     for (std::size_t i = 0; i < move.UpdatesCount; ++i) {
         const TBoardUpdate& update = move.Updates[i];
-        if (board.GetBoardPiece(update.Position).GetPieceId() == NVanillaPieces::TKingPiece::PieceId) {
-            --kingsDelta;
+        if (IsRoyalPiece(board.GetBoardPiece(update.Position))) {
+            --royalPiecesDelta;
         }
-        if (TBoardPiece{update.NewBoardPiece}.GetPieceId() == NVanillaPieces::TKingPiece::PieceId) {
-            ++kingsDelta;
+        if (IsRoyalPiece(update.NewBoardPiece)) {
+            ++royalPiecesDelta;
         }
     }
-    return kingsDelta;
+    return royalPiecesDelta;
 }
 
 int GetInitialScore(EPieceColor color) {
@@ -140,9 +145,9 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
 
     for (std::size_t i = 0; i < moveContainer.MovesCount; ++i) {
         auto& move = moveContainer.Moves[i];
-        int kingsDelta = CalculateKingPiecesDelta(board, move);
-        if (kingsDelta != 0) {
-            // we captured the king! it's a win
+        int royalPiecesDelta = CalculateRoyalPiecesDelta(board, move);
+        if (royalPiecesDelta != 0) {
+            // we captured a royal piece! it's a win
             bestScore = GetMaximalScore(color);
             break;
         }

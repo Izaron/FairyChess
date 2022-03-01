@@ -8,6 +8,7 @@ class TKingPiece : public TPiece {
 public:
     static constexpr std::size_t PieceId = 6;
     static constexpr std::size_t Cost = 20000;
+    static constexpr std::size_t IsRoyal = true;
     static constexpr std::string_view WhiteDumpStr = "♔";
     static constexpr std::string_view BlackDumpStr = "♚";
     static constexpr std::string_view WhiteImageFile = "king_white.png";

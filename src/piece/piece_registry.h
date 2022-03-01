@@ -11,6 +11,7 @@ namespace NFairyChess {
 
 struct TPieceInfo {
     std::size_t Cost;
+    bool IsRoyal;
     std::string_view WhiteDumpStr;
     std::string_view BlackDumpStr;
     std::string_view WhiteImageFile;
@@ -64,11 +65,18 @@ struct TPieceRegistrator {
             };
         }
 
+        // IsRoyal is optional
+        bool isRoyal = false;
+        if constexpr (requires { Type::IsRoyal; }) {
+            isRoyal = Type::IsRoyal;
+        }
+
         // Image files are mandatory
         const std::string_view whiteImageFile = Type::WhiteImageFile;
         const std::string_view blackImageFile = Type::BlackImageFile;
 
         TPieceInfo pieceInfo{.Cost = Type::Cost,
+                             .IsRoyal = isRoyal,
                              .WhiteDumpStr = whiteDumpStr,
                              .BlackDumpStr = blackDumpStr,
                              .WhiteImageFile = whiteImageFile,
