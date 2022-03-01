@@ -10,8 +10,8 @@ public:
     static constexpr std::size_t Cost = 150;
     static constexpr std::string_view WhiteDumpStr = "M";
     static constexpr std::string_view BlackDumpStr = "m";
-    static constexpr std::string_view WhiteImageFile = "king_rotated_white.png";
-    static constexpr std::string_view BlackImageFile = "king_rotated_black.png";
+    static constexpr std::string_view WhiteImageFile = "mann_white.png";
+    static constexpr std::string_view BlackImageFile = "mann_black.png";
 
 public:
     void FillMoves(TMoveContext moveContext);

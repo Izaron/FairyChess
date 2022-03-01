@@ -19,8 +19,8 @@ int main() {
     //TBoard board = TBoardAssembler::AssembleBerolinaBoard();
     //TBoard board = TBoardAssembler::AssembleMadKingBoard();
     //TBoard board = TBoardAssembler::AssembleTuttiFruttiBoard();
-    //TBoard board = TBoardAssembler::AssembleKnightmateBoard();
-    TBoard board = TBoardAssembler::AssembleCapablancaBoard();
+    TBoard board = TBoardAssembler::AssembleKnightmateBoard();
+    //TBoard board = TBoardAssembler::AssembleCapablancaBoard();
 
     // create render window
     std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsFileRender>(board);
