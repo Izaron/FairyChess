@@ -15,6 +15,7 @@
 #include "princess_piece.h"
 #include "zebra_piece.h"
 #include "unicorn_piece.h"
+#include "grasshopper_piece.h"
 
 using namespace NFairyChess::NVanillaPieces;
 using namespace NFairyChess::NFairyPieces;
@@ -54,6 +55,7 @@ const auto WhiteMann = TBoardPiece::Create<TMannPiece>(EPieceColor::White);
 const auto WhiteKnightKing = TBoardPiece::Create<TKnightKingPiece>(EPieceColor::White);
 const auto WhiteZebra = TBoardPiece::Create<TZebraPiece>(EPieceColor::White);
 const auto WhiteUnicorn = TBoardPiece::Create<TUnicornPiece>(EPieceColor::White);
+const auto WhiteGrasshopper = TBoardPiece::Create<TGrasshopperPiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
 const auto BlackAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::Black);
@@ -63,6 +65,7 @@ const auto BlackMann = TBoardPiece::Create<TMannPiece>(EPieceColor::Black);
 const auto BlackKnightKing = TBoardPiece::Create<TKnightKingPiece>(EPieceColor::Black);
 const auto BlackZebra = TBoardPiece::Create<TZebraPiece>(EPieceColor::Black);
 const auto BlackUnicorn = TBoardPiece::Create<TUnicornPiece>(EPieceColor::Black);
+const auto BlackGrasshopper = TBoardPiece::Create<TGrasshopperPiece>(EPieceColor::Black);
 
 } // namespace
 
@@ -387,6 +390,38 @@ TBoard TBoardAssembler::AssembleKnightmateBoard() {
         .SetBoardPiece({5, 6}, BlackPawn)
         .SetBoardPiece({6, 6}, BlackPawn)
         .SetBoardPiece({7, 6}, BlackPawn);
+}
+
+TBoard TBoardAssembler::AssembleGrasshopperBoard() {
+    auto board = TBoard{}
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteRook)
+        .SetBoardPiece({1, 0}, WhiteKnight)
+        .SetBoardPiece({2, 0}, WhiteBishop)
+        .SetBoardPiece({3, 0}, WhiteQueen)
+        .SetBoardPiece({4, 0}, WhiteKing)
+        .SetBoardPiece({5, 0}, WhiteBishop)
+        .SetBoardPiece({6, 0}, WhiteKnight)
+        .SetBoardPiece({7, 0}, WhiteRook)
+
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackRook)
+        .SetBoardPiece({1, 7}, BlackKnight)
+        .SetBoardPiece({2, 7}, BlackBishop)
+        .SetBoardPiece({3, 7}, BlackQueen)
+        .SetBoardPiece({4, 7}, BlackKing)
+        .SetBoardPiece({5, 7}, BlackBishop)
+        .SetBoardPiece({6, 7}, BlackKnight)
+        .SetBoardPiece({7, 7}, BlackRook);
+
+    for (int i = 0; i < 8; ++i) {
+        board.SetBoardPiece({i, 1}, WhiteGrasshopper)
+            .SetBoardPiece({i, 2}, WhitePawn)
+            .SetBoardPiece({i, 5}, BlackPawn)
+            .SetBoardPiece({i, 6}, BlackGrasshopper);
+    }
+
+    return board;
 }
 
 TBoard TBoardAssembler::AssembleCapablancaBoard() {

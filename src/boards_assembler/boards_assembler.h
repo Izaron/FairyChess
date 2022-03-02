@@ -19,6 +19,7 @@ struct TBoardAssembler {
     static TBoard AssembleMadKingBoard();
     static TBoard AssembleTuttiFruttiBoard();
     static TBoard AssembleKnightmateBoard();
+    static TBoard AssembleGrasshopperBoard();
 
     // non-standard boards
     static TBoard AssembleCapablancaBoard();

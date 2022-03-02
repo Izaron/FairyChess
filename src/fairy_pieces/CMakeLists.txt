@@ -4,6 +4,7 @@ add_library(
     anti_pawn_piece.cc
     dummy_piece.cc
     empress_piece.cc
+    grasshopper_piece.cc
     knight_king_piece.cc
     mann_piece.cc
     princess_piece.cc
@@ -23,6 +24,7 @@ add_executable(
     amazon_piece_ut.cc
     anti_pawn_piece_ut.cc
     empress_piece_ut.cc
+    grasshopper_piece_ut.cc
     knight_king_piece_ut.cc
     mann_piece_ut.cc
     princess_piece_ut.cc

@@ -72,9 +72,44 @@ TBoard ApplyMove(const TBoard& board, const TMove& move) {
     return newBoard;
 }
 
+void AddHopperMoves(TMoveContext& ctx, TBoardPiece boardPiece, TBoardPosition deltaPosition) {
+    TBoardPosition currentPosition = ctx.Position;
+    const EPieceColor color = boardPiece.GetColor();
+
+    bool canMove = false;
+    while (true) {
+        if (!ctx.Board.ShiftPosition(currentPosition, deltaPosition)) {
+            break;
+        }
+        TBoardPiece curPosBoardPiece = ctx.Board.GetBoardPiece(currentPosition);
+
+        // we had a non-empty board cell previously, check if can hop here
+        if (canMove) {
+            if (curPosBoardPiece.IsEmpty() || curPosBoardPiece.GetColor() != color) {
+                TMove move = TMoveBuilder{}
+                    .SetBoardPiece(currentPosition, boardPiece)
+                    .RemoveBoardPiece(ctx.Position)
+                    .Build();
+                ctx.Moves.Add(std::move(move));
+            }
+            break;
+        }
+
+        // if the board cell is not empty, try to hop on next position
+        if (!curPosBoardPiece.IsEmpty()) {
+            canMove = true;
+        }
+    }
+}
+
 void AddStandardMoves(TMoveContext& ctx, TBoardPiece boardPiece, EMoveType moveType,
                       TBoardPosition deltaPosition)
 {
+    if (moveType == EMoveType::Hopper) {
+        AddHopperMoves(ctx, boardPiece, deltaPosition);
+        return;
+    }
+
     TBoardPosition currentPosition = ctx.Position;
     const EPieceColor color = boardPiece.GetColor();
 

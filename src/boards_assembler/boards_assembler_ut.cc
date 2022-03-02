@@ -184,6 +184,26 @@ TEST(BoardsAssemplerTest, KnightmateBoard) {
     EXPECT_STREQ(dump.data(), ss.str().data());
 }
 
+TEST(BoardsAssemplerTest, GrasshopperBoard) {
+    TBoard board = TBoardAssembler::AssembleGrasshopperBoard();
+
+    std::string_view dump =
+        "╔════════╗"
+        "║♜♞♝♛♚♝♞♜║"
+        "║gggggggg║"
+        "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+        "║        ║"
+        "║        ║"
+        "║♙♙♙♙♙♙♙♙║"
+        "║GGGGGGGG║"
+        "║♖♘♗♕♔♗♘♖║"
+        "╚════════╝";
+
+    std::stringstream ss;
+    DumpBoard(board, ss);
+    EXPECT_STREQ(dump.data(), ss.str().data());
+}
+
 TEST(BoardsAssemplerTest, CapablancaBoard) {
     if constexpr (std::tuple_size_v<TBoard::TBoardPiecesContainer> >= 8 * 10) {
         TBoard board = TBoardAssembler::AssembleCapablancaBoard();

@@ -70,6 +70,7 @@ TBoard ApplyMove(const TBoard& board, const TMove& move);
 enum class EMoveType {
     Leaper,
     Rider,
+    Hopper,
 };
 void AddStandardMoves(TMoveContext& ctx, TBoardPiece boardPiece, EMoveType moveType, TBoardPosition deltaPosition);
 
