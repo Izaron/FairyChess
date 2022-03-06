@@ -38,6 +38,10 @@ public:
         return GetView<1, 11>().GetValue<std::size_t>();
     }
 
+    void SetPieceId(std::size_t pieceId) {
+        GetView<1, 11>().SetValue(pieceId);
+    }
+
     template<TPieceType T>
     TPieceOrEmpty<T> GetPieceOrEmpty() {
         if (GetPieceId() == T::PieceId) {

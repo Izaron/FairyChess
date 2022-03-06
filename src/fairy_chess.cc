@@ -11,7 +11,7 @@ using namespace NFairyChess;
 
 int main() {
     // create board
-    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    TBoard board = TBoardAssembler::AssembleVanillaBoard();
     //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
     //TBoard board = TBoardAssembler::AssembleHordeBoard();
     //TBoard board = TBoardAssembler::AssemblePeasantsRevoltBoard();
@@ -20,7 +20,8 @@ int main() {
     //TBoard board = TBoardAssembler::AssembleMadKingBoard();
     //TBoard board = TBoardAssembler::AssembleTuttiFruttiBoard();
     //TBoard board = TBoardAssembler::AssembleKnightmateBoard();
-    TBoard board = TBoardAssembler::AssembleGrasshopperBoard();
+    //TBoard board = TBoardAssembler::AssembleGrasshopperBoard();
+    //TBoard board = TBoardAssembler::AssembleAtomicBoard();
     //TBoard board = TBoardAssembler::AssembleCapablancaBoard();
     //TBoard board = TBoardAssembler::AssembleWildebeestBoard();
 

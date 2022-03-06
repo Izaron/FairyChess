@@ -20,6 +20,7 @@ struct TBoardAssembler {
     static TBoard AssembleTuttiFruttiBoard();
     static TBoard AssembleKnightmateBoard();
     static TBoard AssembleGrasshopperBoard();
+    static TBoard AssembleAtomicBoard();
 
     // non-standard boards
     static TBoard AssembleCapablancaBoard();

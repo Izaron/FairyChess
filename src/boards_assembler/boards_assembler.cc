@@ -9,6 +9,7 @@
 
 #include "amazon_piece.h"
 #include "anti_pawn_piece.h"
+#include "atomic_pieces.h"
 #include "empress_piece.h"
 #include "knight_king_piece.h"
 #include "mann_piece.h"
@@ -56,6 +57,12 @@ const auto WhiteKnightKing = TBoardPiece::Create<TKnightKingPiece>(EPieceColor::
 const auto WhiteZebra = TBoardPiece::Create<TZebraPiece>(EPieceColor::White);
 const auto WhiteUnicorn = TBoardPiece::Create<TUnicornPiece>(EPieceColor::White);
 const auto WhiteGrasshopper = TBoardPiece::Create<TGrasshopperPiece>(EPieceColor::White);
+const auto WhiteAtomicPawn = TBoardPiece::Create<TAtomicPawnPiece>(EPieceColor::White);
+const auto WhiteAtomicKnight = TBoardPiece::Create<TAtomicKnightPiece>(EPieceColor::White);
+const auto WhiteAtomicBishop = TBoardPiece::Create<TAtomicBishopPiece>(EPieceColor::White);
+const auto WhiteAtomicRook = TBoardPiece::Create<TAtomicRookPiece>(EPieceColor::White);
+const auto WhiteAtomicQueen = TBoardPiece::Create<TAtomicQueenPiece>(EPieceColor::White);
+const auto WhiteAtomicKing = TBoardPiece::Create<TAtomicKingPiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
 const auto BlackAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::Black);
@@ -66,6 +73,12 @@ const auto BlackKnightKing = TBoardPiece::Create<TKnightKingPiece>(EPieceColor::
 const auto BlackZebra = TBoardPiece::Create<TZebraPiece>(EPieceColor::Black);
 const auto BlackUnicorn = TBoardPiece::Create<TUnicornPiece>(EPieceColor::Black);
 const auto BlackGrasshopper = TBoardPiece::Create<TGrasshopperPiece>(EPieceColor::Black);
+const auto BlackAtomicPawn = TBoardPiece::Create<TAtomicPawnPiece>(EPieceColor::Black);
+const auto BlackAtomicKnight = TBoardPiece::Create<TAtomicKnightPiece>(EPieceColor::Black);
+const auto BlackAtomicBishop = TBoardPiece::Create<TAtomicBishopPiece>(EPieceColor::Black);
+const auto BlackAtomicRook = TBoardPiece::Create<TAtomicRookPiece>(EPieceColor::Black);
+const auto BlackAtomicQueen = TBoardPiece::Create<TAtomicQueenPiece>(EPieceColor::Black);
+const auto BlackAtomicKing = TBoardPiece::Create<TAtomicKingPiece>(EPieceColor::Black);
 
 } // namespace
 
@@ -422,6 +435,45 @@ TBoard TBoardAssembler::AssembleGrasshopperBoard() {
     }
 
     return board;
+}
+
+TBoard TBoardAssembler::AssembleAtomicBoard() {
+    return TBoard{}
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteAtomicRook)
+        .SetBoardPiece({1, 0}, WhiteAtomicKnight)
+        .SetBoardPiece({2, 0}, WhiteAtomicBishop)
+        .SetBoardPiece({3, 0}, WhiteAtomicQueen)
+        .SetBoardPiece({4, 0}, WhiteAtomicKing)
+        .SetBoardPiece({5, 0}, WhiteAtomicBishop)
+        .SetBoardPiece({6, 0}, WhiteAtomicKnight)
+        .SetBoardPiece({7, 0}, WhiteAtomicRook)
+        .SetBoardPiece({0, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({1, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({2, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({3, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({4, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({5, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({6, 1}, WhiteAtomicPawn)
+        .SetBoardPiece({7, 1}, WhiteAtomicPawn)
+
+        // Black pieces
+        .SetBoardPiece({0, 7}, BlackAtomicRook)
+        .SetBoardPiece({1, 7}, BlackAtomicKnight)
+        .SetBoardPiece({2, 7}, BlackAtomicBishop)
+        .SetBoardPiece({3, 7}, BlackAtomicQueen)
+        .SetBoardPiece({4, 7}, BlackAtomicKing)
+        .SetBoardPiece({5, 7}, BlackAtomicBishop)
+        .SetBoardPiece({6, 7}, BlackAtomicKnight)
+        .SetBoardPiece({7, 7}, BlackAtomicRook)
+        .SetBoardPiece({0, 6}, BlackAtomicPawn)
+        .SetBoardPiece({1, 6}, BlackAtomicPawn)
+        .SetBoardPiece({2, 6}, BlackAtomicPawn)
+        .SetBoardPiece({3, 6}, BlackAtomicPawn)
+        .SetBoardPiece({4, 6}, BlackAtomicPawn)
+        .SetBoardPiece({5, 6}, BlackAtomicPawn)
+        .SetBoardPiece({6, 6}, BlackAtomicPawn)
+        .SetBoardPiece({7, 6}, BlackAtomicPawn);
 }
 
 TBoard TBoardAssembler::AssembleCapablancaBoard() {

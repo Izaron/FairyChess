@@ -45,7 +45,7 @@ void GenerateMoves(IMoveContainer& moveContainer, const TBoard& board, EPieceCol
             .Board = TOrientedBoard{board, isInverted},
             .Position = position,
         };
-        pieceInfo->FillMovesFn(boardPiece, std::move(ctx));
+        pieceInfo->FillMovesFn(boardPiece, ctx);
     }
 
     // inverse back position for black pieces

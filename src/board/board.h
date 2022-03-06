@@ -9,6 +9,10 @@ namespace NFairyChess {
 struct TBoardPosition {
     int Column;
     int Row;
+
+    bool operator==(const TBoardPosition& rhs) {
+        return Column == rhs.Column && Row == rhs.Row;
+    }
 };
 
 class TBoard {

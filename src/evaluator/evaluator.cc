@@ -3,14 +3,10 @@
 
 namespace NFairyChess {
 
-namespace {
-
-int GetRawCost(TBoardPiece boardPiece) {
+int GetPieceCost(TBoardPiece boardPiece) {
     const std::size_t pieceId = boardPiece.GetPieceId();
     return TPieceRegistry::GetPieceInfo(pieceId)->Cost;
 }
-
-} // namespace
 
 TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves) {
     TEvaluationResult result;
@@ -21,9 +17,9 @@ TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves) {
         if (boardPiece.IsEmpty()) {
             continue;
         }
-        const int rawCost = GetRawCost(boardPiece);
+        const int cost = GetPieceCost(boardPiece);
         (boardPiece.GetColor() == EPieceColor::White ?
-            result.WhiteCost : result.BlackCost) += rawCost;
+            result.WhiteCost : result.BlackCost) += cost;
     }
 
     // calculate number of available moves
@@ -51,17 +47,17 @@ TEvaluationResult EvaluateDelta(const TBoard& board, const TMove& move) {
         // substract the old piece cost
         TBoardPiece oldBoardPiece = board.GetBoardPiece(update.Position);
         if (!oldBoardPiece.IsEmpty()) {
-            const int rawCost = GetRawCost(oldBoardPiece);
+            const int cost = GetPieceCost(oldBoardPiece);
             (oldBoardPiece.GetColor() == EPieceColor::White ?
-                result.WhiteCost : result.BlackCost) -= rawCost;
+                result.WhiteCost : result.BlackCost) -= cost;
         }
 
         // add the new piece cost
         TBoardPiece newBoardPiece = update.NewBoardPiece;
         if (!newBoardPiece.IsEmpty()) {
-            const int rawCost = GetRawCost(newBoardPiece);
+            const int cost = GetPieceCost(newBoardPiece);
             (newBoardPiece.GetColor() == EPieceColor::White ?
-                result.WhiteCost : result.BlackCost) += rawCost;
+                result.WhiteCost : result.BlackCost) += cost;
         }
     }
     return result;

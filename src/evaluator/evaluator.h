@@ -13,6 +13,7 @@ struct TEvaluationResult {
     int BlackAvailableMoves = 0;
 };
 
+int GetPieceCost(TBoardPiece boardPiece);
 TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves = true);
 TEvaluationResult EvaluateDelta(const TBoard& board, const TMove& move);
 

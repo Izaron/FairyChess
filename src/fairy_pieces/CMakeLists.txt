@@ -2,6 +2,7 @@ add_library(
     fairy_pieces
     amazon_piece.cc
     anti_pawn_piece.cc
+    atomic_pieces.cc
     dummy_piece.cc
     empress_piece.cc
     grasshopper_piece.cc
@@ -14,7 +15,7 @@ add_library(
 
 target_include_directories(fairy_pieces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-list(APPEND LIBS piece)
+list(APPEND LIBS piece evaluator)
 target_link_libraries(fairy_pieces PUBLIC ${LIBS})
 
 enable_testing()
@@ -23,6 +24,7 @@ add_executable(
     fairy_pieces_test
     amazon_piece_ut.cc
     anti_pawn_piece_ut.cc
+    atomic_pieces_ut.cc
     empress_piece_ut.cc
     grasshopper_piece_ut.cc
     knight_king_piece_ut.cc
