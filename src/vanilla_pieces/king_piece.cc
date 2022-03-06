@@ -63,7 +63,7 @@ void TryAddCastlingMoves(TMoveContext& ctx, TBoardPiece kingPiece) {
 
 } // namespace
 
-void TKingPiece::FillMoves(TMoveContext moveContext) {
+void TKingPiece::FillMoves(TMoveContext& moveContext) {
     // mark the king as "moved"
     TKingPiece newKingPiece = *this;
     auto moveStatus = newKingPiece.GetMoveStatus();

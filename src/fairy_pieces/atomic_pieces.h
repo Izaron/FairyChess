@@ -150,7 +150,7 @@ private:
     }
 
 public:
-    void FillMoves(TMoveContext moveContext) {
+    void FillMoves(TMoveContext& moveContext) {
         TMoveContainer* moveContainer = dynamic_cast<TMoveContainer*>(&moveContext.Moves);
         if (!moveContainer) {
             // this is a dummy container, do nothing

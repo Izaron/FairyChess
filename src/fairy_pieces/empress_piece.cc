@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NFairyPieces {
 
-void TEmpressPiece::FillMoves(TMoveContext moveContext) {
+void TEmpressPiece::FillMoves(TMoveContext& moveContext) {
     TBoardPiece boardPiece = moveContext.Board.GetBoardPiece(moveContext.Position);
 
     // add rook moves

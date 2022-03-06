@@ -119,7 +119,7 @@ void TryAddCapturingMove(TAntiPawnPiece pawnPiece, TMoveContext& ctx) {
 
 } // namespace
 
-void TAntiPawnPiece::FillMoves(TMoveContext ctx) {
+void TAntiPawnPiece::FillMoves(TMoveContext& ctx) {
     TBoardPiece boardPiece = ctx.Board.GetBoardPiece(ctx.Position);
     const EPieceColor color = boardPiece.GetColor();
 

@@ -115,7 +115,7 @@ void TryAddCapturingMove(TPawnPiece pawnPiece, TMoveContext& ctx, int deltaCol) 
 
 } // namespace
 
-void TPawnPiece::FillMoves(TMoveContext ctx) {
+void TPawnPiece::FillMoves(TMoveContext& ctx) {
     TBoardPiece boardPiece = ctx.Board.GetBoardPiece(ctx.Position);
     const EPieceColor color = boardPiece.GetColor();
 

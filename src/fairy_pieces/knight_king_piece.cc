@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NFairyPieces {
 
-void TKnightKingPiece::FillMoves(TMoveContext moveContext) {
+void TKnightKingPiece::FillMoves(TMoveContext& moveContext) {
     // add knight moves
     TBoardPiece boardPiece = moveContext.Board.GetBoardPiece(moveContext.Position);
     for (int colMult : {-1, 1}) {

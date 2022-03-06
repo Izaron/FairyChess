@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NFairyPieces {
 
-void TDummyPiece::FillMoves(TMoveContext /* moveContext */) {
+void TDummyPiece::FillMoves(TMoveContext& /* moveContext */) {
     // do nothing
 }
 

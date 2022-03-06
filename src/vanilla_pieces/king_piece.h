@@ -28,7 +28,7 @@ public:
         return GetView<0, 1>();
     }
 
-    void FillMoves(TMoveContext moveContext);
+    void FillMoves(TMoveContext& moveContext);
 };
 
 REGISTER_PIECE(TKingPiece);

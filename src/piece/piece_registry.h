@@ -16,7 +16,7 @@ struct TPieceInfo {
     std::string_view BlackDumpStr;
     std::string_view WhiteImageFile;
     std::string_view BlackImageFile;
-    std::function<void(TBoardPiece, TMoveContext)> FillMovesFn;
+    std::function<void(TBoardPiece, TMoveContext&)> FillMovesFn;
     std::function<bool(TBoardPiece&)> AfterMoveApplyFn;
 };
 
@@ -47,9 +47,9 @@ struct TPieceRegistrator {
         }
 
         // FillMovesFn is mandatory
-        constexpr auto fillMovesFn = [](TBoardPiece boardPiece, TMoveContext moveContext) {
+        constexpr auto fillMovesFn = [](TBoardPiece boardPiece, TMoveContext& moveContext) {
             Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
-            piece.FillMoves(std::move(moveContext));
+            piece.FillMoves(moveContext);
         };
 
         // AfterMoveApply is optional

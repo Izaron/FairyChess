@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NVanillaPieces {
 
-void TKnightPiece::FillMoves(TMoveContext moveContext) {
+void TKnightPiece::FillMoves(TMoveContext& moveContext) {
     TBoardPiece boardPiece = moveContext.Board.GetBoardPiece(moveContext.Position);
     for (int colMult : {-1, 1}) {
         for (int rowMult : {-1, 1}) {

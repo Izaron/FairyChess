@@ -14,7 +14,7 @@ public:
     static constexpr std::string_view BlackImageFile = "mann_black.png";
 
 public:
-    void FillMoves(TMoveContext moveContext);
+    void FillMoves(TMoveContext& moveContext);
 };
 
 REGISTER_PIECE(TMannPiece);

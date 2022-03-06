@@ -15,7 +15,7 @@ public:
     static constexpr std::string_view BlackImageFile = "knight_king_black.png";
 
 public:
-    void FillMoves(TMoveContext moveContext);
+    void FillMoves(TMoveContext& moveContext);
 };
 
 REGISTER_PIECE(TKnightKingPiece);

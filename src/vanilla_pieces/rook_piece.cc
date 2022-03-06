@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NVanillaPieces {
 
-void TRookPiece::FillMoves(TMoveContext moveContext) {
+void TRookPiece::FillMoves(TMoveContext& moveContext) {
     // mark the rook as "moved"
     TRookPiece newRookPiece = *this;
     newRookPiece.GetMoveStatus().SetValue(EMoveStatus::Moved);

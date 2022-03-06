@@ -28,7 +28,7 @@ public:
     }
 
 public:
-    void FillMoves(TMoveContext moveContext);
+    void FillMoves(TMoveContext& moveContext);
 };
 
 REGISTER_PIECE(TRookPiece);

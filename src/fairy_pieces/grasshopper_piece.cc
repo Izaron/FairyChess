@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NFairyPieces {
 
-void TGrasshopperPiece::FillMoves(TMoveContext moveContext) {
+void TGrasshopperPiece::FillMoves(TMoveContext& moveContext) {
     TBoardPiece boardPiece = moveContext.Board.GetBoardPiece(moveContext.Position);
 
     // add hopper moves in any direction

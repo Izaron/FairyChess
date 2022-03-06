@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NFairyPieces {
 
-void TAmazonPiece::FillMoves(TMoveContext moveContext) {
+void TAmazonPiece::FillMoves(TMoveContext& moveContext) {
     TBoardPiece boardPiece = moveContext.Board.GetBoardPiece(moveContext.Position);
 
     // add queen moves

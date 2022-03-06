@@ -2,7 +2,7 @@
 
 namespace NFairyChess::NFairyPieces {
 
-void TMannPiece::FillMoves(TMoveContext moveContext) {
+void TMannPiece::FillMoves(TMoveContext& moveContext) {
     TBoardPiece boardPiece = moveContext.Board.GetBoardPiece(moveContext.Position);
 
     // add king moves
