@@ -72,7 +72,7 @@ public:
     };
 
 public:
-    using TBoardPiecesContainer = std::array<TBoardPiece, 100>;
+    using TBoardPiecesContainer = std::array<TBoardPiece, 64>;
 
 public:
     TBoard(int columns = 8, int rows = 8);
