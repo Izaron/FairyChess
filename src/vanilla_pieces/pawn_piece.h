@@ -32,7 +32,7 @@ public:
     }
 
     void FillMoves(TMoveContext& moveContext);
-    bool AfterMoveApply();
+    bool AfterMoveApply(const TBoard& /* oldBoard */, const TMove& /* move */);
 };
 
 REGISTER_PIECE(TPawnPiece);

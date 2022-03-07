@@ -17,7 +17,7 @@ struct TPieceInfo {
     std::string_view WhiteImageFile;
     std::string_view BlackImageFile;
     std::function<void(TBoardPiece, TMoveContext&)> FillMovesFn;
-    std::function<bool(TBoardPiece&)> AfterMoveApplyFn;
+    std::function<bool(TBoardPiece&, const TBoard&, const TMove&)> AfterMoveApplyFn;
 };
 
 namespace NImpl {
@@ -53,11 +53,11 @@ struct TPieceRegistrator {
         };
 
         // AfterMoveApply is optional
-        std::function<bool(TBoardPiece&)> afterMoveApplyFn;
+        std::function<bool(TBoardPiece&, const TBoard&, const TMove&)> afterMoveApplyFn;
         if constexpr (requires { &Type::AfterMoveApply; }) {
-            afterMoveApplyFn = [](TBoardPiece& boardPiece) {
+            afterMoveApplyFn = [](TBoardPiece& boardPiece, const TBoard& oldBoard, const TMove& move) {
                 Type piece = boardPiece.GetPieceOrEmpty<Type>().GetPiece();
-                if (piece.AfterMoveApply()) {
+                if (piece.AfterMoveApply(oldBoard, move)) {
                     boardPiece = TBoardPiece::CreateFromExisting<Type>(boardPiece.GetColor(), piece);
                     return true;
                 }

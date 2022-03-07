@@ -143,7 +143,7 @@ void TAntiPawnPiece::FillMoves(TMoveContext& ctx) {
     TryAddCapturingMove(*this, ctx);
 }
 
-bool TAntiPawnPiece::AfterMoveApply() {
+bool TAntiPawnPiece::AfterMoveApply(const TBoard& /* oldBoard */, const TMove& /* move */) {
     auto moveStatus = GetMoveStatus();
     switch (moveStatus.GetValue<EMoveStatus>()) {
         case EMoveStatus::JustMovedTwoSquares: {

@@ -11,7 +11,7 @@ using namespace NFairyChess;
 
 int main() {
     // create board
-    TBoard board = TBoardAssembler::AssembleVanillaBoard();
+    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
     //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
     //TBoard board = TBoardAssembler::AssembleHordeBoard();
     //TBoard board = TBoardAssembler::AssemblePeasantsRevoltBoard();
@@ -24,6 +24,7 @@ int main() {
     //TBoard board = TBoardAssembler::AssembleAtomicBoard();
     //TBoard board = TBoardAssembler::AssembleCapablancaBoard();
     //TBoard board = TBoardAssembler::AssembleWildebeestBoard();
+    TBoard board = TBoardAssembler::AssembleStratomicBoard();
 
     // create render window
     std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsFileRender>(board);
@@ -35,7 +36,7 @@ int main() {
 
     double totalSecondsElapsed = 0.0;
     {
-        TMinimax minimax{4};
+        TMinimax minimax{3};
         int analyzedBoards = minimax.GetAnalyzedBoards();
         for (int i = 0; i < 1000; ++i) {
             const clock_t begin_time = clock();

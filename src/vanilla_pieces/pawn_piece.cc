@@ -139,7 +139,7 @@ void TPawnPiece::FillMoves(TMoveContext& ctx) {
     }
 }
 
-bool TPawnPiece::AfterMoveApply() {
+bool TPawnPiece::AfterMoveApply(const TBoard& /* oldBoard */, const TMove& /* move */) {
     auto moveStatus = GetMoveStatus();
     switch (moveStatus.GetValue<EMoveStatus>()) {
         case EMoveStatus::JustMovedTwoSquares: {

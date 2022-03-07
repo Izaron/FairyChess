@@ -269,3 +269,27 @@ TEST(BoardsAssemplerTest, WildebeestBoard) {
         EXPECT_STREQ(dump.data(), ss.str().data());
     }
 }
+
+TEST(BoardsAssemplerTest, StratomicBoard) {
+    if constexpr (std::tuple_size_v<TBoard::TBoardPiecesContainer> >= 10 * 10) {
+        TBoard board = TBoardAssembler::AssembleStratomicBoard();
+
+        std::string_view dump =
+            "╔══════════╗"
+            "║          ║"
+            "║n♜♞♝♛♚♝♞♜n║"
+            "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+            "║          ║"
+            "║          ║"
+            "║          ║"
+            "║          ║"
+            "║♙♙♙♙♙♙♙♙♙♙║"
+            "║N♖♘♗♕♔♗♘♖N║"
+            "║          ║"
+            "╚══════════╝";
+
+        std::stringstream ss;
+        DumpBoard(board, ss);
+        EXPECT_STREQ(dump.data(), ss.str().data());
+    }
+}

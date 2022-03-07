@@ -64,7 +64,7 @@ TBoard ApplyMove(const TBoard& board, const TMove& move) {
     for (TBoard::TBoardPieceWithPosition iter : newBoard) {
         TBoardPiece& boardPiece = iter.BoardPiece;
         const TPieceInfo* pieceInfo = TPieceRegistry::GetPieceInfo(boardPiece.GetPieceId());
-        if (pieceInfo->AfterMoveApplyFn && pieceInfo->AfterMoveApplyFn(boardPiece)) {
+        if (pieceInfo->AfterMoveApplyFn && pieceInfo->AfterMoveApplyFn(boardPiece, board, move)) {
             newBoard.SetBoardPiece(iter.Position, boardPiece);
         }
     }

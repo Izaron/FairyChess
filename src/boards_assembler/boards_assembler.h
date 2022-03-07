@@ -25,6 +25,7 @@ struct TBoardAssembler {
     // non-standard boards
     static TBoard AssembleCapablancaBoard();
     static TBoard AssembleWildebeestBoard();
+    static TBoard AssembleStratomicBoard();
 };
 
 } // namespace NFairyChess

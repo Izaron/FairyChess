@@ -8,6 +8,7 @@ add_library(
     grasshopper_piece.cc
     knight_king_piece.cc
     mann_piece.cc
+    nuclear_missile_piece.cc
     princess_piece.cc
     unicorn_piece.cc
     zebra_piece.cc
@@ -29,6 +30,7 @@ add_executable(
     grasshopper_piece_ut.cc
     knight_king_piece_ut.cc
     mann_piece_ut.cc
+    nuclear_missile_piece_ut.cc
     princess_piece_ut.cc
     unicorn_piece_ut.cc
     zebra_piece_ut.cc
@@ -40,6 +42,7 @@ target_link_libraries(
     vanilla_pieces
     fairy_pieces
     pretty_printer
+    minimax
     testing
 )
 

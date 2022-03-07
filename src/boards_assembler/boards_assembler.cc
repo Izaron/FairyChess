@@ -11,12 +11,13 @@
 #include "anti_pawn_piece.h"
 #include "atomic_pieces.h"
 #include "empress_piece.h"
+#include "grasshopper_piece.h"
 #include "knight_king_piece.h"
 #include "mann_piece.h"
+#include "nuclear_missile_piece.h"
 #include "princess_piece.h"
-#include "zebra_piece.h"
 #include "unicorn_piece.h"
-#include "grasshopper_piece.h"
+#include "zebra_piece.h"
 
 using namespace NFairyChess::NVanillaPieces;
 using namespace NFairyChess::NFairyPieces;
@@ -63,6 +64,7 @@ const auto WhiteAtomicBishop = TBoardPiece::Create<TAtomicBishopPiece>(EPieceCol
 const auto WhiteAtomicRook = TBoardPiece::Create<TAtomicRookPiece>(EPieceColor::White);
 const auto WhiteAtomicQueen = TBoardPiece::Create<TAtomicQueenPiece>(EPieceColor::White);
 const auto WhiteAtomicKing = TBoardPiece::Create<TAtomicKingPiece>(EPieceColor::White);
+const auto WhiteNuclearMissile = TBoardPiece::Create<TNuclearMissilePiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
 const auto BlackAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::Black);
@@ -79,6 +81,7 @@ const auto BlackAtomicBishop = TBoardPiece::Create<TAtomicBishopPiece>(EPieceCol
 const auto BlackAtomicRook = TBoardPiece::Create<TAtomicRookPiece>(EPieceColor::Black);
 const auto BlackAtomicQueen = TBoardPiece::Create<TAtomicQueenPiece>(EPieceColor::Black);
 const auto BlackAtomicKing = TBoardPiece::Create<TAtomicKingPiece>(EPieceColor::Black);
+const auto BlackNuclearMissile = TBoardPiece::Create<TNuclearMissilePiece>(EPieceColor::Black);
 
 } // namespace
 
@@ -572,6 +575,53 @@ TBoard TBoardAssembler::AssembleWildebeestBoard() {
         .SetBoardPiece({8, 8}, BlackPawn)
         .SetBoardPiece({9, 8}, BlackPawn)
         .SetBoardPiece({10, 8}, BlackPawn);
+}
+
+TBoard TBoardAssembler::AssembleStratomicBoard() {
+    return TBoard{/* columns = */ 10, /* rows = */ 10}
+        // White pieces
+        .SetBoardPiece({0, 1}, WhiteNuclearMissile)
+        .SetBoardPiece({1, 1}, WhiteRook)
+        .SetBoardPiece({2, 1}, WhiteKnight)
+        .SetBoardPiece({3, 1}, WhiteBishop)
+        .SetBoardPiece({4, 1}, WhiteQueen)
+        .SetBoardPiece({5, 1}, WhiteKing)
+        .SetBoardPiece({6, 1}, WhiteBishop)
+        .SetBoardPiece({7, 1}, WhiteKnight)
+        .SetBoardPiece({8, 1}, WhiteRook)
+        .SetBoardPiece({9, 1}, WhiteNuclearMissile)
+        .SetBoardPiece({0, 2}, WhitePawn)
+        .SetBoardPiece({1, 2}, WhitePawn)
+        .SetBoardPiece({2, 2}, WhitePawn)
+        .SetBoardPiece({3, 2}, WhitePawn)
+        .SetBoardPiece({4, 2}, WhitePawn)
+        .SetBoardPiece({5, 2}, WhitePawn)
+        .SetBoardPiece({6, 2}, WhitePawn)
+        .SetBoardPiece({7, 2}, WhitePawn)
+        .SetBoardPiece({8, 2}, WhitePawn)
+        .SetBoardPiece({9, 2}, WhitePawn)
+
+        // Black pieces
+        .SetBoardPiece({0, 8}, BlackNuclearMissile)
+        .SetBoardPiece({1, 8}, BlackRook)
+        .SetBoardPiece({2, 8}, BlackKnight)
+        .SetBoardPiece({3, 8}, BlackBishop)
+        .SetBoardPiece({4, 8}, BlackQueen)
+        .SetBoardPiece({5, 8}, BlackKing)
+        .SetBoardPiece({6, 8}, BlackBishop)
+        .SetBoardPiece({7, 8}, BlackKnight)
+        .SetBoardPiece({8, 8}, BlackRook)
+        .SetBoardPiece({9, 8}, BlackNuclearMissile)
+        .SetBoardPiece({0, 7}, BlackPawn)
+        .SetBoardPiece({1, 7}, BlackPawn)
+        .SetBoardPiece({2, 7}, BlackPawn)
+        .SetBoardPiece({3, 7}, BlackPawn)
+        .SetBoardPiece({4, 7}, BlackPawn)
+        .SetBoardPiece({5, 7}, BlackPawn)
+        .SetBoardPiece({6, 7}, BlackPawn)
+        .SetBoardPiece({7, 7}, BlackPawn)
+        .SetBoardPiece({8, 7}, BlackPawn)
+        .SetBoardPiece({9, 7}, BlackPawn);
 }
 
 } // namespace NFairyChess

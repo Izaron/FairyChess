@@ -116,7 +116,7 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
 
     //DumpBoard(board, std::cout, true);
 
-    if ((depth <= 0 && !prolongatedDepth) || depth <= -6) {
+    if ((depth <= 0 && !prolongatedDepth) || depth <= -3) {
         return EvaluateScore(board);
     }
 
