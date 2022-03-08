@@ -2,6 +2,7 @@
 
 #include <array>
 
+#include "constants.h"
 #include "board_piece.h"
 
 namespace NFairyChess {
@@ -72,7 +73,7 @@ public:
     };
 
 public:
-    using TBoardPiecesContainer = std::array<TBoardPiece, 256>;
+    using TBoardPiecesContainer = std::array<TBoardPiece, BoardPiecesMaxCount>;
 
 public:
     TBoard(int columns = 8, int rows = 8);

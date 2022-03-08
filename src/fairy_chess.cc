@@ -11,24 +11,10 @@ using namespace NFairyChess;
 
 int main() {
     // create board
-    //TBoard board = TBoardAssembler::AssembleVanillaBoard();
-    //TBoard board = TBoardAssembler::AssembleChargeOfTheLightBrigadeBoard();
-    //TBoard board = TBoardAssembler::AssembleHordeBoard();
-    //TBoard board = TBoardAssembler::AssemblePeasantsRevoltBoard();
-    //TBoard board = TBoardAssembler::AssembleWeakBoard();
-    //TBoard board = TBoardAssembler::AssembleBerolinaBoard();
-    //TBoard board = TBoardAssembler::AssembleMadKingBoard();
-    //TBoard board = TBoardAssembler::AssembleTuttiFruttiBoard();
-    //TBoard board = TBoardAssembler::AssembleKnightmateBoard();
-    //TBoard board = TBoardAssembler::AssembleGrasshopperBoard();
-    //TBoard board = TBoardAssembler::AssembleAtomicBoard();
-    //TBoard board = TBoardAssembler::AssembleCapablancaBoard();
-    //TBoard board = TBoardAssembler::AssembleWildebeestBoard();
-    //TBoard board = TBoardAssembler::AssembleStratomicBoard();
-    TBoard board = TBoardAssembler::AssembleReallyBigBoard();
+    TBoard board = TBoardAssembler::AssembleVanillaBoard();
 
     // create render window
-    std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsFileRender>(board);
+    std::unique_ptr<TGraphics> graphics = std::make_unique<TGraphicsWindowRender>(board);
 
     std::cerr << "Current board:" << std::endl;
     DumpBoard(board, std::cerr, /* useNewline = */ true);
@@ -37,7 +23,7 @@ int main() {
 
     double totalSecondsElapsed = 0.0;
     {
-        TMinimax minimax{4};
+        TMinimax minimax{MinimaxDepth};
         int analyzedBoards = minimax.GetAnalyzedBoards();
         for (int i = 0; i < 1000; ++i) {
             const clock_t begin_time = clock();

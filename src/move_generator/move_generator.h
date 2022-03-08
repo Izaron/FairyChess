@@ -12,7 +12,7 @@ struct TBoardUpdate {
 };
 
 struct TMove {
-    std::array<TBoardUpdate, 10> Updates;
+    std::array<TBoardUpdate, MaximalBoardUpdatesInMoveCount> Updates;
     std::size_t UpdatesCount = 0;
 };
 
@@ -33,8 +33,7 @@ struct IMoveContainer {
 };
 
 struct TMoveContainer : IMoveContainer {
-    //std::array<TMove, 128> Moves;
-    std::array<TMove, 512> Moves;
+    std::array<TMove, MaximalMovesCount> Moves;
     std::size_t MovesCount = 0;
 
     void Add(const TMove& move) override {

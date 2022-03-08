@@ -72,7 +72,7 @@ std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& boar
     int score = FindBestScore(board, color, InitDepth_,
             /* alpha = */ std::numeric_limits<int>::min(),
             /* beta = */ std::numeric_limits<int>::max(),
-            /* prolongatedDepth = */ 0);
+            /* prolongateDepth = */ false);
     PreviousAnalyzedBoards_ = AnalyzedBoards_;
 
     if (score == GetMaximalScore(InvertPieceColor(color))) {
@@ -83,7 +83,7 @@ std::variant<TMove, EGameEnd> TMinimax::FindBestMoveOrGameEnd(const TBoard& boar
                 /* depth = */ 1,
                 /* alpha = */ std::numeric_limits<int>::min(),
                 /* beta = */ std::numeric_limits<int>::max(),
-                /* prolongatedDepth = */ 0);
+                /* prolongateDepth = */ false);
         if (skipMoveScore == GetMaximalScore(InvertPieceColor(color))) {
             return EGameEnd::Checkmate;
         } else {
@@ -103,7 +103,7 @@ int TMinimax::GetAnalyzedBoards() const {
 }
 
 int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
-                            int depth, int alpha, int beta, int prolongatedDepth) {
+                            int depth, int alpha, int beta, bool prolongateDepth) {
     ++AnalyzedBoards_;
 
     if (depth != InitDepth_) {
@@ -114,7 +114,7 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         }
     }
 
-    if ((depth <= 0 && !prolongatedDepth) || depth <= -6) {
+    if ((depth <= 0 && !prolongateDepth) || depth <= static_cast<int>(MinimaxProlongationDepth) * -1) {
         return EvaluateScore(board);
     }
 
@@ -153,13 +153,10 @@ int TMinimax::FindBestScore(const TBoard& board, EPieceColor color,
         TBoard newBoard = ApplyMove(board, move);
 
         const int newBoardPieceScore = EvaluatePieceScore(newBoard);
-        int newProlongatedDepth = std::max(0, prolongatedDepth - 1);
-        if (newBoardPieceScore != currentBoardPieceScore) {
-            newProlongatedDepth = std::max(newProlongatedDepth, 1);
-        }
+        const bool newProlongateDepth = (newBoardPieceScore != currentBoardPieceScore);
 
         int score = FindBestScore(newBoard, InvertPieceColor(color), depth - 1,
-                                  alpha, beta, newProlongatedDepth);
+                                  alpha, beta, newProlongateDepth);
         UpdateBestScore(bestScore, score, color);
 
         if (bestScore == score && depth == InitDepth_) {

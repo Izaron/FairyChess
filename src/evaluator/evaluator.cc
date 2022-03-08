@@ -3,10 +3,14 @@
 
 namespace NFairyChess {
 
+namespace {
+
 int GetPieceCost(TBoardPiece boardPiece) {
     const std::size_t pieceId = boardPiece.GetPieceId();
     return TPieceRegistry::GetPieceInfo(pieceId)->Cost;
 }
+
+} // namespace
 
 TEvaluationResult Evaluate(const TBoard& board, bool calculateAvailableMoves) {
     TEvaluationResult result;

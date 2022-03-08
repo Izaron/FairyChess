@@ -20,7 +20,7 @@ public:
 
 private:
     int FindBestScore(const TBoard& board, EPieceColor color, int depth,
-                      int alpha, int beta, int prolongatedDepth);
+                      int alpha, int beta, bool prolongatedDepth);
 
 private:
     const int InitDepth_;
