@@ -293,3 +293,33 @@ TEST(BoardsAssemplerTest, StratomicBoard) {
         EXPECT_STREQ(dump.data(), ss.str().data());
     }
 }
+
+TEST(BoardsAssemplerTest, ReallyBigBoard) {
+    if constexpr (std::tuple_size_v<TBoard::TBoardPiecesContainer> >= 16 * 16) {
+        TBoard board = TBoardAssembler::AssembleReallyBigBoard();
+
+        std::string_view dump =
+            "╔════════════════╗"
+            "║♜♞wc♝dp♛♚ef♝cw♞♜║"
+            "║♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎♟︎║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║                ║"
+            "║♙♙♙♙♙♙♙♙♙♙♙♙♙♙♙♙║"
+            "║♖♘WC♗DP♕♔EF♗CW♘♖║"
+            "╚════════════════╝";
+
+        std::stringstream ss;
+        DumpBoard(board, ss);
+        EXPECT_STREQ(dump.data(), ss.str().data());
+    }
+}

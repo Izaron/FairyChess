@@ -33,7 +33,8 @@ struct IMoveContainer {
 };
 
 struct TMoveContainer : IMoveContainer {
-    std::array<TMove, 128> Moves;
+    //std::array<TMove, 128> Moves;
+    std::array<TMove, 512> Moves;
     std::size_t MovesCount = 0;
 
     void Add(const TMove& move) override {

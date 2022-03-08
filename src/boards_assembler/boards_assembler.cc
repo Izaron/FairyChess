@@ -10,13 +10,18 @@
 #include "amazon_piece.h"
 #include "anti_pawn_piece.h"
 #include "atomic_pieces.h"
+#include "champion_piece.h"
+#include "dragon_piece.h"
 #include "empress_piece.h"
+#include "fool_piece.h"
 #include "grasshopper_piece.h"
 #include "knight_king_piece.h"
 #include "mann_piece.h"
 #include "nuclear_missile_piece.h"
 #include "princess_piece.h"
+#include "really_big_board_pawn_piece.h"
 #include "unicorn_piece.h"
+#include "wizard_piece.h"
 #include "zebra_piece.h"
 
 using namespace NFairyChess::NVanillaPieces;
@@ -65,6 +70,11 @@ const auto WhiteAtomicRook = TBoardPiece::Create<TAtomicRookPiece>(EPieceColor::
 const auto WhiteAtomicQueen = TBoardPiece::Create<TAtomicQueenPiece>(EPieceColor::White);
 const auto WhiteAtomicKing = TBoardPiece::Create<TAtomicKingPiece>(EPieceColor::White);
 const auto WhiteNuclearMissile = TBoardPiece::Create<TNuclearMissilePiece>(EPieceColor::White);
+const auto WhiteWizard = TBoardPiece::Create<TWizardPiece>(EPieceColor::White);
+const auto WhiteChampion = TBoardPiece::Create<TChampionPiece>(EPieceColor::White);
+const auto WhiteDragon = TBoardPiece::Create<TDragonPiece>(EPieceColor::White);
+const auto WhiteFool = TBoardPiece::Create<TFoolPiece>(EPieceColor::White);
+const auto WhiteReallyBigBoardPawn = TBoardPiece::Create<TReallyBigBoardPawnPiece>(EPieceColor::White);
 
 const auto BlackAntiPawn = TBoardPiece::Create<TAntiPawnPiece>(EPieceColor::Black);
 const auto BlackAmazon = TBoardPiece::Create<TAmazonPiece>(EPieceColor::Black);
@@ -82,6 +92,11 @@ const auto BlackAtomicRook = TBoardPiece::Create<TAtomicRookPiece>(EPieceColor::
 const auto BlackAtomicQueen = TBoardPiece::Create<TAtomicQueenPiece>(EPieceColor::Black);
 const auto BlackAtomicKing = TBoardPiece::Create<TAtomicKingPiece>(EPieceColor::Black);
 const auto BlackNuclearMissile = TBoardPiece::Create<TNuclearMissilePiece>(EPieceColor::Black);
+const auto BlackWizard = TBoardPiece::Create<TWizardPiece>(EPieceColor::Black);
+const auto BlackChampion = TBoardPiece::Create<TChampionPiece>(EPieceColor::Black);
+const auto BlackDragon = TBoardPiece::Create<TDragonPiece>(EPieceColor::Black);
+const auto BlackFool = TBoardPiece::Create<TFoolPiece>(EPieceColor::Black);
+const auto BlackReallyBigBoardPawn = TBoardPiece::Create<TReallyBigBoardPawnPiece>(EPieceColor::Black);
 
 } // namespace
 
@@ -622,6 +637,53 @@ TBoard TBoardAssembler::AssembleStratomicBoard() {
         .SetBoardPiece({7, 7}, BlackPawn)
         .SetBoardPiece({8, 7}, BlackPawn)
         .SetBoardPiece({9, 7}, BlackPawn);
+}
+
+TBoard TBoardAssembler::AssembleReallyBigBoard() {
+    auto board = TBoard{/* columns = */ 16, /* rows = */ 16}
+        // White pieces
+        .SetBoardPiece({0, 0}, WhiteRook)
+        .SetBoardPiece({1, 0}, WhiteKnight)
+        .SetBoardPiece({2, 0}, WhiteWizard)
+        .SetBoardPiece({3, 0}, WhiteChampion)
+        .SetBoardPiece({4, 0}, WhiteBishop)
+        .SetBoardPiece({5, 0}, WhiteDragon)
+        .SetBoardPiece({6, 0}, WhitePrincess)
+        .SetBoardPiece({7, 0}, WhiteQueen)
+        .SetBoardPiece({8, 0}, WhiteKing)
+        .SetBoardPiece({9, 0}, WhiteEmpress)
+        .SetBoardPiece({10, 0}, WhiteFool)
+        .SetBoardPiece({11, 0}, WhiteBishop)
+        .SetBoardPiece({12, 0}, WhiteChampion)
+        .SetBoardPiece({13, 0}, WhiteWizard)
+        .SetBoardPiece({14, 0}, WhiteKnight)
+        .SetBoardPiece({15, 0}, WhiteRook)
+
+        // Black pieces
+        .SetBoardPiece({0, 15}, BlackRook)
+        .SetBoardPiece({1, 15}, BlackKnight)
+        .SetBoardPiece({2, 15}, BlackWizard)
+        .SetBoardPiece({3, 15}, BlackChampion)
+        .SetBoardPiece({4, 15}, BlackBishop)
+        .SetBoardPiece({5, 15}, BlackDragon)
+        .SetBoardPiece({6, 15}, BlackPrincess)
+        .SetBoardPiece({7, 15}, BlackQueen)
+        .SetBoardPiece({8, 15}, BlackKing)
+        .SetBoardPiece({9, 15}, BlackEmpress)
+        .SetBoardPiece({10, 15}, BlackFool)
+        .SetBoardPiece({11, 15}, BlackBishop)
+        .SetBoardPiece({12, 15}, BlackChampion)
+        .SetBoardPiece({13, 15}, BlackWizard)
+        .SetBoardPiece({14, 15}, BlackKnight)
+        .SetBoardPiece({15, 15}, BlackRook);
+
+    // Pawns
+    for (int i = 0; i < 16; ++i) {
+        board.SetBoardPiece({i, 1}, WhiteReallyBigBoardPawn)
+            .SetBoardPiece({i, 14}, BlackReallyBigBoardPawn);
+    }
+
+    return board;
 }
 
 } // namespace NFairyChess
