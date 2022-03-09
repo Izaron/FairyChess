@@ -108,9 +108,9 @@ private:
     TBoardPiecesContainer BoardPieces_;
 };
 
-class TOrientedBoard {
+class TOrientedBoardWrapper {
 public:
-    TOrientedBoard(const TBoard& board, bool isInverted)
+    TOrientedBoardWrapper(const TBoard& board, bool isInverted)
         : Board_{board}
         , IsInverted_{isInverted}
     {}

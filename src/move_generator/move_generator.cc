@@ -42,7 +42,7 @@ void GenerateMoves(IMoveContainer& moveContainer, const TBoard& board, EPieceCol
         const TPieceInfo* pieceInfo = TPieceRegistry::GetPieceInfo(boardPiece.GetPieceId());
         TMoveContext ctx{
             .Moves = moveContainer,
-            .Board = TOrientedBoard{board, isInverted},
+            .Board = TOrientedBoardWrapper{board, isInverted},
             .Position = position,
         };
         pieceInfo->FillMovesFn(boardPiece, ctx);

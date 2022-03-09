@@ -56,7 +56,7 @@ struct TMoveContext {
     IMoveContainer& Moves;
 
     // used to "look around" to see other pieces
-    TOrientedBoard Board;
+    TOrientedBoardWrapper Board;
 
     // additional info about current piece
     const TBoardPosition Position;
