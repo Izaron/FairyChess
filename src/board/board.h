@@ -99,9 +99,6 @@ public:
     bool ShiftPosition(TBoardPosition& position, TBoardPosition deltaPosition) const;
     TBoardPosition InversePosition(TBoardPosition position) const;
 
-    // generate a unique hash of this board
-    std::size_t CalculateHash(int additionalSeed) const;
-
 private:
     int GetArrayIndex(TBoardPosition position) const;
 
