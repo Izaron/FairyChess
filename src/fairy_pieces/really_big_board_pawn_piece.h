@@ -6,8 +6,8 @@ namespace NFairyChess::NFairyPieces {
 
 class TReallyBigBoardPawnPiece : public TPiece {
 public:
-    static constexpr std::size_t PieceId = 1;
-    static constexpr std::size_t Cost = 27;
+    static constexpr std::size_t PieceId = 28;
+    static constexpr std::size_t Cost = 100;
     static constexpr std::string_view WhiteDumpStr = "♙";
     static constexpr std::string_view BlackDumpStr = "♟︎";
     static constexpr std::string_view WhiteImageFile = "pawn_white.png";
